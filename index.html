@@ -976,7 +976,7 @@ function renderFlows(cid,list){
       '<h3>'+f.name+'</h3>'+
       '<p>'+(f.desc||'Fluxo conversacional')+'</p>'+
       '<div class="fmeta"><span>⊙ '+(f.nodes?.length||0)+' nós</span><span>↔ '+(f.edges?.length||0)+' conexões</span></div>'+
-      '<div class="fbtns" onclick="event.stopPropagation()">'+
+      '<div class="fbtns">'+
         '<button class="btn btn-ghost btn-sm" data-action="edit" data-fid="'+f.id+'">✏️ Editar</button>'+
         '<button class="btn btn-sec btn-sm" data-action="preview" data-fid="'+f.id+'">👁</button>'+
         '<button class="btn btn-ghost btn-sm" data-action="share" data-fid="'+f.id+'">🔗</button>'+
@@ -1375,6 +1375,20 @@ function applyTheme(phoneId,barId,avId,nameId,statId,cls,avatarOrEmoji,name){
 // ═══════════════════════════════════════════════
 async function checkPublicFlow(){
   const params=new URLSearchParams(location.search);
+  
+  // NEW: handle ?fdata= (self-contained, works without Supabase)
+  const fdata=params.get('fdata');
+  if(fdata){
+    let f=null;
+    try{
+      f=JSON.parse(decodeURIComponent(escape(atob(fdata))));
+    }catch(e){console.warn('fdata decode failed:',e);}
+    if(f&&f.nodes){
+      setupPublicFlow(f);
+      return true;
+    }
+  }
+
   const fid=params.get('flow');
   if(!fid)return false;
   // Show loading
@@ -1395,7 +1409,10 @@ async function checkPublicFlow(){
     document.body.appendChild(nf);
     return true;
   }
-  // Setup public flow
+  setupPublicFlow(f,fid);
+  return true;
+}
+function setupPublicFlow(f,fid){
   const allNodes=f.nodes||[];
   const meta=allNodes.find(n=>n.id==='_meta')||{};
   pubBotName=f.botName||meta.botName||'Atendente';
@@ -1403,13 +1420,10 @@ async function checkPublicFlow(){
   pubNodes=allNodes.filter(n=>n.id!=='_meta');
   pubEdges=f.edges||[];
   const ch=CH_MAP[f.channel||'wpp']||CH_MAP.wpp;
-  const wrap=document.getElementById('pub-wrap');
-  if(wrap)wrap.className=ch.cls;
   applyTheme('pub-wrap','pub-bar','pub-av','pub-name','pub-status',ch.cls,pubBotAvatar||ch.e,pubBotName);
   showPage('public');
   setTimeout(()=>startPub(),400);
-  sbTrack(fid,'open').catch(()=>{});
-  return true;
+  if(fid)sbTrack(fid,'open').catch(()=>{});
 }
 function startPub(){
   const ordered=buildOrder(pubNodes,pubEdges);pubIdx=0;
@@ -1491,14 +1505,24 @@ function removeTyping(id){const t=document.getElementById(id);if(t)t.remove();}
 // ═══════════════════════════════════════════════
 async function openShare(){
   await saveFlow();
-  // Save flow to public localStorage key so link works in same browser
   const fData=(flows||[]).find(f=>f.id===curFId);
-  if(fData){
-    try{localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(fData));}catch{}
-  }
+  // Save locally as backup
+  if(fData){try{localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(fData));}catch{}}
+  // Build link: try Supabase ID-based first, show both options
   const baseUrl=location.href.split('?')[0];
-  const link=baseUrl+'?flow='+curFId;
-  document.getElementById('share-link').textContent=link;
+  const idLink=baseUrl+'?flow='+curFId;
+  // Also build self-contained link with encoded flow data (works without Supabase)
+  let dataLink=idLink; // default
+  if(fData){
+    try{
+      const minimal={id:fData.id,name:fData.name,channel:fData.channel,botName:fData.botName||'Atendente',botAvatar:fData.botAvatar||'',nodes:fData.nodes,edges:fData.edges};
+      const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(minimal))));
+      if(encoded.length<8000){ // URL length limit
+        dataLink=baseUrl+'?fdata='+encoded;
+      }
+    }catch(e){console.warn('Encode failed:',e);}
+  }
+  document.getElementById('share-link').textContent=dataLink;
   // QR
   const cv=document.getElementById('qr-canvas');
   const ctx=cv.getContext('2d');
