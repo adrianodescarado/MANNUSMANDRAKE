@@ -687,11 +687,36 @@ async function sbLoadFlows(){
   return r.data.map(f=>({...f,nodes:JSON.parse(f.nodes_json||'[]'),edges:JSON.parse(f.edges_json||'[]'),desc:f.description||''}));
 }
 async function sbGetPublicFlow(id){
-  const r=await sbReq('/rest/v1/mandrake_flows?id=eq.'+id+'&select=id,name,channel,nodes_json,edges_json');
-  if(r.ok&&r.data&&r.data.length){
-    const f=r.data[0];
-    return{...f,nodes:JSON.parse(f.nodes_json||'[]'),edges:JSON.parse(f.edges_json||'[]')};
-  }
+  // 1) Try Supabase (works across all devices once SQL is run)
+  try{
+    const r=await sbReq('/rest/v1/mandrake_flows?id=eq.'+id+'&select=id,name,channel,nodes_json,edges_json');
+    if(r.ok&&r.data&&r.data.length){
+      const f=r.data[0];
+      const parsed={...f,nodes:JSON.parse(f.nodes_json||'[]'),edges:JSON.parse(f.edges_json||'[]')};
+      // Cache locally for faster next load
+      try{localStorage.setItem('mdk_pub_'+id,JSON.stringify(parsed));}catch{}
+      return parsed;
+    }
+  }catch(e){console.warn('[Mandrake] Supabase public fetch failed:',e);}
+  // 2) Fallback: localStorage cache (same browser only)
+  try{
+    const cached=localStorage.getItem('mdk_pub_'+id);
+    if(cached){const f=JSON.parse(cached);if(f&&f.id)return f;}
+  }catch{}
+  // 3) Search all saved flows
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k&&k.startsWith('mdk_')){
+        const val=localStorage.getItem(k);
+        if(val){
+          const parsed=JSON.parse(val);
+          const arr=Array.isArray(parsed)?parsed:null;
+          if(arr){const f=arr.find(x=>x&&x.id===id);if(f)return f;}
+        }
+      }
+    }
+  }catch{}
   return null;
 }
 async function sbTrack(flowId,event){
@@ -912,13 +937,10 @@ function saveLocal(){
   if(!CU)return;
   try{localStorage.setItem('mdk_'+CU.id,JSON.stringify(flows));}catch{}
 }
-async function persistFlow(flow,isDel=false){
+async function persistFlow(flow){
   saveLocal();
   if(SB_TOKEN){
-    try{
-      if(isDel)await sbReq('/rest/v1/mandrake_flows?id=eq.'+flow.id,{method:'DELETE'});
-      else await sbSaveFlow(flow);
-    }catch(e){console.warn('SB sync failed:',e);}
+    try{await sbSaveFlow(flow);}catch(e){console.warn('SB save failed:',e);}
   }
 }
 
@@ -1091,13 +1113,10 @@ function renderNode(n){
       '<div style="display:flex;align-items:center;gap:4px"><span class="fhlbl">OUT</span><div class="fnh2 out" id="out-'+n.id+'" data-node="'+n.id+'" data-htype="out" title="Saída (OUT)"></div></div>'+
     '</div>';
   el.addEventListener('mousedown',ev=>{
-    if(ev.target.classList.contains('fnh2')||ev.target.classList.contains('fndel'))return;
+    if(ev.target.classList.contains('fnh2')||ev.target.dataset.del)return;
     ev.preventDefault();selectNode(n.id);startDragNode(ev,n.id);
   });
-  el.addEventListener('click',ev=>{
-    if(ev.target.classList.contains('fndel')){deleteNode(n.id);return;}
-    if(!ev.target.classList.contains('fnh2'))selectNode(n.id);
-  });
+  el.addEventListener('click',ev=>{if(!ev.target.classList.contains('fnh2')&&!ev.target.dataset.del)selectNode(n.id);});
   layer.appendChild(el);applyT();
 }
 function renderCanvas(){
@@ -1316,25 +1335,17 @@ function restartPreview(){
 function nextPreview(){
   if(prevIdx>=prevNodes.length)return;
   const n=prevNodes[prevIdx++];
-  if(n.type==='delay'){showTyping('prev-msgs','prev-typing');setTimeout(()=>{removeTyping('prev-typing');nextPreview();},(n.delay||2)*1000);return;}
+  if(n.type==='delay'){
+    showTyping('prev-msgs','prev-typing');
+    setTimeout(()=>{removeTyping('prev-typing');nextPreview();},(n.delay||2)*1000);
+    return;
+  }
   addBubble('prev-msgs',n,'bot');
   if(n.type==='question'){
+    // Highlight input to show user should reply
     const inp=document.getElementById('prev-input');
-    if(inp){
-      const handler=e=>{
-        if(e.key==='Enter'||e.type==='click'){
-          const val=inp.value.trim();if(!val)return;
-          inp.value='';
-          if(e.key==='Enter')inp.removeEventListener('keydown',handler);
-          document.getElementById('prev-send').removeEventListener('click',handler);
-          addBubble('prev-msgs',{type:'_user',content:val},'usr');
-          setTimeout(()=>nextPreview(),800);
-        }
-      };
-      inp.addEventListener('keydown',handler);
-      document.getElementById('prev-send').addEventListener('click',handler);
-    }
-    return;
+    if(inp){inp.focus();inp.style.borderColor='var(--acc)';}
+    return; // PAUSE — waits for prevSend()
   }
   if(n.type==='end'){sbTrack(curFId,'complete').catch(()=>{});return;}
   setTimeout(()=>nextPreview(),800);
@@ -1343,7 +1354,7 @@ function prevSend(){
   const inp=document.getElementById('prev-input');
   const msg=(inp?.value||'').trim();if(!msg)return;
   addBubble('prev-msgs',{type:'_user',content:msg},'usr');
-  if(inp)inp.value='';
+  if(inp){inp.value='';inp.style.borderColor='';}
   setTimeout(()=>nextPreview(),600);
 }
 // Theme for preview
@@ -1411,25 +1422,17 @@ function nextPub(){
   const ordered=window._pubOrdered||[];
   if(pubIdx>=ordered.length)return;
   const n=ordered[pubIdx++];
-  if(n.type==='delay'){showTyping('pub-msgs','pub-typing');setTimeout(()=>{removeTyping('pub-typing');nextPub();},(n.delay||2)*1000);return;}
+  if(n.type==='delay'){
+    showTyping('pub-msgs','pub-typing');
+    setTimeout(()=>{removeTyping('pub-typing');nextPub();},(n.delay||2)*1000);
+    return;
+  }
   addBubble('pub-msgs',n,'bot');
   if(n.type==='question'){
+    // Pause and highlight input
     const inp=document.getElementById('pub-input');
-    if(inp){
-      const handler=e=>{
-        if(e.key==='Enter'||e.type==='click'){
-          const val=inp.value.trim();if(!val)return;
-          inp.value='';
-          if(e.key==='Enter')inp.removeEventListener('keydown',handler);
-          document.getElementById('pub-send').removeEventListener('click',handler);
-          addBubble('pub-msgs',{type:'_user',content:val},'usr');
-          setTimeout(()=>nextPub(),800);
-        }
-      };
-      inp.addEventListener('keydown',handler);
-      document.getElementById('pub-send').addEventListener('click',handler);
-    }
-    return;
+    if(inp){inp.focus();inp.style.borderColor='rgba(92,111,255,.7)';}
+    return; // PAUSE — waits for pubSend()
   }
   if(n.type==='end')return;
   setTimeout(()=>nextPub(),800);
@@ -1438,7 +1441,7 @@ function pubSend(){
   const inp=document.getElementById('pub-input');
   const msg=(inp?.value||'').trim();if(!msg)return;
   addBubble('pub-msgs',{type:'_user',content:msg},'usr');
-  if(inp)inp.value='';
+  if(inp){inp.value='';inp.style.borderColor='';}
   setTimeout(()=>nextPub(),600);
 }
 
@@ -1488,6 +1491,11 @@ function removeTyping(id){const t=document.getElementById(id);if(t)t.remove();}
 // ═══════════════════════════════════════════════
 async function openShare(){
   await saveFlow();
+  // Save flow to public localStorage key so link works in same browser
+  const fData=(flows||[]).find(f=>f.id===curFId);
+  if(fData){
+    try{localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(fData));}catch{}
+  }
   const baseUrl=location.href.split('?')[0];
   const link=baseUrl+'?flow='+curFId;
   document.getElementById('share-link').textContent=link;
@@ -1502,11 +1510,9 @@ async function openShare(){
   ctx.fillStyle='#000';ctx.fillRect(8,8,8,8);ctx.fillRect(72,8,8,8);ctx.fillRect(8,72,8,8);
   document.getElementById('share-modal').classList.add('open');
 }
-async function openShareFor(fid){
+function openShareFor(fid){
   const f=(flows||[]).find(x=>x.id===fid);if(!f)return;
-  nodes=JSON.parse(JSON.stringify(f.nodes||[]));
-  edges=JSON.parse(JSON.stringify(f.edges||[]));
-  curFId=f.id;curChannel=f.channel||'wpp';
+  nodes=f.nodes||[];edges=f.edges||[];curFId=f.id;curChannel=f.channel||'wpp';
   botName=f.botName||'Atendente';botAvatar=f.botAvatar||'';
   document.getElementById('flow-title').value=f.name;
   openShare();
@@ -1658,10 +1664,10 @@ document.addEventListener('DOMContentLoaded',async()=>{
     const action=btn.dataset.action,fid=btn.dataset.fid;
     e.stopPropagation();
     if(action==='edit')openEditor(fid);
-    if(action==='preview'){const f=(flows||[]).find(x=>x.id===fid);if(f){nodes=JSON.parse(JSON.stringify(f.nodes||[]));edges=JSON.parse(JSON.stringify(f.edges||[]));curFId=f.id;curChannel=f.channel||'wpp';botName=f.botName||'Atendente';botAvatar=f.botAvatar||'';document.getElementById('flow-title').value=f.name;openPreview();}}
+    if(action==='preview'){const f=(flows||[]).find(x=>x.id===fid);if(f){nodes=f.nodes||[];edges=f.edges||[];curFId=f.id;curChannel=f.channel||'wpp';botName=f.botName||'Atendente';botAvatar=f.botAvatar||'';document.getElementById('flow-title').value=f.name;openPreview();}}
     if(action==='share')openShareFor(fid);
-    if(action==='toggle'){const f=(flows||[]).find(x=>x.id===fid);if(f){f.status=f.status==='active'?'draft':'active';persistFlow(f).then(()=>renderDash());toast(f.status==='active'?'Ativado':'Pausado','ℹ');}}
-    if(action==='delete'){if(confirm('Excluir este fluxo?')){flows=(flows||[]).filter(f=>f.id!==fid);saveLocal();persistFlow({id:fid},true);renderDash();toast('Fluxo excluído','ℹ');}}
+    if(action==='toggle'){const f=(flows||[]).find(x=>x.id===fid);if(f){f.status=f.status==='active'?'draft':'active';persistFlow(f);renderDash();toast(f.status==='active'?'Ativado':'Pausado','ℹ');}}
+    if(action==='delete'){if(confirm('Excluir este fluxo?')){flows=(flows||[]).filter(f=>f.id!==fid);saveLocal();renderDash();toast('Fluxo excluído','ℹ');}}
   });
   document.addEventListener('click',e=>{
     const card=e.target.closest('.fcard');
