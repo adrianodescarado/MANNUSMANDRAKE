@@ -21,6 +21,8 @@ body{font-family:var(--fb);background:var(--void);color:var(--txt);min-height:10
 /* PAGES */
 .page{display:none;min-height:100vh}
 .page.active{display:block}
+#page-dashboard.active{display:flex!important}
+#page-public.active{display:flex!important;flex-direction:column}
 /* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:8px;font-family:var(--fb);font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;border:none;white-space:nowrap;text-decoration:none}
 .btn-primary{background:var(--acc);color:#fff}.btn-primary:hover{background:#6e80ff;box-shadow:0 0 20px var(--accg)}
@@ -704,21 +706,33 @@ async function sbLoadFlows(){
 }
 function encodeFlow(f){
   try{
-    const min={id:f.id,n:f.name,ch:f.channel||'wpp',bn:f.botName||'Atendente',
-      nd:(f.nodes||[]).map(n=>({id:n.id,t:n.type,x:n.x,y:n.y,c:n.content||'',u:n.url||'',d:n.delay||0,o:n.options||''})),
-      ed:(f.edges||[]).map(e=>({id:e.id,f:e.from,t:e.to}))};
+    const ba=(f.botAvatar||'').startsWith('http')?f.botAvatar:'';
+    const min={
+      id:f.id,
+      n:f.name,
+      ch:f.channel||'wpp',
+      bn:f.botName||'Atendente',
+      ba:ba,
+      nd:(f.nodes||[]).map(n=>({i:n.id,t:n.type,x:n.x,y:n.y,c:n.content||'',u:n.url||'',d:n.delay||0})),
+      ed:(f.edges||[]).map(e=>({i:e.id,f:e.from,t:e.to}))
+    };
     return btoa(unescape(encodeURIComponent(JSON.stringify(min))));
-  }catch(e){console.warn('encodeFlow:',e);return null;}
+  }catch(err){console.warn('encodeFlow:',err);return null;}
 }
 function decodeFlow(s){
   try{
     const d=JSON.parse(decodeURIComponent(escape(atob(s))));
+    if(!d||!d.nd)return null;
     return{
-      id:d.id,name:d.n,channel:d.ch,botName:d.bn,botAvatar:'',
-      nodes:(d.nd||[]).map(n=>({id:n.id,type:n.t,x:n.x,y:n.y,content:n.c,url:n.u,delay:n.d,options:n.o})),
-      edges:(d.ed||[]).map(e=>({id:e.id,from:e.f,to:e.t}))
+      id:d.id,
+      name:d.n||'Fluxo',
+      channel:d.ch||'wpp',
+      botName:d.bn||'Atendente',
+      botAvatar:d.ba||'',
+      nodes:(d.nd||[]).map(n=>({id:n.i,type:n.t,x:n.x||0,y:n.y||0,content:n.c||'',url:n.u||'',delay:n.d||0,options:n.o||''})),
+      edges:(d.ed||[]).map(e=>({id:e.i,from:e.f,to:e.t}))
     };
-  }catch(e){console.warn('decodeFlow:',e);return null;}
+  }catch(err){console.warn('decodeFlow error:',err);return null;}
 }
 async function sbGetPublicFlow(id){
   // 1) Try Supabase (works across all devices once SQL is run)
@@ -800,10 +814,11 @@ const CH_MAP={wpp:{cls:'tw',e:'💬',n:'WhatsApp'},ig:{cls:'ti',e:'📸',n:'Inst
 // NAVIGATION
 // ═══════════════════════════════════════════════
 function showPage(name){
-  document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');p.style.display='';});
+  document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');});
   const pg=document.getElementById('page-'+name);
   if(pg)pg.classList.add('active');
-  document.getElementById('starfield').style.display=name==='public'?'none':'block';
+  const sf=document.getElementById('starfield');
+  if(sf)sf.style.display=name==='public'?'none':'block';
 }
 function showPanel(name){
   document.querySelectorAll('.dpanel').forEach(p=>p.classList.remove('on'));
