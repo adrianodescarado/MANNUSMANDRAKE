@@ -173,7 +173,23 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
 .prev-phone{width:100%;max-width:390px;min-height:580px;display:flex;flex-direction:column;border-radius:0;overflow:hidden}
 /* PUBLIC PAGE */
 #page-public.active{display:flex;flex-direction:column;min-height:100vh}
-#pub-wrap{flex:1;display:flex;flex-direction:column;min-height:100vh}
+#pub-wrap{flex:1;display:flex;flex-direction:column;height:100vh}
+/* pub-bar inherits header background from theme via #pub-wrap */
+.tw #pub-bar{background:#075e54}
+.ti #pub-bar{background:linear-gradient(135deg,#833ab4,#fd1d1d,#f77737)}
+.tm #pub-bar{background:linear-gradient(135deg,#0084ff,#0099ff)}
+.tg #pub-bar{background:#2aabee}
+.twb #pub-bar{background:var(--surf)}
+/* pub-in footer */
+.tw #pub-in{background:white}
+.ti #pub-in{background:white;border-top:1px solid #dbdbdb}
+.tm #pub-in{background:white;border-top:1px solid #eee}
+.tg #pub-in{background:white}
+.twb #pub-in{background:var(--deep);border-top:1px solid var(--bdr)}
+.tw #pub-input{background:#f0f0f0;color:#333}
+.ti #pub-input{background:#fafafa;color:#262626;border:1px solid #dbdbdb}
+.tm #pub-input,.tg #pub-input{background:#f5f5f5;color:#333}
+.twb #pub-input{background:var(--mid);color:var(--txt)}
 /* CHAT THEMES */
 .prev-bar{padding:10px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .prev-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background-size:cover;background-position:center;overflow:hidden;border:2px solid rgba(255,255,255,.2)}
@@ -186,7 +202,8 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
 .prev-ti{flex:1;padding:9px 16px;border-radius:22px;border:none;font-size:14px;outline:none;font-family:var(--fb)}
 .prev-sb{width:38px;height:38px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;flex-shrink:0}
 /* WhatsApp */
-.tw .prev-bar{background:#075e54}.tw .prev-msgs{background:#ece5dd;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' opacity='0.06'%3E%3Cdefs%3E%3Cpattern id='wpp' patternUnits='userSpaceOnUse' width='80' height='80'%3E%3Ccircle cx='20' cy='20' r='3' fill='%23000'/%3E%3Crect x='35' y='15' width='14' height='10' rx='2' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Cpath d='M8 45 Q14 40 20 45 Q26 50 32 45' stroke='%23000' stroke-width='1.5' fill='none'/%3E%3Cstar x='50' y='20' r='5'/%3E%3Ccircle cx='60' cy='55' r='4' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Crect x='10' y='58' width='12' height='8' rx='1' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Cpath d='M45 50 l4-4 l4 4 l-4 4 z' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Ccircle cx='70' cy='30' r='2' fill='%23000'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23wpp)'/%3E%3C/svg%3E")}.tw .pbub.bot{background:white;color:#333}.tw .pbub.usr{background:#dcf8c6;color:#333}.tw .prev-in{background:white}.tw .prev-ti{background:#f0f0f0;color:#333}.tw .prev-sb{background:#25d366;color:white}
+.tw .prev-bar{background:#075e54}.tw .prev-msgs{background:#ece5dd;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' opacity='0.06'%3E%3Cdefs%3E%3Cpattern id='wpp' patternUnits='userSpaceOnUse' width='80' height='80'%3E%3Ccircle cx='20' cy='20' r='3' fill='%23000'/%3E%3Crect x='35' y='15' width='14' height='10' rx='2' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Cpath d='M8 45 Q14 40 20 45 Q26 50 32 45' stroke='%23000' stroke-width='1.5' fill='none'/%3E%3Cstar x='50' y='20' r='5'/%3E%3Ccircle cx='60' cy='55' r='4' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Crect x='10' y='58' width='12' height='8' rx='1' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Cpath d='M45 50 l4-4 l4 4 l-4 4 z' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3Ccircle cx='70' cy='30' r='2' fill='%23000'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='400' height='400' fill='url(%23wpp)'/%3E%3C/svg%3E")}.tw .pbub.bot{background:white;color:#333}.tw .pbub.usr{background:#dcf8c6;color:#333}.tw .prev-in{background:white}.tw .prev-ti{background:#f0f0f0;color:#333}.tw .prev-sb{background:#25d366;color:white;min-width:38px}
+.tw .prev-in{padding:6px 10px;gap:6px}
 /* Instagram */
 .ti .prev-bar{background:linear-gradient(135deg,#833ab4,#fd1d1d,#f77737)}.ti .prev-msgs{background:#fafafa}.ti .pbub.bot{background:#efefef;color:#262626}.ti .pbub.usr{background:#3797f0;color:white}.ti .prev-in{background:white;border-top:1px solid #dbdbdb}.ti .prev-ti{background:#fafafa;color:#262626;border:1px solid #dbdbdb}.ti .prev-sb{background:transparent;color:#3797f0;font-weight:700;font-size:13px;width:auto;padding:0 8px}
 /* Messenger */
@@ -220,6 +237,28 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
 /* TYPING INDICATOR */
 @keyframes tdot{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
 .typing-dot{width:7px;height:7px;border-radius:50%;background:currentColor;animation:tdot 1s infinite}
+/* CONFETTI */
+@keyframes confetti-fall{
+  0%{transform:translateY(-10px) rotate(0deg) scale(1);opacity:1}
+  100%{transform:translateY(110vh) rotate(720deg) scale(0.8);opacity:0}
+}
+@keyframes confetti-sway{
+  0%,100%{margin-left:0}50%{margin-left:30px}
+}
+/* IMAGE node */
+.img-bubble{max-width:100%;border-radius:10px;display:block;cursor:default!important;pointer-events:none}
+.img-bubble-link{max-width:100%;border-radius:10px;display:block;cursor:pointer}
+/* COLLECT field */
+.collect-wrap{background:rgba(0,0,0,.06);border-radius:10px;padding:10px;margin-top:4px;max-width:85%}
+.collect-field{width:100%;padding:8px 12px;border-radius:8px;border:1.5px solid #ccc;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box}
+.collect-field:focus{border-color:#25d366}
+.collect-submit{margin-top:8px;padding:9px 0;background:#25d366;color:white;border:none;border-radius:8px;font-size:14px;cursor:pointer;width:100%;font-family:inherit;font-weight:600}
+.collect-submit:hover{background:#20ba5a}
+/* CHOICES */
+.choices-wrap{display:flex;flex-direction:column;gap:8px;margin-top:6px;align-self:flex-end;width:88%}
+.choice-btn{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;background:#00a884;color:white;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;transition:background .15s;text-align:left;width:100%;font-family:inherit}
+.choice-btn:hover{background:#008f70}
+.choice-btn::after{content:'›';font-size:20px;font-weight:300;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -332,8 +371,29 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
           <div class="mcard"><div class="mlbl">Total de Aberturas</div><div class="mval" style="color:var(--acc)" id="an-opens">—</div></div>
           <div class="mcard"><div class="mlbl">Conclusões</div><div class="mval" style="color:var(--grn)" id="an-complete">—</div></div>
           <div class="mcard"><div class="mlbl">Taxa de Conversão</div><div class="mval" style="color:var(--warn)" id="an-cvr">—</div></div>
+          <div class="mcard"><div class="mlbl">Leads Capturados</div><div class="mval" style="color:var(--grn)" id="an-leads">0</div></div>
         </div>
-        <div class="empty"><div class="ei">📊</div><h3>Conecte ao Supabase</h3><p>Analytics em tempo real após criar e executar o SQL nas configurações.</p></div>
+        <!-- LEADS TABLE -->
+        <div style="margin-top:24px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+            <h3 style="font-family:var(--fd);font-size:16px">📋 Dados Capturados</h3>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-ghost btn-sm" onclick="loadLeads()">↺ Atualizar</button>
+              <button class="btn btn-ghost btn-sm" onclick="exportLeads()">⬇ Exportar CSV</button>
+              <button class="btn btn-danger btn-sm" onclick="clearLeads()">🗑 Limpar</button>
+            </div>
+          </div>
+          <div id="leads-table" style="background:var(--deep);border:1px solid var(--bdr);border-radius:12px;padding:16px;min-height:80px;font-size:13px;color:var(--muted)">
+            Carregando...
+          </div>
+        </div>
+        <!-- FUNNEL ANALYSIS -->
+        <div style="margin-top:24px">
+          <h3 style="font-family:var(--fd);font-size:16px;margin-bottom:12px">🔻 Análise de Funil</h3>
+          <div id="funnel-view" style="background:var(--deep);border:1px solid var(--bdr);border-radius:12px;padding:16px;font-size:13px;color:var(--muted)">
+            Compartilhe seus fluxos para ver onde os leads abandonam o funil.
+          </div>
+        </div>
       </div>
       <!-- CHANNELS -->
       <div class="dpanel" id="panel-channels">
@@ -460,6 +520,7 @@ insert into storage.buckets (id, name, public)
       <div class="epi" style="color:#ffb0ff" data-type="audio"><div class="edot" style="background:#ffb0ff"></div>🎙️ Áudio</div>
       <div class="epi" style="color:#ff8060" data-type="pdf"><div class="edot" style="background:#ff8060"></div>📄 PDF</div>
       <div class="epi" style="color:#60d0ff" data-type="collect"><div class="edot" style="background:#60d0ff"></div>📋 Captura de Dados</div>
+      <div class="epi" style="color:#25d366" data-type="whatsapp"><div class="edot" style="background:#25d366"></div>📱 Captura WhatsApp</div>
       <div class="epi" style="color:#ffd700" data-type="confetti"><div class="edot" style="background:#ffd700"></div>🎉 Confete</div>
     </div>
     <div class="ecanvas" id="ecanvas">
@@ -484,7 +545,11 @@ insert into storage.buckets (id, name, public)
         <div class="psec">
           <div class="pstitle">Conteúdo</div>
           <div class="pf"><label class="pl" id="p-clbl">Mensagem</label><textarea class="pta" id="p-cont" placeholder="Digite o conteúdo..."></textarea></div>
-          <div class="pf" id="p-url-f" style="display:none"><label class="pl">URL</label><input type="text" class="pi" id="p-url" placeholder="https://..."></div>
+          <div class="pf" id="p-url-f" style="display:none">
+            <label class="pl">URL da imagem / vídeo / áudio</label>
+            <input type="text" class="pi" id="p-url" placeholder="https://...">
+            <button class="btn btn-ghost btn-sm" id="btn-upload-img" style="margin-top:4px;display:none">📁 Subir imagem do PC</button>
+          </div>
           <div class="pf" id="p-delay-f" style="display:none"><label class="pl">Tempo (segundos)</label><input type="number" class="pi" id="p-delay" min="1" max="300" value="3"></div>
           <div class="pf" id="p-choices-f" style="display:none"><label class="pl">Opções (uma por linha)</label><textarea class="pta" id="p-choices" placeholder="Opção 1&#10;Opção 2&#10;Opção 3" style="min-height:80px"></textarea></div>
           <div class="pf" id="p-collect-f" style="display:none"><label class="pl">Tipo de Dado</label><select class="pi" id="p-collect-type"><option value="text">Texto</option><option value="email">Email</option><option value="tel">Telefone</option><option value="number">Número</option></select></div>
@@ -545,15 +610,27 @@ insert into storage.buckets (id, name, public)
 
 <!-- ════════════ PUBLIC PAGE ════════════ -->
 <div id="page-public" class="page">
-  <div id="pub-wrap" class="tw" style="display:flex;flex-direction:column;height:100vh;overflow:hidden">
-    <div class="prev-bar pub-header" id="pub-bar">
-      <div class="prev-av" id="pub-av">🤖</div>
-      <div class="prev-info"><p id="pub-name">Atendente</p><span id="pub-status">online</span></div>
+  <div id="pub-wrap" class="tw" style="display:flex;flex-direction:column;position:fixed;inset:0;z-index:1">
+    <!-- CABEÇALHO FIXO estilo WhatsApp -->
+    <div id="pub-bar" style="flex-shrink:0;display:flex;align-items:center;gap:10px;padding:8px 14px">
+      <div class="prev-av" id="pub-av" style="flex-shrink:0">🤖</div>
+      <div style="flex:1;min-width:0">
+        <p id="pub-name" style="font-size:14px;font-weight:600;margin:0">Atendente</p>
+        <span id="pub-status" style="font-size:11px;opacity:.75">online</span>
+      </div>
+      <span title="Chamada de vídeo" style="font-size:19px;cursor:pointer;color:white;margin-left:4px">📹</span>
+      <span title="Chamada de voz" style="font-size:19px;cursor:pointer;color:white;margin-left:12px">📞</span>
+      <span title="Mais opções" style="font-size:22px;cursor:pointer;color:white;margin-left:12px;font-weight:700">⋮</span>
     </div>
+    <!-- MENSAGENS -->
     <div class="prev-msgs" id="pub-msgs" style="flex:1;min-height:0;overflow-y:auto"></div>
-    <div class="prev-in" id="pub-in" style="flex-shrink:0">
-      <input class="prev-ti" id="pub-input" placeholder="Digite uma mensagem..." autocomplete="off" name="chat-pub">
-      <button class="prev-sb" id="pub-send">➤</button>
+    <!-- RODAPÉ FIXO estilo WhatsApp -->
+    <div id="pub-in" style="flex-shrink:0;display:flex;align-items:center;gap:6px;padding:7px 10px">
+      <span title="Emoji" style="font-size:22px;cursor:pointer;flex-shrink:0">😊</span>
+      <input class="prev-ti" id="pub-input" placeholder="Digite uma mensagem..." autocomplete="off" name="chat-pub" style="flex:1;border-radius:22px">
+      <span title="Anexar" style="font-size:20px;cursor:pointer;flex-shrink:0">📎</span>
+      <span title="Câmera" style="font-size:20px;cursor:pointer;flex-shrink:0">📷</span>
+      <button class="prev-sb" id="pub-send" title="Enviar">🎤</button>
     </div>
   </div>
 </div>
@@ -706,7 +783,9 @@ async function sbLoadFlows(){
 }
 function encodeFlow(f){
   try{
-    const ba=(f.botAvatar||'').startsWith('http')?f.botAvatar:'';
+    // Include avatar if it's a URL or small enough base64 (<50KB)
+    const rawAv=f.botAvatar||'';
+    const ba=rawAv.startsWith('http')?rawAv:(rawAv.length<65000?rawAv:'');
     const min={
       id:f.id,
       n:f.name,
@@ -792,6 +871,7 @@ const NC={
   link:{dot:'#c080ff',lbl:'Link',def:'Clique aqui'},
   pdf:{dot:'#ff8060',lbl:'PDF',def:'Baixar documento'},
   collect:{dot:'#60d0ff',lbl:'Captura de Dados',def:''},
+  whatsapp:{dot:'#25d366',lbl:'Captura WhatsApp',def:'Qual é seu WhatsApp?'},
   condition:{dot:'#80c8ff',lbl:'Condição',def:''},
   delay:{dot:'#80ffb0',lbl:'Delay',def:''},
   confetti:{dot:'#ffd700',lbl:'Confete 🎉',def:'Parabéns!'},
@@ -830,7 +910,7 @@ function showPanel(name){
   const titles={overview:'Visão Geral',flows:'Meus Fluxos',analytics:'Analytics',channels:'Canais',settings:'Configurações'};
   document.getElementById('panel-title').textContent=titles[name]||name;
   if(name==='settings')renderSettings();
-  if(name==='analytics')loadAnalytics();
+  if(name==='analytics'){checkSbStatus();loadLeads();loadAnalytics();}
 }
 
 // ═══════════════════════════════════════════════
@@ -1057,6 +1137,66 @@ async function checkSbStatus(){
     }
   }catch{el.textContent='❌';el.style.color='var(--red)';if(dl)dl.textContent='Sem conexão com Supabase';}
 }
+function loadLeads(){
+  const el=document.getElementById('leads-table');if(!el)return;
+  // Collect from all mdk_leads_ keys
+  const all=[];
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k&&k.startsWith('mdk_leads_')){
+        const arr=JSON.parse(localStorage.getItem(k)||'[]');
+        all.push(...arr);
+      }
+    }
+  }catch{}
+  // Update count
+  const cnt=document.getElementById('an-leads');if(cnt)cnt.textContent=all.length;
+  if(!all.length){el.textContent='Nenhum lead capturado ainda. Use nós de Captura nos seus fluxos.';return;}
+  all.sort((a,b)=>new Date(b.ts)-new Date(a.ts));
+  el.innerHTML='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;min-width:400px">'+
+    '<thead><tr style="border-bottom:1px solid var(--bdr)">'+
+    '<th style="text-align:left;padding:7px 10px;font-size:11px;color:var(--dim);font-weight:500">Campo</th>'+
+    '<th style="text-align:left;padding:7px 10px;font-size:11px;color:var(--dim);font-weight:500">Valor</th>'+
+    '<th style="text-align:left;padding:7px 10px;font-size:11px;color:var(--dim);font-weight:500">Tipo</th>'+
+    '<th style="text-align:left;padding:7px 10px;font-size:11px;color:var(--dim);font-weight:500">Data</th>'+
+    '</tr></thead><tbody>'+
+    all.slice(0,100).map(l=>'<tr style="border-bottom:1px solid rgba(100,120,255,.08)">'+
+      '<td style="padding:7px 10px;color:var(--muted)">'+(l.label||l.type||'—')+'</td>'+
+      '<td style="padding:7px 10px;color:var(--txt);font-weight:500">'+(l.formatted||l.value||'—')+'</td>'+
+      '<td style="padding:7px 10px"><span style="font-size:10px;padding:2px 6px;border-radius:100px;background:rgba(0,229,195,.12);color:var(--grn)">'+(l.type||'texto')+'</span></td>'+
+      '<td style="padding:7px 10px;font-size:11px;color:var(--dim)">'+new Date(l.ts).toLocaleString('pt-BR')+'</td>'+
+    '</tr>').join('')+
+    '</tbody></table></div>';
+}
+function exportLeads(){
+  const all=[];
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k&&k.startsWith('mdk_leads_')){const arr=JSON.parse(localStorage.getItem(k)||'[]');all.push(...arr);}
+    }
+  }catch{}
+  if(!all.length){toast('Nenhum lead para exportar','ℹ');return;}
+  const header='Campo,Valor,Tipo,FluxoID,Data';
+  const rows=all.map(l=>'"'+(l.label||'')+'",'+(l.formatted||l.value||'')+','+(l.type||'texto')+','+(l.flowId||'')+','+new Date(l.ts).toLocaleString('pt-BR'));
+  const csv=[header,...rows].join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,﻿'+encodeURIComponent(csv);
+  a.download='leads-mandrake-'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+  toast('CSV baixado! 📊','✓');
+}
+function clearLeads(){
+  if(!confirm('Apagar todos os leads capturados?'))return;
+  try{
+    const keys=[];
+    for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('mdk_leads_'))keys.push(k);}
+    keys.forEach(k=>localStorage.removeItem(k));
+    localStorage.removeItem('mdk_all_leads');
+  }catch{}
+  loadLeads();toast('Leads apagados','ℹ');
+}
 async function loadAnalytics(){
   if(!SB_TOKEN)return;
   try{
@@ -1208,6 +1348,8 @@ function showProps(n){
   const pcsec=document.getElementById('pcsec');if(pcsec)pcsec.style.display=hasContent?'flex':'none';
   document.getElementById('p-cont').value=n.content||'';
   document.getElementById('p-url-f').style.display=['image','video','audio','link','pdf'].includes(n.type)?'flex':'none';
+  const upBtn=document.getElementById('btn-upload-img');
+  if(upBtn)upBtn.style.display=n.type==='image'?'block':'none';
   document.getElementById('p-url').value=n.url||'';
   document.getElementById('p-delay-f').style.display=n.type==='delay'?'flex':'none';
   document.getElementById('p-delay').value=n.delay||3;
@@ -1413,7 +1555,7 @@ function nextPreview(){
   }
   addBubble('prev-msgs',n,'bot');
   // These types pause and wait for user interaction (handled in addBubble)
-  if(n.type==='question'||n.type==='choices'||n.type==='collect'){
+  if(n.type==='question'||n.type==='choices'||n.type==='collect'||n.type==='whatsapp'){
     const inp=document.getElementById('prev-input');
     if(n.type==='question'&&inp){inp.focus();inp.style.borderColor='var(--acc)';}
     return; // PAUSE
@@ -1431,12 +1573,27 @@ function prevSend(){
 }
 // Theme for preview
 function applyTheme(phoneId,barId,avId,nameId,statId,cls,avatarOrEmoji,name){
-  const ph=document.getElementById(phoneId);if(ph)ph.className='prev-phone '+cls;
+  const ph=document.getElementById(phoneId);
+  if(ph){
+    // pub-wrap needs to keep its structure, just update theme class
+    if(phoneId==='pub-wrap'){
+      ph.className=cls; // just the theme class (tw, ti, tm, tg, twb)
+    } else {
+      ph.className='prev-phone '+cls;
+    }
+  }
   const av=document.getElementById(avId);
   if(av){
     const isImg=avatarOrEmoji&&(avatarOrEmoji.startsWith('data:')||avatarOrEmoji.startsWith('http'));
-    if(isImg){av.style.backgroundImage='url('+avatarOrEmoji+')';av.style.backgroundSize='cover';av.textContent='';}
-    else{av.style.backgroundImage='';av.textContent=avatarOrEmoji||'🤖';}
+    if(isImg){
+      av.style.backgroundImage='url('+avatarOrEmoji+')';
+      av.style.backgroundSize='cover';
+      av.style.backgroundPosition='center';
+      av.textContent='';
+    } else {
+      av.style.backgroundImage='';
+      av.textContent=avatarOrEmoji||'🤖';
+    }
   }
   const pn=document.getElementById(nameId);if(pn)pn.textContent=name||'Atendente';
   const ps=document.getElementById(statId);if(ps)ps.textContent='online';
@@ -1533,7 +1690,7 @@ function nextPub(){
     return;
   }
   addBubble('pub-msgs',n,'bot');
-  if(n.type==='question'||n.type==='choices'||n.type==='collect'){
+  if(n.type==='question'||n.type==='choices'||n.type==='collect'||n.type==='whatsapp'){
     const inp=document.getElementById('pub-input');
     if(n.type==='question'&&inp){inp.focus();inp.style.borderColor='rgba(92,111,255,.7)';}
     return; // PAUSE
@@ -1608,6 +1765,34 @@ function addBubble(containerId,n,who){
     setTimeout(()=>{if(containerId==='pub-msgs')nextPub();else nextPreview();},800);
     return;
   }
+  // WhatsApp capture node
+  if(who!=='usr'&&n.type==='whatsapp'){
+    const lbW=document.createElement('div');lbW.className='pbub bot';
+    lbW.textContent=n.content||'Qual é seu WhatsApp? (com DDD)';c.appendChild(lbW);
+    const wrapW=document.createElement('div');wrapW.className='collect-wrap';
+    const fldW=document.createElement('input');fldW.className='collect-field';
+    fldW.placeholder='(11) 99999-9999';fldW.type='tel';fldW.inputMode='numeric';
+    const subW=document.createElement('button');subW.className='collect-submit';subW.textContent='📱 Enviar WhatsApp';
+    subW.onclick=()=>{
+      let val=fldW.value.replace(/\\D/g,'');
+      if(val.length<10){toast('Digite um número válido','❌');return;}
+      // Format nicely
+      const fmt=val.length===11?
+        '('+val.slice(0,2)+') '+val.slice(2,7)+'-'+val.slice(7):
+        '('+val.slice(0,2)+') '+val.slice(2,6)+'-'+val.slice(6);
+      wrapW.remove();
+      addBubble(containerId,{type:'_user',content:'📱 '+fmt},'usr');
+      const key='mdk_leads_'+(curFId||'pub');
+      try{
+        const leads=JSON.parse(localStorage.getItem(key)||'[]');
+        leads.push({value:val,formatted:fmt,type:'whatsapp',label:n.content||'WhatsApp',ts:new Date().toISOString()});
+        localStorage.setItem(key,JSON.stringify(leads));
+      }catch{}
+      if(n.webhook){fetch(n.webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({flow:curFId,field:'whatsapp',value:val,formatted:fmt,ts:new Date().toISOString()})}).catch(()=>{});}
+      setTimeout(()=>{if(containerId==='pub-msgs')nextPub();else nextPreview();},500);
+    };
+    wrapW.appendChild(fldW);wrapW.appendChild(subW);c.appendChild(wrapW);c.scrollTop=c.scrollHeight;return;
+  }
   // Collect data node
   if(who!=='usr'&&n.type==='collect'){
     if(n.content){const lb=document.createElement('div');lb.className='pbub bot';lb.textContent=n.content;c.appendChild(lb);}
@@ -1621,8 +1806,14 @@ function addBubble(containerId,n,who){
       const key='mdk_leads_'+(curFId||'pub');
       try{
         const leads=JSON.parse(localStorage.getItem(key)||'[]');
-        leads.push({value:val,type:n.inputType||'text',label:n.content||'',ts:new Date().toISOString()});
+        const entry={value:val,type:n.inputType||'text',label:n.content||'',flowId:curFId||'',ts:new Date().toISOString()};
+        leads.push(entry);
         localStorage.setItem(key,JSON.stringify(leads));
+        // Global leads key for analytics
+        const allKey='mdk_all_leads';
+        const allLeads=JSON.parse(localStorage.getItem(allKey)||'[]');
+        allLeads.push(entry);
+        localStorage.setItem(allKey,JSON.stringify(allLeads));
       }catch{}
       // Send to webhook if configured
       if(n.webhook){
@@ -1638,12 +1829,17 @@ function addBubble(containerId,n,who){
   b.className='pbub '+(who==='usr'?'usr':'bot');
   if(who==='usr'){b.textContent=n.content||n;c.appendChild(b);c.scrollTop=c.scrollHeight;return;}
   if(n.type==='image'){
-    const url=n.url||n.content;
-    if(url&&url.startsWith('http')&&!url.includes('exemplo')){
-      const img=document.createElement('img');img.src=url;img.style.cssText='max-width:100%;border-radius:8px;display:block;cursor:pointer';
-      img.onclick=()=>window.open(url,'_blank');
+    const url=n.url||n.content||n.data||'';
+    const isBase64=url.startsWith('data:image');
+    const isHttp=url.startsWith('http');
+    if(url&&(isHttp||isBase64)){
+      const img=document.createElement('img');
+      img.src=url;
+      img.className='img-bubble'; // no pointer-events, no click-away
+      img.style.cssText='max-width:100%;border-radius:10px;display:block;pointer-events:none;user-select:none';
       img.onerror=()=>{b.textContent='🖼️ '+(n.content||'Imagem');};
-      b.style.padding='4px';b.appendChild(img);
+      b.style.padding='4px';b.style.background='transparent';b.style.border='none';
+      b.appendChild(img);
     } else {b.style.opacity='.7';b.style.fontStyle='italic';b.textContent='🖼️ '+(n.content||'Imagem');}
   } else if(n.type==='video'){
     const url=n.url||n.content;
@@ -1815,8 +2011,19 @@ function toast(msg,icon='ℹ'){
 // ═══════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded',async()=>{
   // ── Public page buttons (must register BEFORE early return)
-  document.getElementById('pub-send')?.addEventListener('click',pubSend);
-  document.getElementById('pub-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')pubSend();});
+  const pubSendBtn2=document.getElementById('pub-send');
+  const pubInput2=document.getElementById('pub-input');
+  if(pubSendBtn2)pubSendBtn2.addEventListener('click',()=>{
+    const val=(pubInput2?.value||'').trim();
+    if(val)pubSend();
+  });
+  if(pubInput2){
+    pubInput2.addEventListener('keydown',e=>{if(e.key==='Enter')pubSend();});
+    pubInput2.addEventListener('input',()=>{
+      const btn=document.getElementById('pub-send');
+      if(btn)btn.textContent=(pubInput2.value||'').trim()?'➤':'🎤';
+    });
+  }
 
   // ── Check if this is a public flow link
   const urlParams=new URLSearchParams(location.search);
@@ -1991,6 +2198,26 @@ document.addEventListener('DOMContentLoaded',async()=>{
   });
   document.getElementById('btn-preview')?.addEventListener('click', openPreview);
   document.getElementById('btn-del-node')?.addEventListener('click', ()=>{ if(selId) deleteNode(selId); });
+
+  // ── Image upload in props
+  document.getElementById('btn-upload-img')?.addEventListener('click',()=>{
+    const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+    inp.onchange=e=>{
+      const file=e.target.files[0];if(!file)return;
+      if(file.size>3*1024*1024){toast('Imagem muito grande (max 3MB)','❌');return;}
+      const reader=new FileReader();
+      reader.onload=ev=>{
+        const n=nodes.find(x=>x.id===selId);if(!n)return;
+        n.data=ev.target.result; // store base64 in node.data
+        n.url=ev.target.result;  // also set url for compatibility
+        document.getElementById('p-url').value='[imagem carregada]';
+        const b=document.getElementById('fb-'+selId);
+        if(b)b.innerHTML='🖼️ Imagem carregada';
+        toast('Imagem carregada! 📸','✓');
+      };
+      reader.readAsDataURL(file);
+    };inp.click();
+  });
 
   // ── Keyboard
   document.addEventListener('keydown',e=>{
