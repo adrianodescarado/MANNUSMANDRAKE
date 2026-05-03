@@ -446,6 +446,12 @@ insert into storage.buckets (id, name, public)
       <div class="epi" style="color:#80c8ff" data-type="condition"><div class="edot" style="background:#80c8ff"></div>⚡ Condição</div>
       <div class="epi" style="color:#80ffb0" data-type="delay"><div class="edot" style="background:#80ffb0"></div>⏳ Delay</div>
       <div class="epi" style="color:#ff8080" data-type="end"><div class="edot" style="background:#ff8080"></div>🏁 Fim do Fluxo</div>
+      <div style="font-size:10px;letter-spacing:1px;color:var(--dim);padding:10px 4px 4px;text-transform:uppercase;font-weight:600">Avançado</div>
+      <div class="epi" style="color:#00e5c3" data-type="choices"><div class="edot" style="background:#00e5c3"></div>☑️ Múltipla Escolha</div>
+      <div class="epi" style="color:#ffb0ff" data-type="audio"><div class="edot" style="background:#ffb0ff"></div>🎙️ Áudio</div>
+      <div class="epi" style="color:#ff8060" data-type="pdf"><div class="edot" style="background:#ff8060"></div>📄 PDF</div>
+      <div class="epi" style="color:#60d0ff" data-type="collect"><div class="edot" style="background:#60d0ff"></div>📋 Captura de Dados</div>
+      <div class="epi" style="color:#ffd700" data-type="confetti"><div class="edot" style="background:#ffd700"></div>🎉 Confete</div>
     </div>
     <div class="ecanvas" id="ecanvas">
       <svg id="esvg"></svg>
@@ -1608,6 +1614,9 @@ async function openShare(){
   const baseUrl=location.href.split('?')[0];
   const link=baseUrl+'?flow='+curFId;
   document.getElementById('share-link').textContent=link;
+  // Cache for fallback (same browser)
+  const fCache=(flows||[]).find(x=>x.id===curFId);
+  if(fCache){try{localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(fCache));}catch{}}
   // QR
   const cv=document.getElementById('qr-canvas');
   const ctx=cv.getContext('2d');
@@ -1744,6 +1753,13 @@ document.addEventListener('DOMContentLoaded',async()=>{
   document.getElementById('btn-new-flow2')?.addEventListener('click',openChannelSelector);
   document.getElementById('btn-new-flow3')?.addEventListener('click',openChannelSelector);
   document.getElementById('btn-import')?.addEventListener('click',importFlow);
+  // Palette: click or drag to add nodes
+  document.querySelector('.epal')?.addEventListener('mousedown',ev=>{
+    const item=ev.target.closest('[data-type]');
+    if(!item)return;
+    ev.preventDefault();
+    startPalDrag(ev,item.dataset.type);
+  });
   // User chip menu
   document.getElementById('uchip')?.addEventListener('click',e=>{
     e.stopPropagation();
