@@ -110,7 +110,7 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
 .fhdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
 .fhdr h2{font-family:var(--fd);font-size:17px;font-weight:700}
 .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-.fcard{background:var(--deep);border:1px solid var(--bdr);border-radius:14px;padding:18px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.fcard{background:var(--deep);border:1px solid var(--bdr);border-radius:14px;padding:18px;cursor:pointer;transition:all .25s;position:relative}
 .fcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--acc),var(--grn));opacity:0;transition:opacity .3s}
 .fcard:hover{border-color:var(--bdr2);transform:translateY(-2px)}.fcard:hover::before{opacity:1}
 .ftop{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
@@ -1701,6 +1701,7 @@ function toast(msg,icon='ℹ'){
 // EVENT LISTENERS — all wired here, no onclick in HTML
 // ═══════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded',async()=>{
+  try{
   // ── Check public flow FIRST (before any other init)
   const isPublic=await checkPublicFlow();
   if(isPublic)return;
@@ -1709,63 +1710,63 @@ document.addEventListener('DOMContentLoaded',async()=>{
   await checkSession();
 
   // ── Landing buttons
-  document.getElementById('btn-login').addEventListener('click',()=>openModal('login'));
-  document.getElementById('btn-signup').addEventListener('click',()=>openModal('signup'));
-  document.getElementById('btn-hero-signup').addEventListener('click',()=>openModal('signup'));
-  document.getElementById('btn-hero-login').addEventListener('click',()=>openModal('login'));
-  document.getElementById('btn-cta-signup').addEventListener('click',()=>openModal('signup'));
-  document.getElementById('btn-demo').addEventListener('click',doDemo);
+  document.getElementById('btn-login')?.addEventListener('click',()=>openModal('login'));
+  document.getElementById('btn-signup')?.addEventListener('click',()=>openModal('signup'));
+  document.getElementById('btn-hero-signup')?.addEventListener('click',()=>openModal('signup'));
+  document.getElementById('btn-hero-login')?.addEventListener('click',()=>openModal('login'));
+  document.getElementById('btn-cta-signup')?.addEventListener('click',()=>openModal('signup'));
+  document.getElementById('btn-demo')?.addEventListener('click',doDemo);
 
   // ── Auth modal
-  document.getElementById('btn-close-modal').addEventListener('click',closeModal);
-  document.getElementById('auth-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
-  document.getElementById('btn-do-login').addEventListener('click',doLogin);
-  document.getElementById('btn-do-signup').addEventListener('click',doSignup);
-  document.getElementById('btn-do-demo').addEventListener('click',doDemo);
-  document.getElementById('btn-do-forgot').addEventListener('click',doForgot);
-  document.getElementById('btn-forgot').addEventListener('click',()=>showAuthPanel('forgot'));
-  document.getElementById('btn-go-signup').addEventListener('click',()=>showAuthPanel('signup'));
-  document.getElementById('btn-go-login').addEventListener('click',()=>showAuthPanel('login'));
-  document.getElementById('btn-back-login').addEventListener('click',()=>showAuthPanel('login'));
-  document.getElementById('btn-confirmed').addEventListener('click',()=>showAuthPanel('login'));
-  document.getElementById('lg-email').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('lg-pass').focus();});
-  document.getElementById('lg-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
-  document.getElementById('su-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doSignup();});
-  document.getElementById('fg-email').addEventListener('keydown',e=>{if(e.key==='Enter')doForgot();});
+  document.getElementById('btn-close-modal')?.addEventListener('click',closeModal);
+  document.getElementById('auth-overlay')?.addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+  document.getElementById('btn-do-login')?.addEventListener('click',doLogin);
+  document.getElementById('btn-do-signup')?.addEventListener('click',doSignup);
+  document.getElementById('btn-do-demo')?.addEventListener('click',doDemo);
+  document.getElementById('btn-do-forgot')?.addEventListener('click',doForgot);
+  document.getElementById('btn-forgot')?.addEventListener('click',()=>showAuthPanel('forgot'));
+  document.getElementById('btn-go-signup')?.addEventListener('click',()=>showAuthPanel('signup'));
+  document.getElementById('btn-go-login')?.addEventListener('click',()=>showAuthPanel('login'));
+  document.getElementById('btn-back-login')?.addEventListener('click',()=>showAuthPanel('login'));
+  document.getElementById('btn-confirmed')?.addEventListener('click',()=>showAuthPanel('login'));
+  document.getElementById('lg-email')?.addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('lg-pass').focus();});
+  document.getElementById('lg-pass')?.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+  document.getElementById('su-pass')?.addEventListener('keydown',e=>{if(e.key==='Enter')doSignup();});
+  document.getElementById('fg-email')?.addEventListener('keydown',e=>{if(e.key==='Enter')doForgot();});
 
   // ── Dashboard nav
-  document.getElementById('nav-overview').addEventListener('click',()=>showPanel('overview'));
-  document.getElementById('nav-flows').addEventListener('click',()=>showPanel('flows'));
-  document.getElementById('nav-analytics').addEventListener('click',()=>showPanel('analytics'));
-  document.getElementById('nav-channels').addEventListener('click',()=>showPanel('channels'));
-  document.getElementById('nav-settings').addEventListener('click',()=>showPanel('settings'));
-  document.getElementById('btn-new-flow').addEventListener('click',openChannelSelector);
-  document.getElementById('btn-new-flow2').addEventListener('click',openChannelSelector);
-  document.getElementById('btn-new-flow3').addEventListener('click',openChannelSelector);
-  document.getElementById('btn-import').addEventListener('click',importFlow);
+  document.getElementById('nav-overview')?.addEventListener('click',()=>showPanel('overview'));
+  document.getElementById('nav-flows')?.addEventListener('click',()=>showPanel('flows'));
+  document.getElementById('nav-analytics')?.addEventListener('click',()=>showPanel('analytics'));
+  document.getElementById('nav-channels')?.addEventListener('click',()=>showPanel('channels'));
+  document.getElementById('nav-settings')?.addEventListener('click',()=>showPanel('settings'));
+  document.getElementById('btn-new-flow')?.addEventListener('click',openChannelSelector);
+  document.getElementById('btn-new-flow2')?.addEventListener('click',openChannelSelector);
+  document.getElementById('btn-new-flow3')?.addEventListener('click',openChannelSelector);
+  document.getElementById('btn-import')?.addEventListener('click',importFlow);
   // User chip menu
-  document.getElementById('uchip').addEventListener('click',e=>{
+  document.getElementById('uchip')?.addEventListener('click',e=>{
     e.stopPropagation();
     const m=document.getElementById('umenu');
     m.style.display=m.style.display==='block'?'none':'block';
   });
-  document.getElementById('umenu-settings').addEventListener('click',()=>{document.getElementById('umenu').style.display='none';showPanel('settings');});
-  document.getElementById('umenu-logout').addEventListener('click',()=>{document.getElementById('umenu').style.display='none';logout();});
+  document.getElementById('umenu-settings')?.addEventListener('click',()=>{document.getElementById('umenu').style.display='none';showPanel('settings');});
+  document.getElementById('umenu-logout')?.addEventListener('click',()=>{document.getElementById('umenu').style.display='none';logout();});
   document.addEventListener('click',e=>{
     const m=document.getElementById('umenu');
     if(m&&m.style.display==='block'&&!document.getElementById('uchip').contains(e.target))m.style.display='none';
   });
   // Settings
-  document.getElementById('btn-save-settings').addEventListener('click',()=>{
+  document.getElementById('btn-save-settings')?.addEventListener('click',()=>{
     if(!CU)return;
     CU.name=document.getElementById('sname').value.trim()||CU.name;
     CU.email=document.getElementById('semail').value.trim()||CU.email;
     try{localStorage.setItem('mdk_session',JSON.stringify({u:CU,t:SB_TOKEN}));}catch{}
     renderDash();toast('Perfil atualizado','✓');
   });
-  document.getElementById('btn-logout2').addEventListener('click',logout);
-  document.getElementById('btn-avatar').addEventListener('click',()=>triggerUpload(url=>{CU.avatar=url;try{localStorage.setItem('mdk_session',JSON.stringify({u:CU,t:SB_TOKEN}));}catch{}renderAvatarUI();toast('Foto atualizada','✓');}));
-  document.getElementById('btn-copy-sql').addEventListener('click',()=>{navigator.clipboard?.writeText(document.getElementById('sql-block').textContent);toast('SQL copiado!','✓');});
+  document.getElementById('btn-logout2')?.addEventListener('click',logout);
+  document.getElementById('btn-avatar')?.addEventListener('click',()=>triggerUpload(url=>{CU.avatar=url;try{localStorage.setItem('mdk_session',JSON.stringify({u:CU,t:SB_TOKEN}));}catch{}renderAvatarUI();toast('Foto atualizada','✓');}));
+  document.getElementById('btn-copy-sql')?.addEventListener('click',()=>{navigator.clipboard?.writeText(document.getElementById('sql-block').textContent);toast('SQL copiado!','✓');});
   // Flow cards (delegated)
   document.addEventListener('click',e=>{
     const btn=e.target.closest('[data-action]');
@@ -1791,24 +1792,24 @@ document.addEventListener('DOMContentLoaded',async()=>{
   const wr=document.getElementById('ecanvas');
   document.addEventListener('mouseup',()=>{if(panning){panning=false;if(wr)wr.style.cursor='default';}});
   if(wr)wr.addEventListener('wheel',e=>{e.preventDefault();doZoom(e.deltaY<0?.08:-.08);},{passive:false});
-  document.getElementById('btn-zoom-in').addEventListener('click',()=>doZoom(.15));
-  document.getElementById('btn-zoom-out').addEventListener('click',()=>doZoom(-.15));
-  document.getElementById('btn-zoom-reset').addEventListener('click',resetZoom);
+  document.getElementById('btn-zoom-in')?.addEventListener('click',()=>doZoom(.15));
+  document.getElementById('btn-zoom-out')?.addEventListener('click',()=>doZoom(-.15));
+  document.getElementById('btn-zoom-reset')?.addEventListener('click',resetZoom);
   // Handle node connections and deletes (delegated)
-  document.getElementById('enodes').addEventListener('mousedown',e=>{
+  document.getElementById('enodes')?.addEventListener('mousedown',e=>{
     if(e.target.dataset.htype==='out')startConn(e,e.target.dataset.node);
   });
-  document.getElementById('enodes').addEventListener('click',e=>{
+  document.getElementById('enodes')?.addEventListener('click',e=>{
     if(e.target.dataset.del)deleteNode(e.target.dataset.del);
   });
 
   // ── Preview
-  document.getElementById('btn-prev-back').addEventListener('click',()=>showPage('editor'));
-  document.getElementById('btn-prev-dash').addEventListener('click',backToDash);
-  document.getElementById('btn-prev-share').addEventListener('click',openShare);
-  document.getElementById('btn-restart').addEventListener('click',restartPreview);
-  document.getElementById('prev-send').addEventListener('click',prevSend);
-  document.getElementById('prev-input').addEventListener('keydown',e=>{if(e.key==='Enter')prevSend();});
+  document.getElementById('btn-prev-back')?.addEventListener('click',()=>showPage('editor'));
+  document.getElementById('btn-prev-dash')?.addEventListener('click',backToDash);
+  document.getElementById('btn-prev-share')?.addEventListener('click',openShare);
+  document.getElementById('btn-restart')?.addEventListener('click',restartPreview);
+  document.getElementById('prev-send')?.addEventListener('click',prevSend);
+  document.getElementById('prev-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')prevSend();});
   document.querySelectorAll('[data-theme]').forEach(btn=>{
     btn.addEventListener('click',()=>{
       const cls=btn.dataset.theme;
@@ -1820,33 +1821,33 @@ document.addEventListener('DOMContentLoaded',async()=>{
   });
 
   // ── Public page
-  document.getElementById('pub-send').addEventListener('click',pubSend);
-  document.getElementById('pub-input').addEventListener('keydown',e=>{if(e.key==='Enter')pubSend();});
+  document.getElementById('pub-send')?.addEventListener('click',pubSend);
+  document.getElementById('pub-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')pubSend();});
 
   // ── Channel selector
-  document.getElementById('btn-close-ch').addEventListener('click',()=>document.getElementById('ch-modal').classList.remove('open'));
-  document.getElementById('ch-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)document.getElementById('ch-modal').classList.remove('open');});
-  document.getElementById('ch-grid').addEventListener('click',e=>{
+  document.getElementById('btn-close-ch')?.addEventListener('click',()=>document.getElementById('ch-modal').classList.remove('open'));
+  document.getElementById('ch-modal')?.addEventListener('click',e=>{if(e.target===e.currentTarget)document.getElementById('ch-modal').classList.remove('open');});
+  document.getElementById('ch-grid')?.addEventListener('click',e=>{
     const opt=e.target.closest('.chopt');if(!opt)return;
     selChannel=opt.dataset.ch;
     document.querySelectorAll('.chopt').forEach(o=>o.classList.toggle('sel',o===opt));
   });
-  document.getElementById('btn-create-flow').addEventListener('click',()=>{document.getElementById('ch-modal').classList.remove('open');openEditor(null,selChannel);});
+  document.getElementById('btn-create-flow')?.addEventListener('click',()=>{document.getElementById('ch-modal').classList.remove('open');openEditor(null,selChannel);});
 
   // ── Share modal
-  document.getElementById('btn-close-share').addEventListener('click',()=>document.getElementById('share-modal').classList.remove('open'));
-  document.getElementById('share-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)document.getElementById('share-modal').classList.remove('open');});
-  document.getElementById('btn-copy-link').addEventListener('click',copyLink);
-  document.getElementById('btn-copy-link2').addEventListener('click',copyLink);
-  document.getElementById('btn-share-wpp').addEventListener('click',()=>{const l=document.getElementById('share-link').textContent;window.open('https://wa.me/?text='+encodeURIComponent('Acesse: '+l),'_blank');});
-  document.getElementById('btn-share-tg').addEventListener('click',()=>{const l=document.getElementById('share-link').textContent;window.open('https://t.me/share/url?url='+encodeURIComponent(l),'_blank');});
+  document.getElementById('btn-close-share')?.addEventListener('click',()=>document.getElementById('share-modal').classList.remove('open'));
+  document.getElementById('share-modal')?.addEventListener('click',e=>{if(e.target===e.currentTarget)document.getElementById('share-modal').classList.remove('open');});
+  document.getElementById('btn-copy-link')?.addEventListener('click',copyLink);
+  document.getElementById('btn-copy-link2')?.addEventListener('click',copyLink);
+  document.getElementById('btn-share-wpp')?.addEventListener('click',()=>{const l=document.getElementById('share-link').textContent;window.open('https://wa.me/?text='+encodeURIComponent('Acesse: '+l),'_blank');});
+  document.getElementById('btn-share-tg')?.addEventListener('click',()=>{const l=document.getElementById('share-link').textContent;window.open('https://t.me/share/url?url='+encodeURIComponent(l),'_blank');});
 
   // ── Bot config modal
-  document.getElementById('btn-close-bot').addEventListener('click',()=>document.getElementById('bot-modal').classList.remove('open'));
-  document.getElementById('bot-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)document.getElementById('bot-modal').classList.remove('open');});
-  document.getElementById('btn-bot-photo').addEventListener('click',()=>triggerUpload(url=>{botAvatar=url;const av=document.getElementById('bot-av-preview');av.style.backgroundImage='url('+url+')';av.style.backgroundSize='cover';av.textContent='';toast('Foto atualizada','✓');}));
-  document.getElementById('btn-bot-remove').addEventListener('click',()=>{botAvatar='';const av=document.getElementById('bot-av-preview');av.style.backgroundImage='';av.textContent='🤖';toast('Foto removida','ℹ');});
-  document.getElementById('btn-save-bot').addEventListener('click',()=>{botName=document.getElementById('bot-name-input').value.trim()||'Atendente';document.getElementById('bot-modal').classList.remove('open');toast('Atendente configurado!','✓');});
+  document.getElementById('btn-close-bot')?.addEventListener('click',()=>document.getElementById('bot-modal').classList.remove('open'));
+  document.getElementById('bot-modal')?.addEventListener('click',e=>{if(e.target===e.currentTarget)document.getElementById('bot-modal').classList.remove('open');});
+  document.getElementById('btn-bot-photo')?.addEventListener('click',()=>triggerUpload(url=>{botAvatar=url;const av=document.getElementById('bot-av-preview');av.style.backgroundImage='url('+url+')';av.style.backgroundSize='cover';av.textContent='';toast('Foto atualizada','✓');}));
+  document.getElementById('btn-bot-remove')?.addEventListener('click',()=>{botAvatar='';const av=document.getElementById('bot-av-preview');av.style.backgroundImage='';av.textContent='🤖';toast('Foto removida','ℹ');});
+  document.getElementById('btn-save-bot')?.addEventListener('click',()=>{botName=document.getElementById('bot-name-input').value.trim()||'Atendente';document.getElementById('bot-modal').classList.remove('open');toast('Atendente configurado!','✓');});
 
   // ── Keyboard
   document.addEventListener('keydown',e=>{
@@ -1860,6 +1861,7 @@ document.addEventListener('DOMContentLoaded',async()=>{
       if(!['INPUT','TEXTAREA'].includes(document.activeElement.tagName))deleteNode(selId);
     }
   });
+  }catch(e){console.error('Init error:',e);}
 });
 </script>
 </body>
