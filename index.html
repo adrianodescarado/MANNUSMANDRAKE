@@ -21,8 +21,10 @@ body{font-family:var(--fb);background:var(--void);color:var(--txt);min-height:10
 /* PAGES */
 .page{display:none;min-height:100vh}
 .page.active{display:block}
+#page-public.active{display:block!important}
+#page-public.active #pub-wrap{position:fixed!important;inset:0!important;display:flex!important;flex-direction:column!important;z-index:999!important;height:100vh!important}
 #page-dashboard.active{display:flex!important}
-#page-public.active{display:flex!important;flex-direction:column}
+
 /* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:8px;font-family:var(--fb);font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;border:none;white-space:nowrap;text-decoration:none}
 .btn-primary{background:var(--acc);color:#fff}.btn-primary:hover{background:#6e80ff;box-shadow:0 0 20px var(--accg)}
@@ -172,7 +174,7 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
 .prev-main{flex:1;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--void)}
 .prev-phone{width:100%;max-width:390px;min-height:580px;display:flex;flex-direction:column;border-radius:0;overflow:hidden}
 /* PUBLIC PAGE */
-#page-public.active{display:flex;flex-direction:column;min-height:100vh}
+
 #pub-wrap{flex:1;display:flex;flex-direction:column;height:100vh}
 /* pub-bar inherits header background from theme via #pub-wrap */
 .tw #pub-bar{background:#075e54}
@@ -422,6 +424,26 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
             <div class="fg"><label class="fl">Email</label><input type="email" class="fi" id="semail" placeholder="seu@email.com"></div>
             <button class="btn btn-primary btn-sm" id="btn-save-settings">Salvar</button>
           </div>
+          <div class="scard" style="border-color:rgba(0,229,195,.2)">
+            <h3 style="color:var(--grn)">📋 Webhook para Leads</h3>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.6">Quando alguém preencher um nó de Captura, os dados serão enviados automaticamente para este URL.<br><span style="color:var(--acc)">Use Google Sheets, Zapier, Make ou n8n.</span></p>
+            <div class="fg"><label class="fl">URL do Webhook (global)</label><input type="text" class="fi" id="global-webhook" placeholder="https://hooks.zapier.com/..."></div>
+            <div style="background:rgba(0,0,0,.3);border-radius:8px;padding:12px;font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.8">
+              <b style="color:var(--grn)">Google Sheets grátis:</b><br>
+              1. Abra uma planilha → Extensões → Apps Script<br>
+              2. Cole o script abaixo → Deploy → Web App → Qualquer pessoa<br>
+              3. Copie a URL e cole aqui ↑
+              <pre style="background:rgba(0,0,0,.4);border-radius:6px;padding:8px;margin-top:8px;font-size:10px;overflow-x:auto;white-space:pre;color:#80e8d0">function doPost(e){
+  var data=JSON.parse(e.postData.contents);
+  var sheet=SpreadsheetApp.getActiveSheet();
+  if(sheet.getLastRow()===0)
+    sheet.appendRow(['Campo','Valor','Tipo','FluxoID','Data']);
+  sheet.appendRow([data.field,data.value,data.type,data.flowId,data.ts]);
+  return ContentService.createTextOutput('ok');
+}</pre>
+            </div>
+            <button class="btn btn-primary btn-sm" id="btn-save-webhook">Salvar Webhook</button>
+          </div>
           <div class="scard">
             <h3>Conta</h3>
             <button class="btn btn-danger btn-sm" id="btn-logout2">Sair da conta</button>
@@ -500,6 +522,7 @@ insert into storage.buckets (id, name, public)
       <span id="flow-ch-badge" style="font-size:11px;padding:3px 10px;border-radius:100px;background:rgba(92,111,255,.1);color:var(--acc);border:1px solid rgba(92,111,255,.2)"></span>
       <button class="btn btn-ghost btn-sm" id="btn-bot-config">🤖 Atendente</button>
       <button class="btn btn-ghost btn-sm" id="btn-preview">👁 Preview</button>
+      <button class="btn btn-ghost btn-sm" id="btn-organize">⊞ Organizar</button>
       <button class="btn btn-ghost btn-sm" id="btn-share">🔗 Compartilhar</button>
       <button class="btn btn-primary btn-sm" id="btn-save">💾 Salvar</button>
     </div>
@@ -546,9 +569,10 @@ insert into storage.buckets (id, name, public)
           <div class="pstitle">Conteúdo</div>
           <div class="pf"><label class="pl" id="p-clbl">Mensagem</label><textarea class="pta" id="p-cont" placeholder="Digite o conteúdo..."></textarea></div>
           <div class="pf" id="p-url-f" style="display:none">
-            <label class="pl">URL da imagem / vídeo / áudio</label>
+            <label class="pl" id="p-url-lbl">URL</label>
             <input type="text" class="pi" id="p-url" placeholder="https://...">
             <button class="btn btn-ghost btn-sm" id="btn-upload-img" style="margin-top:4px;display:none">📁 Subir imagem do PC</button>
+            <button class="btn btn-ghost btn-sm" id="btn-upload-pdf" style="margin-top:4px;display:none">📄 Subir PDF do PC</button>
           </div>
           <div class="pf" id="p-delay-f" style="display:none"><label class="pl">Tempo (segundos)</label><input type="number" class="pi" id="p-delay" min="1" max="300" value="3"></div>
           <div class="pf" id="p-choices-f" style="display:none"><label class="pl">Opções (uma por linha)</label><textarea class="pta" id="p-choices" placeholder="Opção 1&#10;Opção 2&#10;Opção 3" style="min-height:80px"></textarea></div>
@@ -613,21 +637,21 @@ insert into storage.buckets (id, name, public)
   <div id="pub-wrap" class="tw" style="display:flex;flex-direction:column;position:fixed;inset:0;z-index:1">
     <!-- CABEÇALHO FIXO estilo WhatsApp -->
     <div id="pub-bar" style="flex-shrink:0;display:flex;align-items:center;gap:10px;padding:8px 14px">
-      <div class="prev-av" id="pub-av" style="flex-shrink:0">🤖</div>
+      <div class="prev-av" id="pub-av" style="flex-shrink:0;width:38px;height:38px;border-radius:50%;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;font-size:20px;overflow:hidden;border:2px solid rgba(255,255,255,.3)">🤖</div>
       <div style="flex:1;min-width:0">
         <p id="pub-name" style="font-size:14px;font-weight:600;margin:0">Atendente</p>
         <span id="pub-status" style="font-size:11px;opacity:.75">online</span>
       </div>
-      <span title="Chamada de vídeo" style="font-size:19px;cursor:pointer;color:white;margin-left:4px">📹</span>
-      <span title="Chamada de voz" style="font-size:19px;cursor:pointer;color:white;margin-left:12px">📞</span>
-      <span title="Mais opções" style="font-size:22px;cursor:pointer;color:white;margin-left:12px;font-weight:700">⋮</span>
+      <svg title="Chamada de vídeo" style="cursor:pointer;margin-left:8px" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+      <svg title="Chamada de voz" style="cursor:pointer;margin-left:8px" width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+      <svg title="Mais opções" style="cursor:pointer;margin-left:8px" width="24" height="24" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
     </div>
     <!-- MENSAGENS -->
     <div class="prev-msgs" id="pub-msgs" style="flex:1;min-height:0;overflow-y:auto"></div>
     <!-- RODAPÉ FIXO estilo WhatsApp -->
     <div id="pub-in" style="flex-shrink:0;display:flex;align-items:center;gap:6px;padding:7px 10px">
       <span title="Emoji" style="font-size:22px;cursor:pointer;flex-shrink:0">😊</span>
-      <input class="prev-ti" id="pub-input" placeholder="Digite uma mensagem..." autocomplete="off" name="chat-pub" style="flex:1;border-radius:22px">
+      <input class="prev-ti" id="pub-input" placeholder="Digite uma mensagem..." autocomplete="off" name="chat-pub" style="flex:1;border-radius:22px;font-size:15px;font-weight:400">
       <span title="Anexar" style="font-size:20px;cursor:pointer;flex-shrink:0">📎</span>
       <span title="Câmera" style="font-size:20px;cursor:pointer;flex-shrink:0">📷</span>
       <button class="prev-sb" id="pub-send" title="Enviar">🎤</button>
@@ -1216,6 +1240,8 @@ function renderSettings(){
   if(!CU)return;
   document.getElementById('sname').value=CU.name||'';
   document.getElementById('semail').value=CU.email||'';
+  const wh=document.getElementById('global-webhook');
+  if(wh){try{wh.value=localStorage.getItem('mdk_webhook')||'';}catch{}}
   renderAvatarUI();
 }
 function renderAvatarUI(){
@@ -1272,6 +1298,25 @@ async function saveFlow(){
   if(ex>=0)flows[ex]=f;else flows.push(f);
   await persistFlow(f);
   toast('Fluxo salvo! 💾','✓');
+}
+function organizeNodes(){
+  if(!nodes.length){toast('Nenhum nó para organizar','ℹ');return;}
+  // Build order using BFS from root
+  const ordered=buildOrder(nodes,edges);
+  const COLS_MAX=4;
+  const NODE_W=200,NODE_H=100,GAP_X=60,GAP_Y=80;
+  const START_X=60,START_Y=60;
+  // Assign positions in a grid flowing left-to-right, top-to-bottom
+  ordered.forEach((n,i)=>{
+    const col=i%COLS_MAX;
+    const row=Math.floor(i/COLS_MAX);
+    n.x=START_X+col*(NODE_W+GAP_X);
+    n.y=START_Y+row*(NODE_H+GAP_Y);
+  });
+  cOff={x:0,y:0};cZoom=1;
+  renderCanvas();applyT();
+  document.getElementById('zlbl').textContent='100%';
+  toast('Fluxo organizado! ✨','✓');
 }
 async function backToDash(){
   if(nodes.length>0)await saveFlow();
@@ -1350,6 +1395,10 @@ function showProps(n){
   document.getElementById('p-url-f').style.display=['image','video','audio','link','pdf'].includes(n.type)?'flex':'none';
   const upBtn=document.getElementById('btn-upload-img');
   if(upBtn)upBtn.style.display=n.type==='image'?'block':'none';
+  const upPdf=document.getElementById('btn-upload-pdf');
+  if(upPdf)upPdf.style.display=n.type==='pdf'?'block':'none';
+  const urlLbl=document.getElementById('p-url-lbl');
+  if(urlLbl){const lblMap={image:'URL da imagem',video:'URL do vídeo (YouTube)',audio:'URL do áudio (mp3)',link:'URL do link',pdf:'URL do PDF'};urlLbl.textContent=lblMap[n.type]||'URL';}
   document.getElementById('p-url').value=n.url||'';
   document.getElementById('p-delay-f').style.display=n.type==='delay'?'flex':'none';
   document.getElementById('p-delay').value=n.delay||3;
@@ -1660,6 +1709,7 @@ async function checkPublicFlow(){
 }
 function setupPublicFlow(f,fid){
   try{if(f&&f.nodes)sessionStorage.setItem('mdk_pub_'+(f.id||''),JSON.stringify(f));}catch{}
+  curFId=f.id||fid||'pub'; // Set curFId so leads are tagged correctly
   const allNodes=f.nodes||[];
   const meta=allNodes.find(n=>n.id==='_meta')||{};
   pubBotName=f.botName||meta.botName||'Atendente';
@@ -1674,10 +1724,28 @@ function setupPublicFlow(f,fid){
 }
 
 function startPub(){
-  const ordered=buildOrder(pubNodes,pubEdges);pubIdx=0;
+  const ordered=buildOrder(pubNodes,pubEdges);
   const mc=document.getElementById('pub-msgs');if(mc){mc.innerHTML='';mc.scrollTop=0;}
   removeTyping('pub-typing');
   window._pubOrdered=ordered;
+  // Retargeting: resume from last position if user reopened
+  const progressKey='mdk_progress_'+curFId;
+  let resumeIdx=0;
+  try{
+    const saved=sessionStorage.getItem(progressKey);
+    if(saved){
+      const prog=JSON.parse(saved);
+      if(prog&&prog.idx>0&&prog.idx<ordered.length){
+        resumeIdx=prog.idx;
+        // Show "resuming" message
+        const r=document.createElement('div');r.className='pbub bot';
+        r.style.cssText='opacity:.6;font-style:italic;font-size:12px';
+        r.textContent='Continuando de onde você parou...';
+        mc.appendChild(r);
+      }
+    }
+  }catch{}
+  pubIdx=resumeIdx;
   if(ordered.length)setTimeout(()=>nextPub(),400);
 }
 function nextPub(){
@@ -1690,6 +1758,8 @@ function nextPub(){
     return;
   }
   addBubble('pub-msgs',n,'bot');
+  // Save progress for retargeting
+  try{sessionStorage.setItem('mdk_progress_'+curFId,JSON.stringify({idx:pubIdx,ts:Date.now()}));}catch{}
   if(n.type==='question'||n.type==='choices'||n.type==='collect'||n.type==='whatsapp'){
     const inp=document.getElementById('pub-input');
     if(n.type==='question'&&inp){inp.focus();inp.style.borderColor='rgba(92,111,255,.7)';}
@@ -1788,7 +1858,8 @@ function addBubble(containerId,n,who){
         leads.push({value:val,formatted:fmt,type:'whatsapp',label:n.content||'WhatsApp',ts:new Date().toISOString()});
         localStorage.setItem(key,JSON.stringify(leads));
       }catch{}
-      if(n.webhook){fetch(n.webhook,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({flow:curFId,field:'whatsapp',value:val,formatted:fmt,ts:new Date().toISOString()})}).catch(()=>{});}
+      const wppWebhook=n.webhook||(()=>{try{return localStorage.getItem('mdk_webhook')||'';}catch{return '';}})()||'';
+      if(wppWebhook){fetch(wppWebhook,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({field:'whatsapp',value:val,formatted:fmt,type:'whatsapp',flowId:curFId||'pub',ts:new Date().toISOString()})}).catch(()=>{});}
       setTimeout(()=>{if(containerId==='pub-msgs')nextPub();else nextPreview();},500);
     };
     wrapW.appendChild(fldW);wrapW.appendChild(subW);c.appendChild(wrapW);c.scrollTop=c.scrollHeight;return;
@@ -1796,7 +1867,11 @@ function addBubble(containerId,n,who){
   // Collect data node
   if(who!=='usr'&&n.type==='collect'){
     if(n.content){const lb=document.createElement('div');lb.className='pbub bot';lb.textContent=n.content;c.appendChild(lb);}
-    const fld=document.createElement('input');fld.className='collect-field';fld.placeholder=n.placeholder||'Digite aqui...';fld.type=n.inputType||'text';
+    const placeholders={text:'Digite aqui...',email:'Digite seu email...',tel:'Digite seu telefone...',number:'Digite um número...',whatsapp:'(11) 99999-9999'};
+    const fld=document.createElement('input');fld.className='collect-field';
+    fld.placeholder=n.placeholder||placeholders[n.inputType||'text']||'Digite aqui...';
+    fld.type=n.inputType==='whatsapp'?'tel':n.inputType||'text';
+    if(n.inputType==='whatsapp'||n.inputType==='tel')fld.inputMode='numeric';
     const sub=document.createElement('button');sub.className='collect-submit';sub.textContent='Enviar';
     sub.onclick=()=>{
       const val=fld.value.trim();if(!val)return;
@@ -2106,6 +2181,11 @@ document.addEventListener('DOMContentLoaded',async()=>{
     try{localStorage.setItem('mdk_session',JSON.stringify({u:CU,t:SB_TOKEN}));}catch{}
     renderDash();toast('Perfil atualizado','✓');
   });
+  document.getElementById('btn-save-webhook')?.addEventListener('click',()=>{
+    const url=document.getElementById('global-webhook')?.value.trim()||'';
+    try{localStorage.setItem('mdk_webhook',url);}catch{}
+    toast(url?'Webhook salvo! 🔗':'Webhook removido','✓');
+  });
   document.getElementById('btn-logout2')?.addEventListener('click',logout);
   document.getElementById('btn-avatar')?.addEventListener('click',()=>triggerUpload(url=>{CU.avatar=url;try{localStorage.setItem('mdk_session',JSON.stringify({u:CU,t:SB_TOKEN}));}catch{}renderAvatarUI();toast('Foto atualizada','✓');}));
   document.getElementById('btn-copy-sql')?.addEventListener('click',()=>{navigator.clipboard?.writeText(document.getElementById('sql-block').textContent);toast('SQL copiado!','✓');});
@@ -2199,6 +2279,27 @@ document.addEventListener('DOMContentLoaded',async()=>{
   document.getElementById('btn-preview')?.addEventListener('click', openPreview);
   document.getElementById('btn-del-node')?.addEventListener('click', ()=>{ if(selId) deleteNode(selId); });
 
+  // ── PDF upload in props
+  document.getElementById('btn-upload-pdf')?.addEventListener('click',()=>{
+    const inp=document.createElement('input');inp.type='file';inp.accept='.pdf,application/pdf';
+    inp.onchange=e=>{
+      const file=e.target.files[0];if(!file)return;
+      if(file.size>5*1024*1024){toast('PDF muito grande (max 5MB)','❌');return;}
+      const reader=new FileReader();
+      reader.onload=ev=>{
+        const n=nodes.find(x=>x.id===selId);if(!n)return;
+        n.url=ev.target.result;
+        n.data=ev.target.result;
+        n.content=n.content||file.name;
+        document.getElementById('p-url').value='[PDF: '+file.name+']';
+        document.getElementById('p-cont').value=n.content;
+        const b=document.getElementById('fb-'+selId);
+        if(b)b.innerHTML='📄 '+file.name;
+        toast('PDF carregado! 📄','✓');
+      };
+      reader.readAsDataURL(file);
+    };inp.click();
+  });
   // ── Image upload in props
   document.getElementById('btn-upload-img')?.addEventListener('click',()=>{
     const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
