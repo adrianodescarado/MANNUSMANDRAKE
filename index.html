@@ -366,9 +366,16 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
           </div>
           <div class="scard" style="border-color:rgba(92,111,255,0.25)">
             <h3 style="color:var(--acc)">⚙️ Setup Supabase</h3>
-            <div style="background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.3);border-radius:8px;padding:10px;margin-bottom:12px;font-size:12px;color:var(--warn);line-height:1.6">
-              <b>Para desativar confirmação de email:</b><br>
-              Supabase → Authentication → Providers → Email → desative <b>"Confirm email"</b>
+            <div style="background:rgba(0,229,195,0.08);border:1px solid rgba(0,229,195,0.25);border-radius:8px;padding:10px;margin-bottom:8px;font-size:12px;line-height:1.8">
+              <b style="color:var(--grn)">✅ Passo 1 — Liberar seu domínio:</b><br>
+              <span style="color:var(--muted)">Supabase → <b>Settings → API → Allowed Origins (CORS)</b><br>
+              Clique em <b>Add origin</b> e cole:<br>
+              <code style="background:rgba(0,0,0,.4);padding:2px 6px;border-radius:3px;font-size:11px">https://mannusmandrake.vercel.app</code></span>
+            </div>
+            <div style="background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.25);border-radius:8px;padding:10px;margin-bottom:12px;font-size:12px;line-height:1.8">
+              <b style="color:var(--warn)">⚠️ Passo 2 — Desativar confirmação de email:</b><br>
+              <span style="color:var(--muted)">Supabase → <b>Authentication → Providers → Email</b><br>
+              Desative <b>"Confirm email"</b></span>
             </div>
             <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Cole este SQL no <b>Supabase → SQL Editor</b> e clique Run:</p>
             <pre class="sqlblock" id="sql-block">-- 1. TABELA DE FLUXOS
@@ -1431,6 +1438,11 @@ async function checkPublicFlow(){
   if(fdata){
     const f=decodeFlow(fdata);
     if(f&&f.nodes&&f.nodes.length>0){
+      // Clean URL bar — remove raw data for security
+      try{
+        const cleanUrl=location.pathname+(f.id?'?flow='+f.id:'');
+        history.replaceState({},'',cleanUrl);
+      }catch{}
       setupPublicFlow(f);
       return true;
     }
@@ -1771,6 +1783,10 @@ function toast(msg,icon='ℹ'){
 // ═══════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded',async()=>{
   try{
+  // ── Public page buttons (must register BEFORE checkPublicFlow returns early)
+  document.getElementById('pub-send')?.addEventListener('click',pubSend);
+  document.getElementById('pub-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')pubSend();});
+
   // ── Check public flow FIRST (before any other init)
   const isPublic=await checkPublicFlow();
   if(isPublic)return;
@@ -1895,10 +1911,6 @@ document.addEventListener('DOMContentLoaded',async()=>{
       restartPreview();
     });
   });
-
-  // ── Public page
-  document.getElementById('pub-send')?.addEventListener('click',pubSend);
-  document.getElementById('pub-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')pubSend();});
 
   // ── Channel selector
   document.getElementById('btn-close-ch')?.addEventListener('click',()=>document.getElementById('ch-modal').classList.remove('open'));
