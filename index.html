@@ -1865,6 +1865,18 @@ document.addEventListener('DOMContentLoaded',async()=>{
   document.getElementById('btn-bot-remove')?.addEventListener('click',()=>{botAvatar='';const av=document.getElementById('bot-av-preview');av.style.backgroundImage='';av.textContent='🤖';toast('Foto removida','ℹ');});
   document.getElementById('btn-save-bot')?.addEventListener('click',()=>{botName=document.getElementById('bot-name-input').value.trim()||'Atendente';document.getElementById('bot-modal').classList.remove('open');toast('Atendente configurado!','✓');});
 
+  // ── Editor header buttons (previously unwired)
+  document.getElementById('btn-back-dash')?.addEventListener('click', backToDash);
+  document.getElementById('btn-bot-config')?.addEventListener('click', ()=>{
+    document.getElementById('bot-name-input').value = botName||'Atendente';
+    const av = document.getElementById('bot-av-preview');
+    if(botAvatar){ av.style.backgroundImage='url('+botAvatar+')'; av.style.backgroundSize='cover'; av.textContent=''; }
+    else { av.style.backgroundImage=''; av.textContent='🤖'; }
+    document.getElementById('bot-modal').classList.add('open');
+  });
+  document.getElementById('btn-preview')?.addEventListener('click', openPreview);
+  document.getElementById('btn-del-node')?.addEventListener('click', ()=>{ if(selId) deleteNode(selId); });
+
   // ── Keyboard
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape'){
