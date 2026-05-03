@@ -471,6 +471,9 @@ insert into storage.buckets (id, name, public)
           <div class="pf"><label class="pl" id="p-clbl">Mensagem</label><textarea class="pta" id="p-cont" placeholder="Digite o conteúdo..."></textarea></div>
           <div class="pf" id="p-url-f" style="display:none"><label class="pl">URL</label><input type="text" class="pi" id="p-url" placeholder="https://..."></div>
           <div class="pf" id="p-delay-f" style="display:none"><label class="pl">Tempo (segundos)</label><input type="number" class="pi" id="p-delay" min="1" max="300" value="3"></div>
+          <div class="pf" id="p-choices-f" style="display:none"><label class="pl">Opções (uma por linha)</label><textarea class="pta" id="p-choices" placeholder="Opção 1&#10;Opção 2&#10;Opção 3" style="min-height:80px"></textarea></div>
+          <div class="pf" id="p-collect-f" style="display:none"><label class="pl">Tipo de Dado</label><select class="pi" id="p-collect-type"><option value="text">Texto</option><option value="email">Email</option><option value="tel">Telefone</option><option value="number">Número</option></select></div>
+          <div class="pf" id="p-collect-ph-f" style="display:none"><label class="pl">Placeholder</label><input class="pi" id="p-collect-ph" placeholder="Ex: Digite seu email..."></div>
         </div>
         <div class="psec">
           <div class="pstitle">Conexões</div>
@@ -527,13 +530,13 @@ insert into storage.buckets (id, name, public)
 
 <!-- ════════════ PUBLIC PAGE ════════════ -->
 <div id="page-public" class="page">
-  <div id="pub-wrap" class="tw">
-    <div class="prev-bar" id="pub-bar">
+  <div id="pub-wrap" class="tw" style="display:flex;flex-direction:column;height:100vh;overflow:hidden">
+    <div class="prev-bar pub-header" id="pub-bar">
       <div class="prev-av" id="pub-av">🤖</div>
       <div class="prev-info"><p id="pub-name">Atendente</p><span id="pub-status">online</span></div>
     </div>
-    <div class="prev-msgs" id="pub-msgs" style="flex:1;min-height:0"></div>
-    <div class="prev-in" id="pub-in">
+    <div class="prev-msgs" id="pub-msgs" style="flex:1;min-height:0;overflow-y:auto"></div>
+    <div class="prev-in" id="pub-in" style="flex-shrink:0">
       <input class="prev-ti" id="pub-input" placeholder="Digite uma mensagem..." autocomplete="off" name="chat-pub">
       <button class="prev-sb" id="pub-send">➤</button>
     </div>
@@ -737,11 +740,16 @@ let pubNodes=[],pubEdges=[],pubIdx=0,pubBotName='Atendente',pubBotAvatar='';
 const NC={
   message:{dot:'#a3b1ff',lbl:'Mensagem',def:'Olá! Como posso ajudar?'},
   question:{dot:'#80e8d0',lbl:'Pergunta',def:'Qual é a sua resposta?'},
+  choices:{dot:'#00e5c3',lbl:'Múltipla Escolha',def:'Escolha uma opção:'},
   image:{dot:'#ffd080',lbl:'Imagem',def:''},
   video:{dot:'#ff9080',lbl:'Vídeo',def:''},
+  audio:{dot:'#ffb0ff',lbl:'Áudio',def:''},
   link:{dot:'#c080ff',lbl:'Link',def:'Clique aqui'},
+  pdf:{dot:'#ff8060',lbl:'PDF',def:'Baixar documento'},
+  collect:{dot:'#60d0ff',lbl:'Captura de Dados',def:''},
   condition:{dot:'#80c8ff',lbl:'Condição',def:''},
   delay:{dot:'#80ffb0',lbl:'Delay',def:''},
+  confetti:{dot:'#ffd700',lbl:'Confete 🎉',def:'Parabéns!'},
   end:{dot:'#ff8080',lbl:'Fim do Fluxo',def:'Obrigado! Até logo! 👋'}
 };
 const CH_MAP={wpp:{cls:'tw',e:'💬',n:'WhatsApp'},ig:{cls:'ti',e:'📸',n:'Instagram'},msg:{cls:'tm',e:'💙',n:'Messenger'},tg:{cls:'tg',e:'✈️',n:'Telegram'},web:{cls:'twb',e:'🌐',n:'Web Chat'}};
@@ -980,6 +988,7 @@ function renderFlows(cid,list){
         '<button class="btn btn-ghost btn-sm" data-action="edit" data-fid="'+f.id+'">✏️ Editar</button>'+
         '<button class="btn btn-sec btn-sm" data-action="preview" data-fid="'+f.id+'">👁</button>'+
         '<button class="btn btn-ghost btn-sm" data-action="share" data-fid="'+f.id+'">🔗</button>'+
+        '<button class="btn btn-ghost btn-sm" data-action="copy" data-fid="'+f.id+'" title="Duplicar">📋</button>'+
         '<button class="btn btn-ghost btn-sm" data-action="toggle" data-fid="'+f.id+'">'+(f.status==='active'?'⏸':'▶')+'</button>'+
         '<button class="btn btn-danger btn-sm" data-action="delete" data-fid="'+f.id+'">🗑</button>'+
       '</div>'+
@@ -1146,13 +1155,23 @@ function showProps(n){
   document.getElementById('pcontent').style.display='flex';
   document.getElementById('p-type').value=NC[n.type]?.lbl||n.type;
   document.getElementById('p-id').value=n.id;
-  const labs={message:'Texto da mensagem',question:'Texto da pergunta',image:'URL da imagem',video:'URL do vídeo',link:'Texto do link',condition:'Condição',delay:'Tempo (seg)',end:'Mensagem final'};
+  const labs={message:'Texto da mensagem',question:'Texto da pergunta',choices:'Pergunta (múltipla escolha)',image:'URL da imagem',video:'URL do vídeo (YouTube)',audio:'URL do áudio (mp3)',link:'Texto do link',pdf:'Texto do botão',collect:'Instrução para usuário',condition:'Condição',delay:'',end:'Mensagem final',confetti:'Mensagem de parabéns'};
   document.getElementById('p-clbl').textContent=labs[n.type]||'Conteúdo';
+  // Hide content for delay, show for others
+  const hasContent=n.type!=='delay';
+  const pcsec=document.getElementById('pcsec');if(pcsec)pcsec.style.display=hasContent?'flex':'none';
   document.getElementById('p-cont').value=n.content||'';
-  document.getElementById('p-url-f').style.display=['image','video','link'].includes(n.type)?'flex':'none';
+  document.getElementById('p-url-f').style.display=['image','video','audio','link','pdf'].includes(n.type)?'flex':'none';
   document.getElementById('p-url').value=n.url||'';
   document.getElementById('p-delay-f').style.display=n.type==='delay'?'flex':'none';
   document.getElementById('p-delay').value=n.delay||3;
+  // New fields
+  const pcf=document.getElementById('p-choices-f');if(pcf)pcf.style.display=n.type==='choices'?'flex':'none';
+  const pcho=document.getElementById('p-choices');if(pcho)pcho.value=n.options||'Opção 1\nOpção 2';
+  const pcol=document.getElementById('p-collect-f');if(pcol)pcol.style.display=n.type==='collect'?'flex':'none';
+  const pcolPh=document.getElementById('p-collect-ph-f');if(pcolPh)pcolPh.style.display=n.type==='collect'?'flex':'none';
+  const pcolT=document.getElementById('p-collect-type');if(pcolT)pcolT.value=n.inputType||'text';
+  const pcolP=document.getElementById('p-collect-ph');if(pcolP)pcolP.value=n.placeholder||'';
   const out=edges.filter(e=>e.from===n.id);
   const inp=edges.filter(e=>e.to===n.id);
   const connEl=document.getElementById('p-conns');
@@ -1169,6 +1188,9 @@ document.addEventListener('input',ev=>{
   if(ev.target.id==='p-cont'){n.content=ev.target.value;const b=document.getElementById('fb-'+selId);if(b){const p=n.content.length>50?n.content.slice(0,47)+'...':n.content;b.innerHTML=p||'<span style="opacity:.35;font-style:italic">Sem conteúdo</span>';}}
   if(ev.target.id==='p-url')n.url=ev.target.value;
   if(ev.target.id==='p-delay')n.delay=+ev.target.value;
+  if(ev.target.id==='p-choices'){n.options=ev.target.value;}
+  if(ev.target.id==='p-collect-type')n.inputType=ev.target.value;
+  if(ev.target.id==='p-collect-ph')n.placeholder=ev.target.value;
 });
 
 // ═══════════════════════════════════════════════
@@ -1293,7 +1315,7 @@ function redrawEdges(){
     hit.style.cursor='pointer';hit.style.pointerEvents='stroke';
     hit.addEventListener('mouseenter',()=>{vis.setAttribute('stroke','rgba(255,91,91,.85)');vis.setAttribute('stroke-width','2.5');});
     hit.addEventListener('mouseleave',()=>{vis.setAttribute('stroke','rgba(92,111,255,.55)');vis.setAttribute('stroke-width','1.5');});
-    hit.addEventListener('click',e=>{e.stopPropagation();if(confirm('Remover conexão?')){edges=edges.filter(x=>x.id!==ed.id);redrawEdges();if(selId)showProps(nodes.find(n=>n.id===selId));toast('Conexão removida','ℹ');}});
+    hit.addEventListener('click',e=>{e.stopPropagation();edges=edges.filter(x=>x.id!==ed.id);redrawEdges();if(selId)showProps(nodes.find(n=>n.id===selId));toast('Conexão removida','ℹ');});
     svg.appendChild(hit);
   });
 }
@@ -1341,13 +1363,14 @@ function nextPreview(){
     return;
   }
   addBubble('prev-msgs',n,'bot');
-  if(n.type==='question'){
-    // Highlight input to show user should reply
+  // These types pause and wait for user interaction (handled in addBubble)
+  if(n.type==='question'||n.type==='choices'||n.type==='collect'){
     const inp=document.getElementById('prev-input');
-    if(inp){inp.focus();inp.style.borderColor='var(--acc)';}
-    return; // PAUSE — waits for prevSend()
+    if(n.type==='question'&&inp){inp.focus();inp.style.borderColor='var(--acc)';}
+    return; // PAUSE
   }
   if(n.type==='end'){sbTrack(curFId,'complete').catch(()=>{});return;}
+  if(n.type==='confetti')return; // handled in addBubble, auto-continues
   setTimeout(()=>nextPreview(),800);
 }
 function prevSend(){
@@ -1375,20 +1398,6 @@ function applyTheme(phoneId,barId,avId,nameId,statId,cls,avatarOrEmoji,name){
 // ═══════════════════════════════════════════════
 async function checkPublicFlow(){
   const params=new URLSearchParams(location.search);
-  
-  // NEW: handle ?fdata= (self-contained, works without Supabase)
-  const fdata=params.get('fdata');
-  if(fdata){
-    let f=null;
-    try{
-      f=JSON.parse(decodeURIComponent(escape(atob(fdata))));
-    }catch(e){console.warn('fdata decode failed:',e);}
-    if(f&&f.nodes){
-      setupPublicFlow(f);
-      return true;
-    }
-  }
-
   const fid=params.get('flow');
   if(!fid)return false;
   // Show loading
@@ -1442,13 +1451,13 @@ function nextPub(){
     return;
   }
   addBubble('pub-msgs',n,'bot');
-  if(n.type==='question'){
-    // Pause and highlight input
+  if(n.type==='question'||n.type==='choices'||n.type==='collect'){
     const inp=document.getElementById('pub-input');
-    if(inp){inp.focus();inp.style.borderColor='rgba(92,111,255,.7)';}
-    return; // PAUSE — waits for pubSend()
+    if(n.type==='question'&&inp){inp.focus();inp.style.borderColor='rgba(92,111,255,.7)';}
+    return; // PAUSE
   }
   if(n.type==='end')return;
+  if(n.type==='confetti')return; // auto-continues in addBubble
   setTimeout(()=>nextPub(),800);
 }
 function pubSend(){
@@ -1462,27 +1471,107 @@ function pubSend(){
 // ═══════════════════════════════════════════════
 // SHARED BUBBLE RENDERER
 // ═══════════════════════════════════════════════
+function getYTEmbedUrl(url){
+  // Convert youtube watch URL to embed
+  const m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  return m?'https://www.youtube.com/embed/'+m[1]:null;
+}
+function fireConfetti(containerId){
+  const colors=['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#ff922b','#cc5de8'];
+  for(let i=0;i<60;i++){
+    const p=document.createElement('div');
+    p.className='confetti-piece';
+    p.style.cssText='left:'+Math.random()*100+'vw;background:'+colors[Math.floor(Math.random()*colors.length)]+';animation-delay:'+Math.random()*.8+'s;animation-duration:'+(1.5+Math.random())+'s';
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),3000);
+  }
+}
 function addBubble(containerId,n,who){
   const c=document.getElementById(containerId);if(!c)return;
+  // Handle choices node separately (outside bubble)
+  if(who!=='usr'&&n.type==='choices'){
+    // Show question text first
+    if(n.content){
+      const qb=document.createElement('div');qb.className='pbub bot';qb.textContent=n.content;c.appendChild(qb);
+    }
+    // Show choice buttons
+    const wrap=document.createElement('div');wrap.className='choices-wrap';
+    const opts=(n.options||'Opção 1\nOpção 2').split('\n').filter(Boolean);
+    opts.forEach(opt=>{
+      const btn=document.createElement('button');btn.className='choice-btn';btn.textContent=opt.trim();
+      btn.onclick=()=>{
+        // Send as user message and continue flow
+        wrap.remove();
+        addBubble(containerId,{type:'_user',content:opt.trim()},'usr');
+        setTimeout(()=>{
+          if(containerId==='pub-msgs')nextPub();
+          else nextPreview();
+        },500);
+      };
+      wrap.appendChild(btn);
+    });
+    c.appendChild(wrap);c.scrollTop=c.scrollHeight;return;
+  }
+  // Confetti fires without bubble
+  if(who!=='usr'&&n.type==='confetti'){
+    fireConfetti(containerId);
+    if(n.content){const b2=document.createElement('div');b2.className='pbub bot';b2.textContent=n.content||'🎉 Parabéns!';c.appendChild(b2);}
+    c.scrollTop=c.scrollHeight;
+    setTimeout(()=>{if(containerId==='pub-msgs')nextPub();else nextPreview();},800);
+    return;
+  }
+  // Collect data node
+  if(who!=='usr'&&n.type==='collect'){
+    if(n.content){const lb=document.createElement('div');lb.className='pbub bot';lb.textContent=n.content;c.appendChild(lb);}
+    const fld=document.createElement('input');fld.className='collect-field';fld.placeholder=n.placeholder||'Digite aqui...';fld.type=n.inputType||'text';
+    const sub=document.createElement('button');sub.className='collect-submit';sub.textContent='Enviar';
+    sub.onclick=()=>{
+      const val=fld.value.trim();if(!val)return;
+      fld.parentNode.removeChild(fld);sub.parentNode.removeChild(sub);
+      addBubble(containerId,{type:'_user',content:val},'usr');
+      setTimeout(()=>{if(containerId==='pub-msgs')nextPub();else nextPreview();},500);
+    };
+    c.appendChild(fld);c.appendChild(sub);c.scrollTop=c.scrollHeight;return;
+  }
   const b=document.createElement('div');
   b.className='pbub '+(who==='usr'?'usr':'bot');
   if(who==='usr'){b.textContent=n.content||n;c.appendChild(b);c.scrollTop=c.scrollHeight;return;}
   if(n.type==='image'){
     const url=n.url||n.content;
     if(url&&url.startsWith('http')&&!url.includes('exemplo')){
-      const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';a.style.display='block';
       const img=document.createElement('img');img.src=url;img.style.cssText='max-width:100%;border-radius:8px;display:block;cursor:pointer';
-      img.onerror=()=>{a.remove();b.textContent='🖼️ '+(n.content||'Imagem');};
-      a.appendChild(img);b.appendChild(a);
+      img.onclick=()=>window.open(url,'_blank');
+      img.onerror=()=>{b.textContent='🖼️ '+(n.content||'Imagem');};
+      b.style.padding='4px';b.appendChild(img);
     } else {b.style.opacity='.7';b.style.fontStyle='italic';b.textContent='🖼️ '+(n.content||'Imagem');}
+  } else if(n.type==='video'){
+    const url=n.url||n.content;
+    const yt=url?getYTEmbedUrl(url):null;
+    if(yt){
+      const iframe=document.createElement('iframe');
+      iframe.src=yt;iframe.className='video-embed';iframe.allowFullscreen=true;
+      iframe.allow='accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture';
+      b.style.padding='4px';b.style.background='transparent';b.style.border='none';
+      b.appendChild(iframe);
+    } else if(url&&url.startsWith('http')){
+      const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';
+      a.style.cssText='color:inherit;text-decoration:underline;display:flex;align-items:center;gap:6px';
+      a.innerHTML='🎥 '+(n.content||'Assistir vídeo');b.appendChild(a);
+    } else {b.textContent='🎥 '+(n.content||'Vídeo');}
+  } else if(n.type==='audio'){
+    const url=n.url||n.content;
+    if(url&&url.startsWith('http')){
+      const au=document.createElement('audio');au.src=url;au.controls=true;au.className='audio-player';b.appendChild(au);
+    } else {b.textContent='🎙️ '+(n.content||'Áudio');}
+  } else if(n.type==='pdf'){
+    const url=n.url||n.content;
+    const a=document.createElement('a');a.href=url||'#';a.target='_blank';a.rel='noopener';a.className='pdf-btn';
+    a.innerHTML='📄 '+(n.content||'Baixar PDF');b.style.padding='0';b.style.background='transparent';b.style.border='none';b.appendChild(a);
   } else if(n.type==='link'){
     const url=n.url||n.content;
     if(url&&url.startsWith('http')){const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';a.style.cssText='color:inherit;text-decoration:underline;word-break:break-all;display:block';a.textContent=n.content||url;b.appendChild(a);}
     else b.textContent=n.content||url;
-  } else if(n.type==='video'){
-    const url=n.url||n.content;
-    const a=document.createElement('a');a.href=url||'#';a.target='_blank';a.rel='noopener';a.style.cssText='color:inherit;text-decoration:underline;display:flex;align-items:center;gap:6px';a.innerHTML='🎥 '+(n.content||'Assistir vídeo');b.appendChild(a);
-  } else if(n.type==='condition'){b.style.display='none';}
+  } else if(n.type==='condition'||n.type==='_meta'){b.style.display='none';}
   else {
     const txt=n.content||NC[n.type]?.lbl||'';
     if(/(https?:\/\/[^\s]+)/.test(txt))b.innerHTML=txt.replace(/(https?:\/\/[^\s]+)/g,'<a href="$1" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;word-break:break-all">$1</a>');
@@ -1506,23 +1595,19 @@ function removeTyping(id){const t=document.getElementById(id);if(t)t.remove();}
 async function openShare(){
   await saveFlow();
   const fData=(flows||[]).find(f=>f.id===curFId);
-  // Save locally as backup
-  if(fData){try{localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(fData));}catch{}}
-  // Build link: try Supabase ID-based first, show both options
-  const baseUrl=location.href.split('?')[0];
-  const idLink=baseUrl+'?flow='+curFId;
-  // Also build self-contained link with encoded flow data (works without Supabase)
-  let dataLink=idLink; // default
+  // Always save to shared localStorage key (works in same browser as fallback)
   if(fData){
     try{
-      const minimal={id:fData.id,name:fData.name,channel:fData.channel,botName:fData.botName||'Atendente',botAvatar:fData.botAvatar||'',nodes:fData.nodes,edges:fData.edges};
-      const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(minimal))));
-      if(encoded.length<8000){ // URL length limit
-        dataLink=baseUrl+'?fdata='+encoded;
-      }
-    }catch(e){console.warn('Encode failed:',e);}
+      const minimal={id:fData.id,name:fData.name,channel:fData.channel,
+        botName:fData.botName||'Atendente',botAvatar:fData.botAvatar||'',
+        nodes:fData.nodes,edges:fData.edges};
+      localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(minimal));
+    }catch{}
   }
-  document.getElementById('share-link').textContent=dataLink;
+  // Always use short clean URL — never expose data in URL
+  const baseUrl=location.href.split('?')[0];
+  const link=baseUrl+'?flow='+curFId;
+  document.getElementById('share-link').textContent=link;
   // QR
   const cv=document.getElementById('qr-canvas');
   const ctx=cv.getContext('2d');
@@ -1691,36 +1776,17 @@ document.addEventListener('DOMContentLoaded',async()=>{
     if(action==='preview'){const f=(flows||[]).find(x=>x.id===fid);if(f){nodes=f.nodes||[];edges=f.edges||[];curFId=f.id;curChannel=f.channel||'wpp';botName=f.botName||'Atendente';botAvatar=f.botAvatar||'';document.getElementById('flow-title').value=f.name;openPreview();}}
     if(action==='share')openShareFor(fid);
     if(action==='toggle'){const f=(flows||[]).find(x=>x.id===fid);if(f){f.status=f.status==='active'?'draft':'active';persistFlow(f);renderDash();toast(f.status==='active'?'Ativado':'Pausado','ℹ');}}
-    if(action==='delete'){if(confirm('Excluir este fluxo?')){flows=(flows||[]).filter(f=>f.id!==fid);saveLocal();renderDash();toast('Fluxo excluído','ℹ');}}
-  });
-  document.addEventListener('click',e=>{
-    const card=e.target.closest('.fcard');
-    if(card&&!e.target.closest('.fbtns'))openEditor(card.dataset.fid);
-  });
-
-  // ── Editor
-  document.getElementById('btn-back-dash').addEventListener('click',backToDash);
-  document.getElementById('btn-save').addEventListener('click',saveFlow);
-  document.getElementById('btn-preview').addEventListener('click',openPreview);
-  document.getElementById('btn-share').addEventListener('click',openShare);
-  document.getElementById('btn-bot-config').addEventListener('click',openBotConfig);
-  document.getElementById('btn-del-node').addEventListener('click',()=>{if(selId)deleteNode(selId);});
-  // Palette
-  document.querySelectorAll('.epi').forEach(pi=>{
-    pi.addEventListener('mousedown',e=>{e.preventDefault();startPalDrag(e,pi.dataset.type);});
-  });
-  // Canvas
-  const wr=document.getElementById('ecanvas');
-  wr.addEventListener('dblclick',e=>{
-    if(!document.getElementById('page-editor').classList.contains('active'))return;
-    if(e.target.closest('.fnode'))return;
-    const r=wr.getBoundingClientRect();
-    addNode('message',(e.clientX-r.left-cOff.x)/cZoom,(e.clientY-r.top-cOff.y)/cZoom);
-  });
-  wr.addEventListener('mousedown',e=>{
-    if(e.button===1||(e.ctrlKey&&!e.target.closest('.fnode'))){
-      panning=true;panSt={x:e.clientX-cOff.x,y:e.clientY-cOff.y};wr.style.cursor='grabbing';e.preventDefault();
-    } else if(e.target===wr||e.target.id==='ecanvas'||e.target.id==='enodes')clearSel();
+    if(action==='copy'){
+      const orig=(flows||[]).find(x=>x.id===fid);
+      if(orig){
+        const cp={...JSON.parse(JSON.stringify(orig)),id:'f'+Date.now(),name:orig.name+' (cópia)',status:'draft',createdAt:new Date().toISOString()};
+        flows.push(cp);saveLocal();
+        if(SB_TOKEN){persistFlow(cp).catch(()=>{});}
+        renderDash();toast('Fluxo duplicado! 📋','✓');
+      }
+    }
+    if(action==='delete'){if(confirm('Excluir este fluxo?')){flows=(flows||[]).filter(f=>f.id!==fid);saveLocal();if(SB_TOKEN){sbReq('/rest/v1/mandrake_flows?id=eq.'+fid,{method:'DELETE'}).catch(()=>{});}renderDash();toast('Fluxo excluído','ℹ');}}
+     else if(e.target===wr||e.target.id==='ecanvas'||e.target.id==='enodes')clearSel();
   });
   document.addEventListener('mousemove',e=>{if(panning){cOff.x=e.clientX-panSt.x;cOff.y=e.clientY-panSt.y;applyT();redrawEdges();}});
   document.addEventListener('mouseup',()=>{if(panning){panning=false;wr.style.cursor='default';}});
