@@ -1786,11 +1786,11 @@ document.addEventListener('DOMContentLoaded',async()=>{
       }
     }
     if(action==='delete'){if(confirm('Excluir este fluxo?')){flows=(flows||[]).filter(f=>f.id!==fid);saveLocal();if(SB_TOKEN){sbReq('/rest/v1/mandrake_flows?id=eq.'+fid,{method:'DELETE'}).catch(()=>{});}renderDash();toast('Fluxo excluído','ℹ');}}
-     else if(e.target===wr||e.target.id==='ecanvas'||e.target.id==='enodes')clearSel();
   });
   document.addEventListener('mousemove',e=>{if(panning){cOff.x=e.clientX-panSt.x;cOff.y=e.clientY-panSt.y;applyT();redrawEdges();}});
-  document.addEventListener('mouseup',()=>{if(panning){panning=false;wr.style.cursor='default';}});
-  wr.addEventListener('wheel',e=>{e.preventDefault();doZoom(e.deltaY<0?.08:-.08);},{passive:false});
+  const wr=document.getElementById('ecanvas');
+  document.addEventListener('mouseup',()=>{if(panning){panning=false;if(wr)wr.style.cursor='default';}});
+  if(wr)wr.addEventListener('wheel',e=>{e.preventDefault();doZoom(e.deltaY<0?.08:-.08);},{passive:false});
   document.getElementById('btn-zoom-in').addEventListener('click',()=>doZoom(.15));
   document.getElementById('btn-zoom-out').addEventListener('click',()=>doZoom(-.15));
   document.getElementById('btn-zoom-reset').addEventListener('click',resetZoom);
