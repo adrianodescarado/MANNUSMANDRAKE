@@ -695,6 +695,24 @@ async function sbLoadFlows(){
   if(!r.ok||!r.data)return[];
   return r.data.map(f=>({...f,nodes:JSON.parse(f.nodes_json||'[]'),edges:JSON.parse(f.edges_json||'[]'),desc:f.description||''}));
 }
+function encodeFlow(f){
+  try{
+    const min={id:f.id,n:f.name,ch:f.channel||'wpp',bn:f.botName||'Atendente',
+      nd:(f.nodes||[]).map(n=>({id:n.id,t:n.type,x:n.x,y:n.y,c:n.content||'',u:n.url||'',d:n.delay||0,o:n.options||''})),
+      ed:(f.edges||[]).map(e=>({id:e.id,f:e.from,t:e.to}))};
+    return btoa(unescape(encodeURIComponent(JSON.stringify(min))));
+  }catch(e){console.warn('encodeFlow:',e);return null;}
+}
+function decodeFlow(s){
+  try{
+    const d=JSON.parse(decodeURIComponent(escape(atob(s))));
+    return{
+      id:d.id,name:d.n,channel:d.ch,botName:d.bn,botAvatar:'',
+      nodes:(d.nd||[]).map(n=>({id:n.id,type:n.t,x:n.x,y:n.y,content:n.c,url:n.u,delay:n.d,options:n.o})),
+      edges:(d.ed||[]).map(e=>({id:e.id,from:e.f,to:e.t}))
+    };
+  }catch(e){console.warn('decodeFlow:',e);return null;}
+}
 async function sbGetPublicFlow(id){
   // 1) Try Supabase (works across all devices once SQL is run)
   try{
@@ -1178,6 +1196,8 @@ function showProps(n){
   const pcolPh=document.getElementById('p-collect-ph-f');if(pcolPh)pcolPh.style.display=n.type==='collect'?'flex':'none';
   const pcolT=document.getElementById('p-collect-type');if(pcolT)pcolT.value=n.inputType||'text';
   const pcolP=document.getElementById('p-collect-ph');if(pcolP)pcolP.value=n.placeholder||'';
+  const pwh=document.getElementById('p-webhook-f');if(pwh)pwh.style.display=n.type==='collect'?'flex':'none';
+  const pwhv=document.getElementById('p-webhook');if(pwhv)pwhv.value=n.webhook||'';
   const out=edges.filter(e=>e.from===n.id);
   const inp=edges.filter(e=>e.to===n.id);
   const connEl=document.getElementById('p-conns');
@@ -1197,6 +1217,7 @@ document.addEventListener('input',ev=>{
   if(ev.target.id==='p-choices'){n.options=ev.target.value;}
   if(ev.target.id==='p-collect-type')n.inputType=ev.target.value;
   if(ev.target.id==='p-collect-ph')n.placeholder=ev.target.value;
+  if(ev.target.id==='p-webhook')n.webhook=ev.target.value;
 });
 
 // ═══════════════════════════════════════════════
@@ -1404,6 +1425,17 @@ function applyTheme(phoneId,barId,avId,nameId,statId,cls,avatarOrEmoji,name){
 // ═══════════════════════════════════════════════
 async function checkPublicFlow(){
   const params=new URLSearchParams(location.search);
+  
+  // Handle ?fdata= (encoded flow — works cross-browser)
+  const fdata=params.get('fdata');
+  if(fdata){
+    const f=decodeFlow(fdata);
+    if(f&&f.nodes&&f.nodes.length>0){
+      setupPublicFlow(f);
+      return true;
+    }
+  }
+  
   const fid=params.get('flow');
   if(!fid)return false;
   // Show loading
@@ -1482,14 +1514,20 @@ function getYTEmbedUrl(url){
   const m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
   return m?'https://www.youtube.com/embed/'+m[1]:null;
 }
-function fireConfetti(containerId){
-  const colors=['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#ff922b','#cc5de8'];
-  for(let i=0;i<60;i++){
+function fireConfetti(){
+  const colors=['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#ff922b','#cc5de8','#ff69b4','#00e5c3'];
+  for(let i=0;i<80;i++){
     const p=document.createElement('div');
-    p.className='confetti-piece';
-    p.style.cssText='left:'+Math.random()*100+'vw;background:'+colors[Math.floor(Math.random()*colors.length)]+';animation-delay:'+Math.random()*.8+'s;animation-duration:'+(1.5+Math.random())+'s';
+    const size=(Math.random()*8+4)+'px';
+    const shape=Math.random()>.5?'50%':'2px';
+    p.style.cssText=
+      'position:fixed;pointer-events:none;z-index:99999;'+
+      'width:'+size+';height:'+size+';border-radius:'+shape+';'+
+      'left:'+Math.random()*100+'vw;top:-20px;'+
+      'background:'+colors[Math.floor(Math.random()*colors.length)]+';'+
+      'animation:confetti-fall '+(1.5+Math.random()*1.5)+'s ease-in '+(Math.random()*0.8)+'s forwards';
     document.body.appendChild(p);
-    setTimeout(()=>p.remove(),3000);
+    setTimeout(()=>p.remove(),3500);
   }
 }
 function addBubble(containerId,n,who){
@@ -1533,8 +1571,21 @@ function addBubble(containerId,n,who){
     const sub=document.createElement('button');sub.className='collect-submit';sub.textContent='Enviar';
     sub.onclick=()=>{
       const val=fld.value.trim();if(!val)return;
-      fld.parentNode.removeChild(fld);sub.parentNode.removeChild(sub);
+      fld.remove();sub.remove();
       addBubble(containerId,{type:'_user',content:val},'usr');
+      // Save captured data
+      const key='mdk_leads_'+(curFId||'pub');
+      try{
+        const leads=JSON.parse(localStorage.getItem(key)||'[]');
+        leads.push({value:val,type:n.inputType||'text',label:n.content||'',ts:new Date().toISOString()});
+        localStorage.setItem(key,JSON.stringify(leads));
+      }catch{}
+      // Send to webhook if configured
+      if(n.webhook){
+        fetch(n.webhook,{method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({flow:curFId,field:n.content,value:val,ts:new Date().toISOString()})
+        }).catch(()=>{});
+      }
       setTimeout(()=>{if(containerId==='pub-msgs')nextPub();else nextPreview();},500);
     };
     c.appendChild(fld);c.appendChild(sub);c.scrollTop=c.scrollHeight;return;
@@ -1612,11 +1663,20 @@ async function openShare(){
   }
   // Always use short clean URL — never expose data in URL
   const baseUrl=location.href.split('?')[0];
-  const link=baseUrl+'?flow='+curFId;
-  document.getElementById('share-link').textContent=link;
-  // Cache for fallback (same browser)
   const fCache=(flows||[]).find(x=>x.id===curFId);
-  if(fCache){try{localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(fCache));}catch{}}
+  let link=baseUrl+'?flow='+curFId;
+  // Try encoded link (works cross-browser without server)
+  if(fCache){
+    try{
+      const encoded=encodeFlow(fCache);
+      if(encoded&&encoded.length<6000){
+        link=baseUrl+'?fdata='+encoded;
+      }
+    }catch{}
+    // Also cache locally
+    try{localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(fCache));}catch{}
+  }
+  document.getElementById('share-link').textContent=link;
   // QR
   const cv=document.getElementById('qr-canvas');
   const ctx=cv.getContext('2d');
