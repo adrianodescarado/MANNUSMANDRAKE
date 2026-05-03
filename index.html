@@ -1472,6 +1472,10 @@ async function checkPublicFlow(){
   return true;
 }
 function setupPublicFlow(f,fid){
+  setupAndShowPublicFlow(f,fid);
+  return true;
+}
+function setupAndShowPublicFlow(f,fid){
   const allNodes=f.nodes||[];
   const meta=allNodes.find(n=>n.id==='_meta')||{};
   pubBotName=f.botName||meta.botName||'Atendente';
