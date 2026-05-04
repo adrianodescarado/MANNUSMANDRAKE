@@ -119,6 +119,8 @@ let curFId='', pubWebhook='', captureProfile={};
 // ─── DECODE (robust - handles emoji, UTF-8, all chars) ───
 function decodeFlow(s){
   if(!s||s.length<10)return null;
+  // Normalize base64: URLSearchParams converts + to space, restore it
+  s = s.replace(/ /g, '+').replace(/-/g, '+').replace(/_/g, '/');
   try{
     // Method 1: byte-by-byte %XX encoding (handles all UTF-8 chars correctly)
     const raw = atob(s);
@@ -531,9 +533,15 @@ document.getElementById('pub-input').addEventListener('input',()=>{
 
 // ─── MAIN INIT ───
 window.addEventListener('load',()=>{
-  const params=new URLSearchParams(location.search);
-  const fdata=params.get('fdata');
-  const fid=params.get('flow');
+  // Use raw URL parsing to preserve + signs (URLSearchParams converts + to space)
+  const rawSearch = location.search;
+  function getRawParam(name){
+    const rx = new RegExp('[?&]'+name+'=([^&]*)');
+    const m = rawSearch.match(rx);
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+  const fdata = getRawParam('fdata');
+  const fid = getRawParam('flow');
   
   if(!fdata&&!fid){
     // No flow params - redirect to main app
