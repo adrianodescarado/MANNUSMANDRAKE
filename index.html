@@ -250,6 +250,35 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
 /* IMAGE node */
 .img-bubble{max-width:100%;border-radius:10px;display:block;cursor:default!important;pointer-events:none}
 .img-bubble-link{max-width:100%;border-radius:10px;display:block;cursor:pointer}
+/* SCARCITY timer */
+.scarcity-box{background:linear-gradient(135deg,#ff4444,#cc0000);color:white;border-radius:12px;padding:14px 18px;text-align:center;max-width:88%;align-self:flex-start;box-shadow:0 4px 16px rgba(255,68,68,.35)}
+.scarcity-title{font-weight:700;font-size:14px;margin-bottom:6px}
+.scarcity-timer{font-size:28px;font-weight:800;font-family:monospace;letter-spacing:2px}
+.scarcity-sub{font-size:11px;opacity:.85;margin-top:4px}
+/* DISCOUNT / COUPON */
+.discount-box{background:linear-gradient(135deg,#ff9900,#e65c00);color:white;border-radius:12px;padding:14px 18px;max-width:88%;align-self:flex-start}
+.coupon-code{font-size:22px;font-weight:800;letter-spacing:3px;font-family:monospace;background:rgba(255,255,255,.2);padding:6px 14px;border-radius:6px;display:inline-block;margin:6px 0;cursor:pointer;border:2px dashed rgba(255,255,255,.5)}
+.coupon-copy{font-size:11px;opacity:.8;cursor:pointer}
+/* TESTIMONIAL */
+.testimonial-box{background:white;color:#333;border-radius:12px;padding:16px;max-width:88%;align-self:flex-start;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.testimonial-stars{color:#f5a623;font-size:16px;margin-bottom:6px}
+.testimonial-text{font-size:14px;font-style:italic;color:#444;line-height:1.5;margin-bottom:8px}
+.testimonial-author{font-size:12px;font-weight:600;color:#666}
+/* BONUS */
+.bonus-box{background:linear-gradient(135deg,#1b5e20,#388e3c);color:white;border-radius:12px;padding:16px;max-width:88%;align-self:flex-start}
+.bonus-title{font-size:13px;font-weight:700;margin-bottom:8px;opacity:.9}
+.bonus-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;margin-bottom:6px;line-height:1.4}
+/* PRODUCT */
+.product-box{background:white;color:#333;border-radius:14px;overflow:hidden;max-width:88%;align-self:flex-start;box-shadow:0 2px 16px rgba(0,0,0,.1)}
+.product-img{width:100%;height:140px;object-fit:cover;display:block;background:#f0f0f0}
+.product-body{padding:12px 14px}
+.product-name{font-weight:700;font-size:15px;margin-bottom:4px}
+.product-price{color:#e53935;font-size:18px;font-weight:800;margin-bottom:8px}
+.product-cta{display:block;background:#25d366;color:white;text-align:center;padding:10px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;border:none;cursor:pointer;width:100%;font-family:inherit}
+/* LINK WITH IMAGE */
+.linkimg-box{max-width:88%;align-self:flex-start;cursor:pointer}
+.linkimg-box img{width:100%;border-radius:10px 10px 0 0;display:block}
+.linkimg-cta{background:#25d366;color:white;padding:10px 14px;border-radius:0 0 10px 10px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
 /* COLLECT field */
 .collect-wrap{background:rgba(0,0,0,.06);border-radius:10px;padding:10px;margin-top:4px;max-width:85%}
 .collect-field{width:100%;padding:8px 12px;border-radius:8px;border:1.5px solid #ccc;font-size:14px;font-family:inherit;outline:none;box-sizing:border-box}
@@ -424,6 +453,13 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
             <div class="fg"><label class="fl">Email</label><input type="email" class="fi" id="semail" placeholder="seu@email.com"></div>
             <button class="btn btn-primary btn-sm" id="btn-save-settings">Salvar</button>
           </div>
+          <div class="scard" style="border-color:rgba(92,111,255,.2)">
+            <h3 style="color:var(--acc)">📊 Pixels de Rastreamento</h3>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.6">Serão injetados automaticamente no link público.</p>
+            <div class="fg"><label class="fl">Meta Pixel ID</label><input type="text" class="fi" id="meta-pixel" placeholder="Ex: 1234567890123456"></div>
+            <div class="fg"><label class="fl">Google Analytics ID</label><input type="text" class="fi" id="google-gtag" placeholder="Ex: G-XXXXXXXXXX ou UA-XXXXXX"></div>
+            <button class="btn btn-primary btn-sm" id="btn-save-pixels">Salvar Pixels</button>
+          </div>
           <div class="scard" style="border-color:rgba(0,229,195,.2)">
             <h3 style="color:var(--grn)">📋 Webhook para Leads</h3>
             <p style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.6">Quando alguém preencher um nó de Captura, os dados serão enviados automaticamente para este URL.<br><span style="color:var(--acc)">Use Google Sheets, Zapier, Make ou n8n.</span></p>
@@ -545,6 +581,12 @@ insert into storage.buckets (id, name, public)
       <div class="epi" style="color:#60d0ff" data-type="collect"><div class="edot" style="background:#60d0ff"></div>📋 Captura de Dados</div>
       <div class="epi" style="color:#25d366" data-type="whatsapp"><div class="edot" style="background:#25d366"></div>📱 Captura WhatsApp</div>
       <div class="epi" style="color:#ffd700" data-type="confetti"><div class="edot" style="background:#ffd700"></div>🎉 Confete</div>
+      <div class="epi" style="color:#ff4444" data-type="scarcity"><div class="edot" style="background:#ff4444"></div>⏰ Escassez</div>
+      <div class="epi" style="color:#ff9900" data-type="discount"><div class="edot" style="background:#ff9900"></div>🏷️ Cupom/Desconto</div>
+      <div class="epi" style="color:#b388ff" data-type="testimonial"><div class="edot" style="background:#b388ff"></div>⭐ Depoimento</div>
+      <div class="epi" style="color:#66bb6a" data-type="bonus"><div class="edot" style="background:#66bb6a"></div>🎁 Bônus</div>
+      <div class="epi" style="color:#29b6f6" data-type="product"><div class="edot" style="background:#29b6f6"></div>🛍️ Produto</div>
+      <div class="epi" style="color:#ef9a9a" data-type="linkimg"><div class="edot" style="background:#ef9a9a"></div>🔗🖼️ Link c/ Imagem</div>
     </div>
     <div class="ecanvas" id="ecanvas">
       <svg id="esvg"></svg>
@@ -807,20 +849,48 @@ async function sbLoadFlows(){
 }
 function encodeFlow(f){
   try{
-    // Include avatar if it's a URL or small enough base64 (<50KB)
     const rawAv=f.botAvatar||'';
-    const ba=rawAv.startsWith('http')?rawAv:(rawAv.length<65000?rawAv:'');
+    // Include base64 avatar only if small (<50KB), otherwise URL only
+    const ba=rawAv.startsWith('http')?rawAv:(rawAv.length<50000?rawAv:'');
+    // Embed webhook so visitor's browser can send leads to creator's sheet
+    const wh=(()=>{try{return localStorage.getItem('mdk_webhook')||'';}catch{return '';}})()||f.webhook||'';
+    // Embed Meta pixel and Google tag IDs
+    const px=(()=>{try{return localStorage.getItem('mdk_pixel')||'';}catch{return '';}})()||'';
+    const gtag=(()=>{try{return localStorage.getItem('mdk_gtag')||'';}catch{return '';}})()||'';
     const min={
       id:f.id,
       n:f.name,
       ch:f.channel||'wpp',
       bn:f.botName||'Atendente',
       ba:ba,
-      nd:(f.nodes||[]).map(n=>({i:n.id,t:n.type,x:n.x,y:n.y,c:n.content||'',u:n.url||'',d:n.delay||0})),
+      wh:wh,
+      px:px,
+      gt:gtag,
+      nd:(f.nodes||[]).map(n=>({
+        i:n.id,t:n.type,x:n.x,y:n.y,
+        c:n.content||'',u:n.url||'',d:n.delay||0,
+        o:n.options||'',it:n.inputType||'',ph:n.placeholder||'',
+        wk:n.webhook||'',da:n.data||''
+      })),
       ed:(f.edges||[]).map(e=>({i:e.id,f:e.from,t:e.to}))
     };
     return btoa(unescape(encodeURIComponent(JSON.stringify(min))));
   }catch(err){console.warn('encodeFlow:',err);return null;}
+}
+function injectPixel(pixelId){
+  if(!pixelId||document.getElementById('fb-pixel'))return;
+  const s=document.createElement('script');s.id='fb-pixel';
+  s.textContent='!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","'+pixelId+'");fbq("track","PageView");';
+  document.head.appendChild(s);
+}
+function injectGTag(gtagId){
+  if(!gtagId||document.getElementById('g-tag'))return;
+  const s=document.createElement('script');s.id='g-tag';s.async=true;
+  s.src='https://www.googletagmanager.com/gtag/js?id='+gtagId;
+  document.head.appendChild(s);
+  const s2=document.createElement('script');
+  s2.textContent='window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","'+gtagId+'");';
+  document.head.appendChild(s2);
 }
 function decodeFlow(s){
   try{
@@ -832,7 +902,15 @@ function decodeFlow(s){
       channel:d.ch||'wpp',
       botName:d.bn||'Atendente',
       botAvatar:d.ba||'',
-      nodes:(d.nd||[]).map(n=>({id:n.i,type:n.t,x:n.x||0,y:n.y||0,content:n.c||'',url:n.u||'',delay:n.d||0,options:n.o||''})),
+      webhook:d.wh||'',
+      pixel:d.px||'',
+      gtag:d.gt||'',
+      nodes:(d.nd||[]).map(n=>({
+        id:n.i,type:n.t,x:n.x||0,y:n.y||0,
+        content:n.c||'',url:n.u||'',delay:n.d||0,
+        options:n.o||'',inputType:n.it||'',placeholder:n.ph||'',
+        webhook:n.wk||'',data:n.da||''
+      })),
       edges:(d.ed||[]).map(e=>({id:e.i,from:e.f,to:e.t}))
     };
   }catch(err){console.warn('decodeFlow error:',err);return null;}
@@ -899,6 +977,12 @@ const NC={
   condition:{dot:'#80c8ff',lbl:'Condição',def:''},
   delay:{dot:'#80ffb0',lbl:'Delay',def:''},
   confetti:{dot:'#ffd700',lbl:'Confete 🎉',def:'Parabéns!'},
+  scarcity:{dot:'#ff4444',lbl:'Escassez ⏰',def:'Oferta por tempo limitado!'},
+  discount:{dot:'#ff9900',lbl:'Cupom/Desconto 🏷️',def:'Use o cupom abaixo:'},
+  testimonial:{dot:'#b388ff',lbl:'Depoimento ⭐',def:''},
+  bonus:{dot:'#66bb6a',lbl:'Bônus 🎁',def:''},
+  product:{dot:'#29b6f6',lbl:'Produto 🛍️',def:''},
+  linkimg:{dot:'#ef9a9a',lbl:'Link c/ Imagem 🔗🖼️',def:'Clique para saber mais'},
   end:{dot:'#ff8080',lbl:'Fim do Fluxo',def:'Obrigado! Até logo! 👋'}
 };
 const CH_MAP={wpp:{cls:'tw',e:'💬',n:'WhatsApp'},ig:{cls:'ti',e:'📸',n:'Instagram'},msg:{cls:'tm',e:'💙',n:'Messenger'},tg:{cls:'tg',e:'✈️',n:'Telegram'},web:{cls:'twb',e:'🌐',n:'Web Chat'}};
@@ -1242,6 +1326,10 @@ function renderSettings(){
   document.getElementById('semail').value=CU.email||'';
   const wh=document.getElementById('global-webhook');
   if(wh){try{wh.value=localStorage.getItem('mdk_webhook')||'';}catch{}}
+  const px=document.getElementById('meta-pixel');
+  if(px){try{px.value=localStorage.getItem('mdk_pixel')||'';}catch{}}
+  const gt=document.getElementById('google-gtag');
+  if(gt){try{gt.value=localStorage.getItem('mdk_gtag')||'';}catch{}}
   renderAvatarUI();
 }
 function renderAvatarUI(){
@@ -1386,7 +1474,7 @@ function showProps(n){
   document.getElementById('pcontent').style.display='flex';
   document.getElementById('p-type').value=NC[n.type]?.lbl||n.type;
   document.getElementById('p-id').value=n.id;
-  const labs={message:'Texto da mensagem',question:'Texto da pergunta',choices:'Pergunta (múltipla escolha)',image:'URL da imagem',video:'URL do vídeo (YouTube)',audio:'URL do áudio (mp3)',link:'Texto do link',pdf:'Texto do botão',collect:'Instrução para usuário',condition:'Condição',delay:'',end:'Mensagem final',confetti:'Mensagem de parabéns'};
+  const labs={message:'Texto da mensagem',question:'Texto da pergunta',choices:'Pergunta (múltipla escolha)',image:'URL da imagem',video:'URL do vídeo (YouTube)',audio:'URL do áudio (mp3)',link:'Texto do link',pdf:'Texto do botão',collect:'Instrução para usuário',condition:'Condição',delay:'',end:'Mensagem final',confetti:'Mensagem de parabéns',scarcity:'Título da escassez',discount:'Texto + código cupom (use Enter)',testimonial:'Texto do depoimento + autor (Enter)',bonus:'Itens do bônus (um por linha)',product:'Nome + Preço + Texto CTA (Enter)',linkimg:'Texto do botão'};
   document.getElementById('p-clbl').textContent=labs[n.type]||'Conteúdo';
   // Hide content for delay, show for others
   const hasContent=n.type!=='delay';
@@ -1709,7 +1797,12 @@ async function checkPublicFlow(){
 }
 function setupPublicFlow(f,fid){
   try{if(f&&f.nodes)sessionStorage.setItem('mdk_pub_'+(f.id||''),JSON.stringify(f));}catch{}
-  curFId=f.id||fid||'pub'; // Set curFId so leads are tagged correctly
+  curFId=f.id||fid||'pub';
+  // Store webhook in sessionStorage so collect nodes can find it
+  if(f.webhook){try{sessionStorage.setItem('mdk_pub_webhook',f.webhook);}catch{}}
+  // Inject Meta Pixel and Google Tag if present
+  if(f.pixel){injectPixel(f.pixel);}
+  if(f.gtag){injectGTag(f.gtag);}
   const allNodes=f.nodes||[];
   const meta=allNodes.find(n=>n.id==='_meta')||{};
   pubBotName=f.botName||meta.botName||'Atendente';
@@ -1766,8 +1859,11 @@ function nextPub(){
     return; // PAUSE
   }
   if(n.type==='end')return;
-  if(n.type==='confetti')return; // auto-continues in addBubble
-  setTimeout(()=>nextPub(),800);
+  if(n.type==='confetti')return; // handled in addBubble
+  // Visual nodes auto-continue after display delay
+  const autoContinue=['scarcity','discount','testimonial','bonus','product','linkimg'];
+  const delay=autoContinue.includes(n.type)?1200:800;
+  setTimeout(()=>nextPub(),delay);
 }
 function pubSend(){
   const inp=document.getElementById('pub-input');
@@ -1780,6 +1876,13 @@ function pubSend(){
 // ═══════════════════════════════════════════════
 // SHARED BUBBLE RENDERER
 // ═══════════════════════════════════════════════
+function formatTimer(secs){
+  const h=Math.floor(secs/3600);
+  const m=Math.floor((secs%3600)/60);
+  const s=secs%60;
+  if(h>0)return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+}
 function getYTEmbedUrl(url){
   // Convert youtube watch URL to embed
   const m=url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
@@ -1811,7 +1914,7 @@ function addBubble(containerId,n,who){
     }
     // Show choice buttons
     const wrap=document.createElement('div');wrap.className='choices-wrap';
-    const opts=(n.options||'Opção 1\nOpção 2').split('\n').filter(Boolean);
+    const opts=(n.options||'Opção 1\nOpção 2').split('\\n').filter(Boolean);
     opts.forEach(opt=>{
       const btn=document.createElement('button');btn.className='choice-btn';btn.textContent=opt.trim();
       btn.onclick=()=>{
@@ -1858,7 +1961,7 @@ function addBubble(containerId,n,who){
         leads.push({value:val,formatted:fmt,type:'whatsapp',label:n.content||'WhatsApp',ts:new Date().toISOString()});
         localStorage.setItem(key,JSON.stringify(leads));
       }catch{}
-      const wppWebhook=n.webhook||(()=>{try{return localStorage.getItem('mdk_webhook')||'';}catch{return '';}})()||'';
+      const wppWebhook=n.webhook||(()=>{try{return sessionStorage.getItem('mdk_pub_webhook')||localStorage.getItem('mdk_webhook')||'';}catch{return '';}})()||'';
       if(wppWebhook){fetch(wppWebhook,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({field:'whatsapp',value:val,formatted:fmt,type:'whatsapp',flowId:curFId||'pub',ts:new Date().toISOString()})}).catch(()=>{});}
       setTimeout(()=>{if(containerId==='pub-msgs')nextPub();else nextPreview();},500);
     };
@@ -1943,6 +2046,88 @@ function addBubble(containerId,n,who){
     const url=n.url||n.content;
     if(url&&url.startsWith('http')){const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';a.style.cssText='color:inherit;text-decoration:underline;word-break:break-all;display:block';a.textContent=n.content||url;b.appendChild(a);}
     else b.textContent=n.content||url;
+  } else if(n.type==='scarcity'){
+    // Scarcity timer node
+    const secs=parseInt(n.url)||parseInt(n.delay)||300; // seconds from url field or delay
+    const div=document.createElement('div');div.className='scarcity-box';
+    const title=n.content||'Oferta por tempo limitado!';
+    div.innerHTML='<div class="scarcity-title">🔥 '+title+'</div>'+
+      '<div class="scarcity-timer" id="timer-'+n.id+'">'+formatTimer(secs)+'</div>'+
+      '<div class="scarcity-sub">⚡ Não perca esta oportunidade</div>';
+    b.style.padding='0';b.style.background='transparent';b.style.border='none';
+    b.appendChild(div);
+    // Start countdown
+    let remaining=secs;
+    const interval=setInterval(()=>{
+      remaining--;
+      const el=document.getElementById('timer-'+n.id);
+      if(el)el.textContent=formatTimer(remaining);
+      if(remaining<=0){clearInterval(interval);if(el)el.textContent='⌛ EXPIRADO';}
+    },1000);
+  } else if(n.type==='discount'){
+    const code=n.url||'DESCONTO';
+    const pct=n.content||'Use o cupom:';
+    const div=document.createElement('div');div.className='discount-box';
+    div.innerHTML='<div style="font-weight:700;font-size:14px;margin-bottom:8px">🏷️ '+pct+'</div>'+
+      '<div class="coupon-code" id="coup-'+n.id+'" style="cursor:pointer">'+code+'</div>'+
+      '<div class="coupon-copy">👆 Toque para copiar o cupom</div>';
+    b.style.padding='0';b.style.background='transparent';b.style.border='none';
+    b.appendChild(div);
+    // Wire coupon click after append
+    setTimeout(()=>{
+      const cc=document.getElementById('coup-'+n.id);
+      if(cc)cc.addEventListener('click',()=>{
+        navigator.clipboard?.writeText(code).catch(()=>{});
+        const orig=cc.textContent;cc.textContent='✓ Copiado!';
+        setTimeout(()=>{cc.textContent=orig;},2000);
+      });
+    },0);
+  } else if(n.type==='testimonial'){
+    const lines=(n.content||'Produto incrível!\nJoão Silva').split('\n');
+    const text=lines[0]||'';const author=lines[1]||'';
+    const stars=parseInt(n.url)||5;
+    const div=document.createElement('div');div.className='testimonial-box';
+    div.innerHTML='<div class="testimonial-stars">'+'⭐'.repeat(Math.min(5,Math.max(1,stars)))+'</div>'+
+      '<div class="testimonial-text">"'+text+'"</div>'+
+      (author?'<div class="testimonial-author">— '+author+'</div>':'');
+    b.style.padding='0';b.style.background='transparent';b.style.border='none';
+    b.appendChild(div);
+  } else if(n.type==='bonus'){
+    const items=(n.content||'Bônus 1\nBônus 2').split('\n').filter(Boolean);
+    const div=document.createElement('div');div.className='bonus-box';
+    div.innerHTML='<div class="bonus-title">🎁 BÔNUS EXCLUSIVOS</div>'+
+      items.map(i=>'<div class="bonus-item"><span>✅</span><span>'+i+'</span></div>').join('');
+    b.style.padding='0';b.style.background='transparent';b.style.border='none';
+    b.appendChild(div);
+  } else if(n.type==='product'){
+    const imgUrl=n.url||n.data||'';
+    const lines=(n.content||'Produto\nR$ 97,00\nComprar agora').split('\n');
+    const pname=lines[0]||'Produto';const price=lines[1]||'';const cta=lines[2]||'Comprar agora';
+    const link=n.link||'#';
+    const div=document.createElement('div');div.className='product-box';
+    div.innerHTML=(imgUrl?'<img src="'+imgUrl+'" class="product-img" alt="">':'')+
+      '<div class="product-body">'+
+      '<div class="product-name">'+pname+'</div>'+
+      (price?'<div class="product-price">'+price+'</div>':'')+
+      '<a href="'+(link||'#')+'" target="_blank" class="product-cta">'+cta+' →</a>'+
+      '</div>';
+    b.style.padding='0';b.style.background='transparent';b.style.border='none';
+    b.appendChild(div);
+  } else if(n.type==='linkimg'){
+    const imgUrl=n.url||n.data||'';
+    const linkUrl=n.link||n.url||'#';
+    const div=document.createElement('div');div.className='linkimg-box';
+    div.onclick=()=>{if(linkUrl&&linkUrl!=='#')window.open(linkUrl,'_blank');};
+    if(imgUrl&&(imgUrl.startsWith('http')||imgUrl.startsWith('data:'))){
+      const img=document.createElement('img');img.src=imgUrl;
+      img.onerror=()=>img.remove();
+      div.appendChild(img);
+    }
+    const cta=document.createElement('div');cta.className='linkimg-cta';
+    cta.innerHTML='🔗 '+(n.content||'Clique para saber mais')+' <span style="margin-left:auto">→</span>';
+    div.appendChild(cta);
+    b.style.padding='0';b.style.background='transparent';b.style.border='none';
+    b.appendChild(div);
   } else if(n.type==='condition'||n.type==='_meta'){b.style.display='none';}
   else {
     const txt=n.content||NC[n.type]?.lbl||'';
@@ -2185,6 +2370,12 @@ document.addEventListener('DOMContentLoaded',async()=>{
     const url=document.getElementById('global-webhook')?.value.trim()||'';
     try{localStorage.setItem('mdk_webhook',url);}catch{}
     toast(url?'Webhook salvo! 🔗':'Webhook removido','✓');
+  });
+  document.getElementById('btn-save-pixels')?.addEventListener('click',()=>{
+    const px=document.getElementById('meta-pixel')?.value.trim()||'';
+    const gt=document.getElementById('google-gtag')?.value.trim()||'';
+    try{localStorage.setItem('mdk_pixel',px);localStorage.setItem('mdk_gtag',gt);}catch{}
+    toast('Pixels salvos! 📊','✓');
   });
   document.getElementById('btn-logout2')?.addEventListener('click',logout);
   document.getElementById('btn-avatar')?.addEventListener('click',()=>triggerUpload(url=>{CU.avatar=url;try{localStorage.setItem('mdk_session',JSON.stringify({u:CU,t:SB_TOKEN}));}catch{}renderAvatarUI();toast('Foto atualizada','✓');}));
