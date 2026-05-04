@@ -570,13 +570,13 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
           <div class="scard" style="border-color:rgba(92,111,255,0.25)">
             <h3 style="color:var(--acc)">⚙️ Setup Supabase</h3>
             <div style="background:rgba(0,229,195,0.08);border:1px solid rgba(0,229,195,0.25);border-radius:8px;padding:10px;margin-bottom:8px;font-size:12px;line-height:1.8">
-              <b style="color:var(--grn)">✅ Passo 1 — Liberar seu domínio:</b><br>
-              <span style="color:var(--muted)">Supabase → <b>Settings → API → Allowed Origins (CORS)</b><br>
-              Clique em <b>Add origin</b> e cole:<br>
-              <code style="background:rgba(0,0,0,.4);padding:2px 6px;border-radius:3px;font-size:11px">https://mannusmandrake.vercel.app</code></span>
+              <b style="color:var(--grn)">ℹ️ Sobre o Supabase:</b><br>
+              <span style="color:var(--muted)">O Supabase removeu o "Allowed Origins" no plano gratuito.<br>
+              <b>Boa notícia:</b> o link de compartilhamento (<code style="background:rgba(0,0,0,.4);padding:1px 4px;border-radius:3px">?fdata=</code>) funciona <b>sem Supabase</b> em qualquer dispositivo.<br>
+              O Supabase é usado apenas para sincronizar fluxos entre dispositivos.</span>
             </div>
             <div style="background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.25);border-radius:8px;padding:10px;margin-bottom:12px;font-size:12px;line-height:1.8">
-              <b style="color:var(--warn)">⚠️ Passo 2 — Desativar confirmação de email:</b><br>
+              <b style="color:var(--warn)">⚠️ Para desativar confirmação de email:</b><br>
               <span style="color:var(--muted)">Supabase → <b>Authentication → Providers → Email</b><br>
               Desative <b>"Confirm email"</b></span>
             </div>
@@ -880,6 +880,53 @@ insert into storage.buckets (id, name, public)
   </div>
 </div>
 
+<!-- ════════════ TEMPLATES MODAL ════════════ -->
+<div class="cmodal" id="templates-modal">
+  <div class="cbox" style="max-width:680px">
+    <button class="mclose" onclick="document.getElementById('templates-modal').classList.remove('open')">✕</button>
+    <h2>⚡ Templates de Funil</h2>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:20px">Clique em um template para carregar no editor. Personalize e compartilhe.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('vendas')">
+        <div style="font-size:28px;margin-bottom:8px">🔥</div>
+        <h3 style="font-size:14px">Funil de Vendas Completo</h3>
+        <p style="font-size:12px;color:var(--muted)">VSL + captura + escassez + preço. Para infoprodutos.</p>
+        <div style="margin-top:8px;font-size:11px;color:var(--grn)">12 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('quiz')">
+        <div style="font-size:28px;margin-bottom:8px">🎯</div>
+        <h3 style="font-size:14px">Quiz de Segmentação</h3>
+        <p style="font-size:12px;color:var(--muted)">Pergunta perfil + captura + redireciona para oferta.</p>
+        <div style="margin-top:8px;font-size:11px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('lead')">
+        <div style="font-size:28px;margin-bottom:8px">📋</div>
+        <h3 style="font-size:14px">Captura de Leads</h3>
+        <p style="font-size:12px;color:var(--muted)">Nome + Email + WhatsApp com bônus de isca.</p>
+        <div style="margin-top:8px;font-size:11px;color:var(--grn)">6 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('depoimento')">
+        <div style="font-size:28px;margin-bottom:8px">⭐</div>
+        <h3 style="font-size:14px">Prova Social</h3>
+        <p style="font-size:12px;color:var(--muted)">Depoimentos + argumentos + oferta final.</p>
+        <div style="margin-top:8px;font-size:11px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('ecommerce')">
+        <div style="font-size:28px;margin-bottom:8px">🛍️</div>
+        <h3 style="font-size:14px">Lançamento de Produto</h3>
+        <p style="font-size:12px;color:var(--muted)">Antecipação + lançamento + cupom exclusivo.</p>
+        <div style="margin-top:8px;font-size:11px;color:var(--grn)">9 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('suporte')">
+        <div style="font-size:28px;margin-bottom:8px">💬</div>
+        <h3 style="font-size:14px">Atendimento / Suporte</h3>
+        <p style="font-size:12px;color:var(--muted)">Menu de opções + captura + encaminha para humano.</p>
+        <div style="margin-top:8px;font-size:11px;color:var(--grn)">8 nós</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ════════════ SHARE MODAL ════════════ -->
 <div class="cmodal" id="share-modal">
   <div class="cbox" style="max-width:440px">
@@ -987,7 +1034,7 @@ function encodeFlow(f){
         i:n.id,t:n.type,x:n.x,y:n.y,
         c:n.content||'',u:n.url||'',d:n.delay||0,
         o:n.options||'',it:n.inputType||'',ph:n.placeholder||'',
-        wk:n.webhook||'',da:n.data||''
+        wk:n.webhook||'',da:n.data||'',lk:n.link||'',iu:n.imgUrl||''
       })),
       ed:(f.edges||[]).map(e=>({i:e.id,f:e.from,t:e.to}))
     };
@@ -1519,6 +1566,112 @@ async function saveFlow(){
   await persistFlow(f);
   toast('Fluxo salvo! 💾','✓');
 }
+const TEMPLATES={
+  vendas:{name:'Funil de Vendas Completo',channel:'wpp',botName:'Atendente',nodes:[
+    {id:'tv1',type:'image',x:60,y:60,content:'',url:'https://i.imgur.com/placeholder.jpg',delay:0},
+    {id:'tv2',type:'marquee',x:60,y:180,content:'🔥 ATENÇÃO! Oferta por tempo limitado!',url:'',delay:0},
+    {id:'tv3',type:'message',x:60,y:300,content:'Olá! 👋 Você está prestes a descobrir como [resultado desejado] em apenas [tempo].',url:'',delay:2},
+    {id:'tv4',type:'video',x:60,y:420,content:'Assista este vídeo importante:',url:'https://www.youtube.com/watch?v=',delay:3},
+    {id:'tv5',type:'arguments',x:60,y:560,content:'Resultado comprovado por milhares\nAprenda no seu ritmo\nSuporte exclusivo incluído\nGarantia de 7 dias',url:'',delay:0},
+    {id:'tv6',type:'collect',x:60,y:700,content:'📧 Qual é o seu melhor email?',url:'',delay:0,inputType:'email',placeholder:'seu@email.com'},
+    {id:'tv7',type:'whatsapp',x:60,y:840,content:'📱 Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'tv8',type:'testimonial',x:280,y:700,content:'Mudou minha vida! Resultado em 3 dias!\nMaria S., São Paulo',url:'5',delay:0},
+    {id:'tv9',type:'scarcity',x:280,y:840,content:'⚠️ Vagas se esgotando!',url:'600',delay:0},
+    {id:'tv10',type:'price',x:500,y:700,content:'R$ 97,00\nDe R$ 297,00\n🛒 Quero meu acesso agora!',url:'https://hotmart.com/produto',delay:0},
+    {id:'tv11',type:'confetti',x:500,y:840,content:'🎉 Parabéns! Você tomou a melhor decisão!',url:'',delay:0},
+    {id:'tv12',type:'end',x:500,y:960,content:'Verifique seu email! O acesso foi enviado. ✅',url:'',delay:0}
+  ],edges:[
+    {id:'e1',from:'tv1',to:'tv2'},{id:'e2',from:'tv2',to:'tv3'},{id:'e3',from:'tv3',to:'tv4'},
+    {id:'e4',from:'tv4',to:'tv5'},{id:'e5',from:'tv5',to:'tv6'},{id:'e6',from:'tv6',to:'tv7'},
+    {id:'e7',from:'tv7',to:'tv8'},{id:'e8',from:'tv8',to:'tv9'},{id:'e9',from:'tv9',to:'tv10'},
+    {id:'e10',from:'tv10',to:'tv11'},{id:'e11',from:'tv11',to:'tv12'}
+  ]},
+  quiz:{name:'Quiz de Segmentação',channel:'wpp',botName:'Assistente',nodes:[
+    {id:'tq1',type:'message',x:60,y:60,content:'Olá! 👋 Vou fazer 3 perguntas rápidas para te indicar a melhor solução. Pode ser?',url:'',delay:2},
+    {id:'tq2',type:'choices',x:60,y:200,content:'Qual é o seu maior desafio hoje?',url:'',delay:0,options:'Falta de tempo\nFalta de dinheiro\nNão sei por onde começar\nJá tentei e não funcionou'},
+    {id:'tq3',type:'question',x:60,y:360,content:'Há quanto tempo você busca essa solução?',url:'',delay:0},
+    {id:'tq4',type:'choices',x:60,y:500,content:'Qual é o seu objetivo principal?',url:'',delay:0,options:'Ganhar mais dinheiro\nTer mais tempo livre\nMelhorar minha saúde\nAprender algo novo'},
+    {id:'tq5',type:'collect',x:60,y:640,content:'Ótimo! Você é o perfil ideal. Qual é o seu nome?',url:'',delay:0,inputType:'text',placeholder:'Seu nome'},
+    {id:'tq6',type:'whatsapp',x:60,y:780,content:'Perfeito! Qual é o seu WhatsApp para enviarmos a solução?',url:'',delay:0},
+    {id:'tq7',type:'loading',x:60,y:920,content:'🔍 Analisando seu perfil...',url:'',delay:0},
+    {id:'tq8',type:'price',x:60,y:1060,content:'R$ 47,00\nDe R$ 147,00\nVer minha solução personalizada →',url:'https://hotmart.com',delay:0}
+  ],edges:[
+    {id:'eq1',from:'tq1',to:'tq2'},{id:'eq2',from:'tq2',to:'tq3'},{id:'eq3',from:'tq3',to:'tq4'},
+    {id:'eq4',from:'tq4',to:'tq5'},{id:'eq5',from:'tq5',to:'tq6'},{id:'eq6',from:'tq6',to:'tq7'},
+    {id:'eq7',from:'tq7',to:'tq8'}
+  ]},
+  lead:{name:'Captura de Leads',channel:'wpp',botName:'Atendente',nodes:[
+    {id:'tl1',type:'message',x:60,y:60,content:'🎁 Você ganhou acesso gratuito ao nosso material exclusivo!',url:'',delay:2},
+    {id:'tl2',type:'bonus',x:60,y:200,content:'E-book exclusivo (R$ 97 grátis)\nAcesso à comunidade VIP\nTreinamento em vídeo',url:'',delay:0},
+    {id:'tl3',type:'collect',x:60,y:360,content:'Para enviar seu bônus, qual é o seu nome?',url:'',delay:0,inputType:'text',placeholder:'Seu nome'},
+    {id:'tl4',type:'collect',x:60,y:500,content:'Qual é o seu melhor email?',url:'',delay:0,inputType:'email',placeholder:'seu@email.com'},
+    {id:'tl5',type:'whatsapp',x:60,y:640,content:'E o seu WhatsApp para entrarmos em contato?',url:'',delay:0},
+    {id:'tl6',type:'confetti',x:60,y:780,content:'Perfeito! Seus bônus foram enviados para o email! 🎉',url:'',delay:0}
+  ],edges:[
+    {id:'el1',from:'tl1',to:'tl2'},{id:'el2',from:'tl2',to:'tl3'},{id:'el3',from:'tl3',to:'tl4'},
+    {id:'el4',from:'tl4',to:'tl5'},{id:'el5',from:'tl5',to:'tl6'}
+  ]},
+  depoimento:{name:'Prova Social',channel:'wpp',botName:'Atendente',nodes:[
+    {id:'td1',type:'message',x:60,y:60,content:'Você está no lugar certo! Veja o que nossos alunos falam:',url:'',delay:2},
+    {id:'td2',type:'testimonial',x:60,y:200,content:'Em 30 dias já recuperei meu investimento!\nJoão C., Rio de Janeiro',url:'5',delay:0},
+    {id:'td3',type:'testimonial',x:280,y:200,content:'Nunca imaginei que seria tão simples. Recomendo!\nAna L., São Paulo',url:'5',delay:0},
+    {id:'td4',type:'arguments',x:60,y:360,content:'+500 alunos ativos\nResultados em 7 dias\nSuporte 24h no WhatsApp\nGarantia total de 30 dias',url:'',delay:0},
+    {id:'td5',type:'scarcity',x:60,y:500,content:'Turma fechando em breve!',url:'900',delay:0},
+    {id:'td6',type:'price',x:60,y:640,content:'R$ 127,00\nDe R$ 397,00\nQuero garantir minha vaga!',url:'https://hotmart.com',delay:0},
+    {id:'td7',type:'end',x:60,y:780,content:'Acesso liberado! Bem-vindo(a)! 🚀',url:'',delay:0}
+  ],edges:[
+    {id:'etd1',from:'td1',to:'td2'},{id:'etd2',from:'td2',to:'td3'},{id:'etd3',from:'td3',to:'td4'},
+    {id:'etd4',from:'td4',to:'td5'},{id:'etd5',from:'td5',to:'td6'},{id:'etd6',from:'td6',to:'td7'}
+  ]},
+  ecommerce:{name:'Lançamento de Produto',channel:'wpp',botName:'Lançamento',nodes:[
+    {id:'te1',type:'marquee',x:60,y:60,content:'🚀 LANÇAMENTO OFICIAL — Acesso liberado agora!',url:'',delay:0},
+    {id:'te2',type:'message',x:60,y:180,content:'O dia chegou! 🎉 Após meses de desenvolvimento, apresentamos [Nome do Produto].',url:'',delay:2},
+    {id:'te3',type:'video',x:60,y:320,content:'Veja o que você vai ter acesso:',url:'https://www.youtube.com/watch?v=',delay:0},
+    {id:'te4',type:'compare',x:60,y:460,content:'Sem o Produto\nCom o Produto\n❌ Perdendo tempo|✅ Resultado rápido\n❌ Sem suporte|✅ Comunidade VIP\n❌ Tentando sozinho|✅ Metodologia comprovada',url:'',delay:0},
+    {id:'te5',type:'discount',x:60,y:620,content:'Cupom exclusivo de lançamento:',url:'LANCAMENTO50',delay:0},
+    {id:'te6',type:'collect',x:60,y:760,content:'Qual é o seu email para confirmação?',url:'',delay:0,inputType:'email',placeholder:'seu@email.com'},
+    {id:'te7',type:'scarcity',x:60,y:900,content:'⏰ Cupom válido por tempo limitado!',url:'1800',delay:0},
+    {id:'te8',type:'price',x:60,y:1040,content:'R$ 97,00\nDe R$ 297,00\nAtivar cupom e comprar →',url:'https://hotmart.com',delay:0},
+    {id:'te9',type:'end',x:60,y:1180,content:'Aproveite! Acesso vitalício garantido! 🏆',url:'',delay:0}
+  ],edges:[
+    {id:'ee1',from:'te1',to:'te2'},{id:'ee2',from:'te2',to:'te3'},{id:'ee3',from:'te3',to:'te4'},
+    {id:'ee4',from:'te4',to:'te5'},{id:'ee5',from:'te5',to:'te6'},{id:'ee6',from:'te6',to:'te7'},
+    {id:'ee7',from:'te7',to:'te8'},{id:'ee8',from:'te8',to:'te9'}
+  ]},
+  suporte:{name:'Atendimento / Suporte',channel:'wpp',botName:'Suporte',nodes:[
+    {id:'ts1',type:'message',x:60,y:60,content:'Olá! 👋 Sou o assistente virtual. Como posso te ajudar hoje?',url:'',delay:1},
+    {id:'ts2',type:'choices',x:60,y:200,content:'Escolha uma opção:',url:'',delay:0,options:'💰 Quero comprar\n❓ Tenho dúvidas\n📦 Rastrear pedido\n🔄 Suporte técnico\n👤 Falar com humano'},
+    {id:'ts3',type:'collect',x:60,y:380,content:'Qual é o seu nome?',url:'',delay:0,inputType:'text',placeholder:'Seu nome'},
+    {id:'ts4',type:'whatsapp',x:60,y:520,content:'Qual é o seu WhatsApp para retorno?',url:'',delay:0},
+    {id:'ts5',type:'message',x:60,y:660,content:'Perfeito! Nossa equipe entrará em contato em até 1 hora. ✅',url:'',delay:0},
+    {id:'ts6',type:'linkimg',x:280,y:520,content:'Ver catálogo completo',url:'https://seu-site.com',imgUrl:'',link:'https://seu-site.com',delay:0},
+    {id:'ts7',type:'end',x:60,y:800,content:'Atendimento registrado! Obrigado. 😊',url:'',delay:0},
+    {id:'ts8',type:'arguments',x:280,y:380,content:'Resposta em até 1h\nAtendimento humanizado\nSolução garantida',url:'',delay:0}
+  ],edges:[
+    {id:'es1',from:'ts1',to:'ts2'},{id:'es2',from:'ts2',to:'ts3'},{id:'es3',from:'ts3',to:'ts4'},
+    {id:'es4',from:'ts4',to:'ts5'},{id:'es5',from:'ts5',to:'ts7'},{id:'es6',from:'ts2',to:'ts8'},
+    {id:'es7',from:'ts8',to:'ts6'}
+  ]}
+};
+function loadTemplate(key){
+  const tmpl=TEMPLATES[key];if(!tmpl)return;
+  document.getElementById('templates-modal').classList.remove('open');
+  // Create new flow from template
+  curFId='f'+Date.now();
+  curChannel=tmpl.channel||'wpp';
+  botName=tmpl.botName||'Atendente';
+  botAvatar='';
+  nodes=JSON.parse(JSON.stringify(tmpl.nodes));
+  edges=JSON.parse(JSON.stringify(tmpl.edges));
+  document.getElementById('flow-title').value=tmpl.name;
+  const ch=CH_MAP[curChannel]||CH_MAP.wpp;
+  document.getElementById('flow-ch-badge').textContent=ch.e+' '+ch.n;
+  clearSel();renderCanvas();updateHint();
+  // Auto-organize
+  organizeNodes();
+  showPage('editor');
+  toast('Template carregado! Personalize e salve. ✨','✓');
+}
 function organizeNodes(){
   if(!nodes.length){toast('Nenhum nó para organizar','ℹ');return;}
   // Build order using BFS from root
@@ -1612,7 +1765,7 @@ function showProps(n){
   const hasContent=n.type!=='delay';
   const pcsec=document.getElementById('pcsec');if(pcsec)pcsec.style.display=hasContent?'flex':'none';
   document.getElementById('p-cont').value=n.content||'';
-  document.getElementById('p-url-f').style.display=['image','video','audio','link','pdf','linkimg','product'].includes(n.type)?'flex':'none';
+  document.getElementById('p-url-f').style.display=['image','video','audio','link','pdf','product'].includes(n.type)?'flex':'none';
   const upBtn=document.getElementById('btn-upload-img');
   if(upBtn)upBtn.style.display=n.type==='image'?'block':'none';
   const upPdf=document.getElementById('btn-upload-pdf');
@@ -1636,6 +1789,8 @@ function showProps(n){
   const pwhv=document.getElementById('p-webhook');if(pwhv)pwhv.value=n.webhook||'';
   const pld=document.getElementById('p-link-dest-f');if(pld)pld.style.display=n.type==='linkimg'?'flex':'none';
   const pldv=document.getElementById('p-link-dest');if(pldv)pldv.value=n.link||'';
+  const plif=document.getElementById('p-link-img-f');if(plif)plif.style.display=n.type==='linkimg'?'flex':'none';
+  const pliv=document.getElementById('p-link-img');if(pliv)pliv.value=n.imgUrl||'';
   const out=edges.filter(e=>e.from===n.id);
   const inp=edges.filter(e=>e.to===n.id);
   const connEl=document.getElementById('p-conns');
@@ -2307,8 +2462,8 @@ function addBubble(containerId,n,who){
     b.style.padding='0';b.style.background='transparent';b.style.border='none';
     b.appendChild(div);
   } else if(n.type==='linkimg'){
-    const imgUrl=n.url||n.data||'';
-    const linkUrl=n.link||n.url||'#';
+    const imgUrl=n.imgUrl||n.data||n.url||'';
+    const linkUrl=n.link||'#';
     const div=document.createElement('div');div.className='linkimg-box';
     div.onclick=()=>{if(linkUrl&&linkUrl!=='#')window.open(linkUrl,'_blank');};
     if(imgUrl&&(imgUrl.startsWith('http')||imgUrl.startsWith('data:'))){
@@ -2480,31 +2635,20 @@ function removeTyping(id){const t=document.getElementById(id);if(t)t.remove();}
 // ═══════════════════════════════════════════════
 async function openShare(){
   await saveFlow();
-  const fData=(flows||[]).find(f=>f.id===curFId);
-  // Always save to shared localStorage key (works in same browser as fallback)
-  if(fData){
-    try{
-      const minimal={id:fData.id,name:fData.name,channel:fData.channel,
-        botName:fData.botName||'Atendente',botAvatar:fData.botAvatar||'',
-        nodes:fData.nodes,edges:fData.edges};
-      localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(minimal));
-    }catch{}
-  }
-  // Always use short clean URL — never expose data in URL
-  const baseUrl=location.href.split('?')[0];
+  const baseUrl=location.origin+location.pathname;
   const fCache=(flows||[]).find(x=>x.id===curFId);
-  let link=baseUrl+'?flow='+curFId;
-  // Try encoded link (works cross-browser without server)
-  if(fCache){
-    try{
-      const encoded=encodeFlow(fCache);
-      if(encoded&&encoded.length<6000){
-        link=baseUrl+'?fdata='+encoded;
-      }
-    }catch{}
-    // Also cache locally
-    try{localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(fCache));}catch{}
-  }
+  if(!fCache){toast('Salve o fluxo primeiro','❌');return;}
+  // Cache locally as backup
+  try{localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(fCache));}catch{}
+  // ALWAYS encode full flow into URL — works cross-browser without Supabase
+  let link=baseUrl+'?flow='+curFId; // fallback
+  try{
+    const encoded=encodeFlow(fCache);
+    if(encoded){
+      link=baseUrl+'?fdata='+encoded;
+      console.log('[Mandrake] Generated fdata link, length:',link.length);
+    }
+  }catch(e){console.warn('encodeFlow failed:',e);}
   document.getElementById('share-link').textContent=link;
   // QR
   const cv=document.getElementById('qr-canvas');
@@ -2668,6 +2812,9 @@ document.addEventListener('DOMContentLoaded',async()=>{
   document.getElementById('btn-new-flow2')?.addEventListener('click',openChannelSelector);
   document.getElementById('btn-new-flow3')?.addEventListener('click',openChannelSelector);
   document.getElementById('btn-import')?.addEventListener('click',importFlow);
+  document.getElementById('btn-templates')?.addEventListener('click',()=>{
+    document.getElementById('templates-modal').classList.add('open');
+  });
   // Palette: click or drag to add nodes
   document.querySelector('.epal')?.addEventListener('mousedown',ev=>{
     const item=ev.target.closest('[data-type]');
@@ -2843,6 +2990,27 @@ document.addEventListener('DOMContentLoaded',async()=>{
     };inp.click();
   });
 
+  // ── linkimg image upload
+  document.getElementById('btn-upload-linkimg')?.addEventListener('click',()=>{
+    const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+    inp.onchange=e=>{
+      const file=e.target.files[0];if(!file)return;
+      if(file.size>3*1024*1024){toast('Imagem muito grande (max 3MB)','❌');return;}
+      const reader=new FileReader();
+      reader.onload=ev=>{
+        const n=nodes.find(x=>x.id===selId);if(!n)return;
+        n.imgUrl=ev.target.result;
+        const el=document.getElementById('p-link-img');if(el)el.value='[imagem carregada]';
+        toast('Imagem do link carregada! 📸','✓');
+      };reader.readAsDataURL(file);
+    };inp.click();
+  });
+  // sync p-link-img text input
+  document.addEventListener('input',ev2=>{
+    if(ev2.target.id==='p-link-img'){
+      const n2=nodes.find(x=>x.id===selId);if(n2)n2.imgUrl=ev2.target.value;
+    }
+  });
   // ── Keyboard
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape'){
