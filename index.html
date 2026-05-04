@@ -753,6 +753,7 @@ insert into storage.buckets (id, name, public)
       </div>
       <p style="font-size:11px;font-weight:600;margin:12px 0 8px;color:var(--muted)">🎨 Fundo WhatsApp</p>
       <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:5px" id="wpp-bg-picker">
+        <div onclick="setWppPatternBg()" style="height:22px;border-radius:4px;background:#1a1a1a;cursor:pointer;border:2px solid rgba(255,255,255,.2);background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.03) 0px,rgba(255,255,255,.03) 1px,transparent 1px,transparent 8px)" title="Padrão escuro (foto)"></div>
         <div onclick="setWppBg('#ece5dd')" style="height:22px;border-radius:4px;background:#ece5dd;cursor:pointer;border:2px solid rgba(0,0,0,.1)" title="Bege (padrão)"></div>
         <div onclick="setWppBg('#ffffff')" style="height:22px;border-radius:4px;background:#fff;cursor:pointer;border:2px solid rgba(0,0,0,.1)" title="Branco"></div>
         <div onclick="setWppBg('#1a1a2e')" style="height:22px;border-radius:4px;background:#1a1a2e;cursor:pointer;border:2px solid rgba(255,255,255,.2)" title="Escuro"></div>
@@ -1611,7 +1612,7 @@ function showProps(n){
   const hasContent=n.type!=='delay';
   const pcsec=document.getElementById('pcsec');if(pcsec)pcsec.style.display=hasContent?'flex':'none';
   document.getElementById('p-cont').value=n.content||'';
-  document.getElementById('p-url-f').style.display=['image','video','audio','link','pdf'].includes(n.type)?'flex':'none';
+  document.getElementById('p-url-f').style.display=['image','video','audio','link','pdf','linkimg','product'].includes(n.type)?'flex':'none';
   const upBtn=document.getElementById('btn-upload-img');
   if(upBtn)upBtn.style.display=n.type==='image'?'block':'none';
   const upPdf=document.getElementById('btn-upload-pdf');
@@ -2042,13 +2043,20 @@ function toggleTheme(){
     if(btn){btn.textContent='🌙 Escuro';}
   }
 }
-function setWppBg(color){
-  // Apply to preview
+function setWppPatternBg(){
+  // Dark background with subtle dot pattern (like the uploaded photo)
+  const style='#1a1a1a';
   const msgs=document.getElementById('prev-msgs');
-  if(msgs)msgs.style.background=color;
   const pubMsgs=document.getElementById('pub-msgs');
-  if(pubMsgs)pubMsgs.style.background=color;
-  // Store for sharing
+  if(msgs){msgs.style.background=style;msgs.style.backgroundImage='radial-gradient(rgba(255,255,255,0.05) 1px,transparent 1px)';msgs.style.backgroundSize='24px 24px';}
+  if(pubMsgs){pubMsgs.style.background=style;pubMsgs.style.backgroundImage='radial-gradient(rgba(255,255,255,0.05) 1px,transparent 1px)';pubMsgs.style.backgroundSize='24px 24px';}
+  try{localStorage.setItem('mdk_wpp_bg','__pattern_dark');}catch{}
+}
+function setWppBg(color){
+  const msgs=document.getElementById('prev-msgs');
+  const pubMsgs=document.getElementById('pub-msgs');
+  if(msgs){msgs.style.background=color;msgs.style.backgroundImage='';}
+  if(pubMsgs){pubMsgs.style.background=color;pubMsgs.style.backgroundImage='';}
   try{localStorage.setItem('mdk_wpp_bg',color);}catch{}
 }
 function formatTimer(secs){
