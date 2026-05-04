@@ -2721,12 +2721,14 @@ async function openShare(){
   // Cache locally as backup
   try{localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(fCache));}catch{}
   // ALWAYS encode full flow into URL — works cross-browser without Supabase
-  let link=baseUrl+'?flow='+curFId; // fallback
+  // Use /flow.html as dedicated viewer (isolates from dashboard code)
+  const flowBase=location.origin+'/flow.html';
+  let link=flowBase+'?flow='+curFId; // fallback
   try{
     const encoded=encodeFlow(fCache);
     if(encoded){
-      link=baseUrl+'?fdata='+encoded;
-      console.log('[Mandrake] Generated fdata link, length:',link.length);
+      link=flowBase+'?fdata='+encoded;
+      console.log('[Mandrake] Generated link for flow.html, length:',link.length);
     }
   }catch(e){console.warn('encodeFlow failed:',e);}
   document.getElementById('share-link').textContent=link;
