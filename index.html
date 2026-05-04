@@ -2727,7 +2727,8 @@ async function openShare(){
   try{
     const encoded=encodeFlow(fCache);
     if(encoded){
-      link=flowBase+'?fdata='+encoded;
+      // encodeURIComponent preserves + and / in base64 (otherwise URLSearchParams breaks them)
+      link=flowBase+'?fdata='+encodeURIComponent(encoded);
       console.log('[Mandrake] Generated link for flow.html, length:',link.length);
     }
   }catch(e){console.warn('encodeFlow failed:',e);}
