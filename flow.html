@@ -38,6 +38,8 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#075e54;overflow:hid
   padding:6px 8px 6px 14px;
   min-height:42px;gap:4px;
   box-shadow:0 1px 2px rgba(0,0,0,.12);
+  min-width:0;
+  max-width:calc(100% - 100px);
 }
 #pub-input{
   flex:1;border:none;font-size:16px;outline:none;
@@ -53,14 +55,16 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#075e54;overflow:hid
   transition:opacity .15s,width .15s;overflow:hidden;
 }
 #pub-send{
-  width:46px;height:46px;
+  width:46px !important;height:46px !important;
+  min-width:46px !important;min-height:46px !important;
   border-radius:50%;
   background:#00a884;
   color:white;border:none;cursor:pointer;
-  flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0 !important;
+  display:flex !important;align-items:center;justify-content:center;
   box-shadow:0 2px 5px rgba(0,0,0,.25);
   transition:background .2s;
+  margin-left:2px;
 }
 #pub-send:active{transform:scale(.92);}
 
@@ -326,6 +330,49 @@ function sendWebhook(val,type,label){
   fetch(wh,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){});
 }
 
+function normalizeImgUrl(url){
+  if(!url)return '';
+  // Imgur: converter página para imagem direta
+  // imgur.com/a/ID = álbum (não funciona) -> mostrar aviso
+  // imgur.com/ID = página da imagem -> i.imgur.com/ID.jpg
+  if(url.indexOf('imgur.com')>=0){
+    // Já é URL direta: i.imgur.com/xxx.jpg
+    if(url.indexOf('i.imgur.com')>=0)return url;
+    // Álbum: imgur.com/a/ID - não tem URL direta automática
+    if(url.indexOf('/a/')>=0)return '';
+    // Página de imagem: imgur.com/ID -> i.imgur.com/ID.jpg
+    var m=url.match(/imgur\.com\/([a-zA-Z0-9]+)$/);
+    if(m)return 'https://i.imgur.com/'+m[1]+'.jpg';
+  }
+  // Outras URLs: retornar como está se parece ser imagem
+  if(/\.(jpg|jpeg|png|gif|webp|svg)(\?.*)?$/i.test(url))return url;
+  // URL que não termina em extensão de imagem mas parece https
+  if(url.startsWith('http'))return url;
+  return '';
+}
+
+function makeImgElement(url,styles,onErrMsg){
+  var normalized=normalizeImgUrl(url);
+  var wrap=document.createElement('div');
+  if(!normalized){
+    // URL inválida ou álbum imgur - mostrar placeholder com instrução
+    wrap.style.cssText='background:#e8f5e9;border-radius:10px;padding:14px 16px;color:#2e7d32;font-size:13px;line-height:1.5;max-width:100%';
+    wrap.innerHTML='🖼️ '+(onErrMsg||'Imagem')+'<br><span style="font-size:11px;color:#555;margin-top:4px;display:block">Use: <b>i.imgur.com/XXXXX.jpg</b> (link direto)</span>';
+    return wrap;
+  }
+  var img=document.createElement('img');
+  img.src=normalized;
+  if(styles)img.style.cssText=styles;
+  img.setAttribute('referrerpolicy','no-referrer');
+  img.onerror=function(){
+    wrap.innerHTML='';
+    wrap.style.cssText='background:#fff3e0;border-radius:10px;padding:14px 16px;color:#e65100;font-size:13px;line-height:1.5';
+    wrap.innerHTML='⚠️ Imagem não carregou<br><span style="font-size:11px;color:#555;display:block;margin-top:4px">Verifique se a URL é um link direto (termina em .jpg, .png etc)</span>';
+  };
+  wrap.appendChild(img);
+  return wrap;
+}
+
 function addBubble(n,who){
   var c=document.getElementById('pub-msgs');if(!c)return;
   if(who==='usr'){
@@ -385,28 +432,9 @@ function addBubble(n,who){
   var b=document.createElement('div');b.className='pbub bot';
   if(n.type==='image'){
     var url=n.url||n.data||'';
-    if(url){
-      var imgWrap=document.createElement('div');imgWrap.style.cssText='max-width:100%;background:#f5f5f5;border-radius:10px;overflow:hidden;min-height:60px;display:flex;align-items:center;justify-content:center';
-      var img=document.createElement('img');
-      img.src=url;
-      img.style.cssText='max-width:100%;display:block;pointer-events:none';
-      img.setAttribute('crossorigin','anonymous');
-      img.onerror=function(){
-        imgWrap.style.cssText='';
-        imgWrap.innerHTML='';
-        // Fallback: show as clickable link if URL
-        if(url.startsWith('http')){
-          var fb=document.createElement('a');fb.href=url;fb.target='_blank';
-          fb.style.cssText='display:block;padding:12px 16px;background:white;border-radius:10px;color:#075e54;text-decoration:none;font-size:14px';
-          fb.textContent='🖼️ '+(n.content||'Ver imagem');
-          imgWrap.appendChild(fb);
-        }else{imgWrap.textContent='🖼️ Imagem';}
-      };
-      imgWrap.appendChild(img);
-      b.style.cssText='padding:0;background:transparent;border:none';
-      b.appendChild(imgWrap);
-    }
-    else b.textContent='🖼️ Imagem';
+    b.style.cssText='padding:0;background:transparent;border:none;max-width:88%;align-self:flex-start';
+    var imgEl=makeImgElement(url,'max-width:100%;border-radius:10px;display:block',n.content||'Imagem');
+    b.appendChild(imgEl);
   }else if(n.type==='video'){
     var yt=getYT(n.url);
     if(yt){var fr=document.createElement('iframe');fr.src=yt;fr.style.cssText='width:100%;height:200px;border:none;border-radius:10px';fr.allowFullscreen=true;fr.allow='accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture';b.style.cssText='padding:4px;background:transparent;border:none';b.appendChild(fr);}
@@ -422,12 +450,14 @@ function addBubble(n,who){
   }else if(n.type==='linkimg'){
     var liUrl=n.imgUrl||n.data||n.url||'';
     var liLink=n.link||'#';
-    b.style.cssText='max-width:88%;align-self:flex-start;cursor:pointer;border-radius:10px;overflow:hidden;background:#25d366;border:none;padding:0';
+    b.style.cssText='max-width:88%;align-self:flex-start;cursor:pointer;border-radius:10px;overflow:hidden;background:#25d366;border:none;padding:0;display:block';
     b.onclick=function(){if(liLink&&liLink!=='#')window.open(liLink,'_blank');};
-    if(liUrl&&(liUrl.startsWith('http')||liUrl.startsWith('data:'))){
+    // Imagem acima do botão
+    var normalizedLi=normalizeImgUrl(liUrl);
+    if(normalizedLi){
       var liImg=document.createElement('img');
-      liImg.src=liUrl;
-      liImg.setAttribute('crossorigin','anonymous');
+      liImg.src=normalizedLi;
+      liImg.setAttribute('referrerpolicy','no-referrer');
       liImg.style.cssText='width:100%;display:block;max-height:220px;object-fit:cover';
       liImg.onerror=function(){if(liImg.parentNode)liImg.parentNode.removeChild(liImg);};
       b.appendChild(liImg);
