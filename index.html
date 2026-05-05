@@ -1045,12 +1045,22 @@ function encodeFlow(f){
       px:px,
       gt:gtag,
       bg:f.bgColor||'',
-      nd:(f.nodes||[]).map(n=>({
-        i:n.id,t:n.type,x:n.x,y:n.y,
-        c:n.content||'',u:n.url||'',d:n.delay||0,
-        o:n.options||'',it:n.inputType||'',ph:n.placeholder||'',
-        wk:n.webhook||'',da:n.data||'',lk:n.link||'',iu:n.imgUrl||''
-      })),
+      nd:(f.nodes||[]).map(n=>{
+        // Compress base64 images before encoding to keep URL small
+        // Store large images separately in localStorage
+        const imgData=n.data||'';
+        const imgUrl=n.imgUrl||'';
+        const da=imgData.startsWith('data:')&&imgData.length>5000?'__img__'+n.id:imgData;
+        const iu=imgUrl.startsWith('data:')&&imgUrl.length>5000?'__img__'+n.id+'_iu':imgUrl;
+        if(da==='__img__'+n.id)try{localStorage.setItem('mdk_img_'+f.id+'_'+n.id,imgData);}catch(e){}
+        if(iu==='__img__'+n.id+'_iu')try{localStorage.setItem('mdk_img_'+f.id+'_'+n.id+'_iu',imgUrl);}catch(e){}
+        return{
+          i:n.id,t:n.type,x:n.x,y:n.y,
+          c:n.content||'',u:(n.url&&n.url.startsWith('data:')?'':n.url||''),d:n.delay||0,
+          o:n.options||'',it:n.inputType||'',ph:n.placeholder||'',
+          wk:n.webhook||'',da:da,lk:n.link||'',iu:iu
+        };
+      }),
       ed:(f.edges||[]).map(e=>({i:e.id,f:e.from,t:e.to}))
     };
     return btoa(unescape(encodeURIComponent(JSON.stringify(min))));
@@ -3084,18 +3094,27 @@ document.addEventListener('DOMContentLoaded',async()=>{
     const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
     inp.onchange=e=>{
       const file=e.target.files[0];if(!file)return;
-      if(file.size>3*1024*1024){toast('Imagem muito grande (max 3MB)','❌');return;}
       const reader=new FileReader();
       reader.onload=ev=>{
         const n=nodes.find(x=>x.id===selId);if(!n)return;
-        n.data=ev.target.result; // store base64 in node.data
-        n.url=ev.target.result;  // also set url for compatibility
-        document.getElementById('p-url').value='[imagem carregada]';
-        const b=document.getElementById('fb-'+selId);
-        if(b)b.innerHTML='🖼️ Imagem carregada';
-        toast('Imagem carregada! 📸','✓');
-      };
-      reader.readAsDataURL(file);
+        // Compress image to max 600px wide, 75% JPEG quality
+        const tmpImg=new Image();
+        tmpImg.onload=()=>{
+          const maxW=600;
+          const ratio=Math.min(1,maxW/tmpImg.width);
+          const cv=document.createElement('canvas');
+          cv.width=Math.round(tmpImg.width*ratio);
+          cv.height=Math.round(tmpImg.height*ratio);
+          cv.getContext('2d').drawImage(tmpImg,0,0,cv.width,cv.height);
+          const compressed=cv.toDataURL('image/jpeg',0.75);
+          n.data=compressed;n.url=compressed;
+          document.getElementById('p-url').value='[imagem: '+Math.round(compressed.length/1024)+'KB]';
+          const b=document.getElementById('fb-'+selId);
+          if(b)b.innerHTML='🖼️ Imagem ('+Math.round(compressed.length/1024)+'KB)';
+          toast('Imagem carregada! '+Math.round(compressed.length/1024)+'KB','✓');
+        };
+        tmpImg.src=ev.target.result;
+      };reader.readAsDataURL(file);
     };inp.click();
   });
 
@@ -3104,13 +3123,21 @@ document.addEventListener('DOMContentLoaded',async()=>{
     const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
     inp.onchange=e=>{
       const file=e.target.files[0];if(!file)return;
-      if(file.size>3*1024*1024){toast('Imagem muito grande (max 3MB)','❌');return;}
       const reader=new FileReader();
       reader.onload=ev=>{
         const n=nodes.find(x=>x.id===selId);if(!n)return;
-        n.imgUrl=ev.target.result;
-        const el=document.getElementById('p-link-img');if(el)el.value='[imagem carregada]';
-        toast('Imagem do link carregada! 📸','✓');
+        const tmpImg=new Image();
+        tmpImg.onload=()=>{
+          const maxW=600;const ratio=Math.min(1,maxW/tmpImg.width);
+          const cv=document.createElement('canvas');
+          cv.width=Math.round(tmpImg.width*ratio);cv.height=Math.round(tmpImg.height*ratio);
+          cv.getContext('2d').drawImage(tmpImg,0,0,cv.width,cv.height);
+          const compressed=cv.toDataURL('image/jpeg',0.75);
+          n.imgUrl=compressed;
+          const el=document.getElementById('p-link-img');
+          if(el)el.value='[imagem: '+Math.round(compressed.length/1024)+'KB]';
+          toast('Imagem carregada! '+Math.round(compressed.length/1024)+'KB','✓');
+        };tmpImg.src=ev.target.result;
       };reader.readAsDataURL(file);
     };inp.click();
   });
