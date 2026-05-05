@@ -135,14 +135,14 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
 #page-editor.active{display:flex;flex-direction:column;height:100vh;overflow:hidden}
 .ehdr{padding:0 18px;height:54px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bdr);background:var(--deep);flex-shrink:0;gap:14px}
 .etitle{background:transparent;border:none;color:var(--txt);font-family:var(--fd);font-size:16px;font-weight:700;outline:none;min-width:180px}.etitle::placeholder{color:var(--dim)}
-.ebody{flex:1;display:grid;grid-template-columns:192px 1fr 252px;overflow:hidden}
-.epal{background:var(--deep);border-right:1px solid var(--bdr);padding:10px 8px;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:4px;align-content:start;width:192px}
-.eptitle{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:2px;grid-column:1/-1;padding:6px 2px 2px}
-.epi{display:flex;align-items:center;gap:6px;padding:7px 10px;border-radius:8px;cursor:pointer;font-size:11px;font-weight:600;transition:all .15s;border:none;user-select:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ebody{flex:1;display:grid;grid-template-columns:220px 1fr 252px;overflow:hidden}
+.epal{background:var(--deep);border-right:1px solid var(--bdr);padding:10px 8px;overflow-y:auto;display:flex;flex-wrap:wrap;gap:4px;align-content:start;width:220px;box-sizing:border-box}
+.eptitle{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:2px;width:100%;flex-basis:100%;padding:6px 2px 2px}
+.epi{display:flex;align-items:center;gap:5px;padding:6px 8px;border-radius:7px;cursor:pointer;font-size:11px;font-weight:600;transition:all .15s;border:none;user-select:none;white-space:nowrap;overflow:hidden;width:97px;box-sizing:border-box;flex-shrink:0}
 .epi:hover{opacity:.85;transform:scale(.97)}
 .epi:active{transform:scale(.94)}
 .edot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.ecanvas{position:relative;flex:1;overflow:hidden;background:var(--void);background-image:radial-gradient(rgba(100,120,255,0.07) 1px,transparent 1px);background-size:28px 28px;cursor:default}
+.ecanvas{position:relative;flex:1;overflow:hidden;background:var(--void)!important;background-image:radial-gradient(rgba(100,120,255,0.07) 1px,transparent 1px)!important;background-size:28px 28px;cursor:default;z-index:1}
 #esvg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5}
 #enodes{position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;transform-origin:0 0}
 .chint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0;text-align:center;color:var(--dim);font-size:13px}
@@ -653,7 +653,7 @@ insert into storage.buckets (id, name, public)
   </div>
   <div class="ebody">
     <div class="epal">
-      <div style="font-size:9px;letter-spacing:2px;color:var(--acc);font-weight:700;margin-bottom:2px;grid-column:1/-1;padding-bottom:4px;border-bottom:1px solid var(--bdr)">ADICIONAR NÓ</div>
+      <div style="font-size:9px;letter-spacing:2px;color:var(--acc);font-weight:700;margin-bottom:2px;width:100%;flex-basis:100%;padding-bottom:4px;border-bottom:1px solid var(--bdr)">ADICIONAR NÓ</div>
       <div class="epi" style="background:#0097b2;color:white;border-radius:8px" data-type="message">💬 Mensagem</div>
       <div class="epi" style="background:#7b2d8b;color:white;border-radius:8px" data-type="question">❓ Pergunta</div>❓ Pergunta</div>
       <div class="epi" style="background:#e67e22;color:white;border-radius:8px" data-type="image">🖼️ Imagem</div>🖼️ Imagem</div>
@@ -662,7 +662,7 @@ insert into storage.buckets (id, name, public)
       <div class="epi" style="background:#2980b9;color:white;border-radius:8px" data-type="condition">⚡ Condição</div>⚡ Condição</div>
       <div class="epi" style="background:#27ae60;color:white;border-radius:8px" data-type="delay">⏳ Delay</div>⏳ Delay</div>
       <div class="epi" style="background:#922b21;color:white;border-radius:8px" data-type="end">🏁 Fim</div>🏁 Fim do Fluxo</div>
-      <div style="font-size:9px;letter-spacing:1.5px;color:var(--dim);padding:10px 2px 3px;text-transform:uppercase;font-weight:700;border-top:1px solid var(--bdr);margin-top:4px;grid-column:1/-1">⚡ Avançado</div>
+      <div style="font-size:9px;letter-spacing:1.5px;color:var(--dim);padding:8px 2px 3px;text-transform:uppercase;font-weight:700;border-top:1px solid var(--bdr);margin-top:4px;width:100%;flex-basis:100%">⚡ Avançado</div>
       <div class="epi" style="background:#009688;color:white;border-radius:8px" data-type="choices">☑️ Múltipla</div>☑️ Múltipla Escolha</div>
       <div class="epi" style="background:#c2185b;color:white;border-radius:8px" data-type="audio">🎙️ Áudio</div>🎙️ Áudio</div>
       <div class="epi" style="background:#e64a19;color:white;border-radius:8px" data-type="pdf">📄 PDF</div>📄 PDF</div>
@@ -675,7 +675,7 @@ insert into storage.buckets (id, name, public)
       <div class="epi" style="background:#2e7d32;color:white;border-radius:8px" data-type="bonus">🎁 Bônus</div>🎁 Bônus</div>
       <div class="epi" style="background:#01579b;color:white;border-radius:8px" data-type="product">🛍️ Produto</div>🛍️ Produto</div>
       <div class="epi" style="background:#b71c1c;color:white;border-radius:8px" data-type="linkimg">🔗🖼️ LinkImg</div>🔗🖼️ Link c/ Imagem</div>
-      <div style="font-size:9px;letter-spacing:1.5px;color:var(--dim);padding:10px 2px 3px;text-transform:uppercase;font-weight:700;border-top:1px solid var(--bdr);margin-top:4px;grid-column:1/-1">🎨 Conteúdo</div>
+      <div style="font-size:9px;letter-spacing:1.5px;color:var(--dim);padding:8px 2px 3px;text-transform:uppercase;font-weight:700;border-top:1px solid var(--bdr);margin-top:4px;width:100%;flex-basis:100%">🎨 Conteúdo</div>
       <div class="epi" style="background:#f9a825;color:white;border-radius:8px" data-type="title">Aa Título</div>Aa Título</div>
       <div class="epi" style="background:#455a64;color:white;border-radius:8px" data-type="text">📝 Texto</div>📝 Texto</div>
       <div class="epi" style="background:#00695c;color:white;border-radius:8px" data-type="faq">❓ FAQ</div>❓ FAQ</div>
