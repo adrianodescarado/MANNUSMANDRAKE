@@ -1644,7 +1644,12 @@ async function saveFlow(){
 
     desc:[...new Set(nodes.map(n=>NC[n.type]?.lbl))].filter(Boolean).slice(0,3).join(', ')||'Fluxo conversacional',
     status:ex>=0?flows[ex].status:'draft',
-    bgColor:(function(){try{return localStorage.getItem('mdk_wpp_bg')||'';}catch(e){return '';}}()),
+    bgColor:(function(){
+      // Priority: 1) existing flow's bgColor, 2) localStorage
+      const exFlow=(flows||[]).find(f=>f.id===curFId);
+      if(exFlow&&exFlow.bgColor)return exFlow.bgColor;
+      try{return localStorage.getItem('mdk_wpp_bg')||'';}catch(e){return '';}
+    }()),
     nodes:JSON.parse(JSON.stringify(nodes)),
     edges:JSON.parse(JSON.stringify(edges)),
     createdAt:ex>=0?flows[ex].createdAt:new Date().toISOString(),
@@ -3006,24 +3011,21 @@ document.addEventListener('DOMContentLoaded',async()=>{
   document.getElementById('btn-prev-share')?.addEventListener('click',openShare);
   document.getElementById('btn-restart')?.addEventListener('click',restartPreview);
   document.getElementById('btn-save-bg')?.addEventListener('click',async()=>{
-    // Get current background color from localStorage
     const bg=localStorage.getItem('mdk_wpp_bg')||'';
-    // Save into the current flow object
+    // 1. Save into all copies of the flow object
     const ex=(flows||[]).findIndex(f=>f.id===curFId);
-    if(ex>=0){
-      flows[ex].bgColor=bg;
-      await persistFlow(flows[ex]);
-      toast('Fundo salvo no fluxo! 🎨','✓');
-      const sb=document.getElementById('btn-save-bg');
-      if(sb){sb.style.background='';sb.style.color='';sb.textContent='💾 Salvar Fundo';}
-    } else {
-      // Flow not saved yet - save it first
-      await saveFlow();
-      const ex2=(flows||[]).findIndex(f=>f.id===curFId);
-      if(ex2>=0){flows[ex2].bgColor=bg;await persistFlow(flows[ex2]);}
-      toast('Fluxo e fundo salvos! 🎨','✓');
-      const sb2=document.getElementById('btn-save-bg');
-      if(sb2){sb2.style.background='';sb2.style.color='';sb2.textContent='💾 Salvar Fundo';}
+    if(ex>=0){flows[ex].bgColor=bg;}
+    // 2. Call saveFlow() to persist everything including bgColor
+    await saveFlow();
+    // 3. Show feedback
+    toast('Fundo salvo! Agora clique em 🔗 Compartilhar para gerar novo link 🎨','✓');
+    const sb=document.getElementById('btn-save-bg');
+    if(sb){sb.style.background='';sb.style.color='';sb.textContent='💾 Salvar Fundo';}
+    // 4. Flash the share button to guide user
+    const shareBtn=document.getElementById('btn-prev-share');
+    if(shareBtn){
+      shareBtn.style.background='var(--grn)';shareBtn.style.color='#000';
+      setTimeout(()=>{shareBtn.style.background='';shareBtn.style.color='';},3000);
     }
   });
   document.getElementById('prev-send')?.addEventListener('click',prevSend);
