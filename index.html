@@ -1028,9 +1028,8 @@ async function sbLoadFlows(){
 function encodeFlow(f){
   try{
     const rawAv=f.botAvatar||'';
-    // ONLY include avatar if it's a regular URL (http/https)
-    // Base64 avatars bloat the URL and break decoding in browsers
-    const ba=rawAv.startsWith('http')?rawAv:'';
+    // Include avatar: URL always, base64 only if compressed small (<15KB)
+    const ba=rawAv.startsWith('http')?rawAv:(rawAv.length<20000?rawAv:'');
     // Embed webhook so visitor's browser can send leads to creator's sheet
     const wh=(()=>{try{return localStorage.getItem('mdk_webhook')||'';}catch{return '';}})()||f.webhook||'';
     // Embed Meta pixel and Google tag IDs
@@ -1045,6 +1044,7 @@ function encodeFlow(f){
       wh:wh,
       px:px,
       gt:gtag,
+      bg:f.bgColor||'',
       nd:(f.nodes||[]).map(n=>({
         i:n.id,t:n.type,x:n.x,y:n.y,
         c:n.content||'',u:n.url||'',d:n.delay||0,
@@ -1625,8 +1625,10 @@ async function saveFlow(){
   const ex=(flows||[]).findIndex(f=>f.id===curFId);
   const f={
     id:curFId,name,channel:curChannel,botName,botAvatar,
+
     desc:[...new Set(nodes.map(n=>NC[n.type]?.lbl))].filter(Boolean).slice(0,3).join(', ')||'Fluxo conversacional',
     status:ex>=0?flows[ex].status:'draft',
+    bgColor:(function(){try{return localStorage.getItem('mdk_wpp_bg')||'';}catch(e){return '';}}()),
     nodes:JSON.parse(JSON.stringify(nodes)),
     edges:JSON.parse(JSON.stringify(edges)),
     createdAt:ex>=0?flows[ex].createdAt:new Date().toISOString(),
@@ -3013,7 +3015,31 @@ document.addEventListener('DOMContentLoaded',async()=>{
   // ── Bot config modal
   document.getElementById('btn-close-bot')?.addEventListener('click',()=>document.getElementById('bot-modal').classList.remove('open'));
   document.getElementById('bot-modal')?.addEventListener('click',e=>{if(e.target===e.currentTarget)document.getElementById('bot-modal').classList.remove('open');});
-  document.getElementById('btn-bot-photo')?.addEventListener('click',()=>triggerUpload(url=>{botAvatar=url;const av=document.getElementById('bot-av-preview');av.style.backgroundImage='url('+url+')';av.style.backgroundSize='cover';av.textContent='';toast('Foto atualizada','✓');}));
+  document.getElementById('btn-bot-photo')?.addEventListener('click',()=>{
+    const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+    inp.onchange=e=>{
+      const file=e.target.files[0];if(!file)return;
+      const reader=new FileReader();
+      reader.onload=ev=>{
+        // Compress to 96x96 JPEG for avatar
+        const tmpImg=new Image();
+        tmpImg.onload=()=>{
+          const cv=document.createElement('canvas');cv.width=96;cv.height=96;
+          const ctx=cv.getContext('2d');
+          // Crop square from center
+          const sz=Math.min(tmpImg.width,tmpImg.height);
+          const ox=(tmpImg.width-sz)/2,oy=(tmpImg.height-sz)/2;
+          ctx.drawImage(tmpImg,ox,oy,sz,sz,0,0,96,96);
+          const compressed=cv.toDataURL('image/jpeg',0.75);
+          botAvatar=compressed;
+          const av=document.getElementById('bot-av-preview');
+          av.style.backgroundImage='url('+compressed+')';av.style.backgroundSize='cover';av.textContent='';
+          toast('Foto do atendente salva! ('+Math.round(compressed.length/1024)+'KB)','✓');
+        };
+        tmpImg.src=ev.target.result;
+      };reader.readAsDataURL(file);
+    };inp.click();
+  });
   document.getElementById('btn-bot-remove')?.addEventListener('click',()=>{botAvatar='';const av=document.getElementById('bot-av-preview');av.style.backgroundImage='';av.textContent='🤖';toast('Foto removida','ℹ');});
   document.getElementById('btn-save-bot')?.addEventListener('click',()=>{botName=document.getElementById('bot-name-input').value.trim()||'Atendente';document.getElementById('bot-modal').classList.remove('open');toast('Atendente configurado!','✓');});
 
