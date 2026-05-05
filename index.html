@@ -135,14 +135,14 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
 #page-editor.active{display:flex;flex-direction:column;height:100vh;overflow:hidden}
 .ehdr{padding:0 18px;height:54px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bdr);background:var(--deep);flex-shrink:0;gap:14px}
 .etitle{background:transparent;border:none;color:var(--txt);font-family:var(--fd);font-size:16px;font-weight:700;outline:none;min-width:180px}.etitle::placeholder{color:var(--dim)}
-.ebody{flex:1;display:grid;grid-template-columns:220px 1fr 252px;overflow:hidden}
-.epal{background:var(--deep);border-right:1px solid var(--bdr);padding:10px 8px;overflow-y:auto;display:flex;flex-wrap:wrap;gap:4px;align-content:start;width:220px;box-sizing:border-box}
-.eptitle{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:2px;width:100%;flex-basis:100%;padding:6px 2px 2px}
-.epi{display:flex;align-items:center;gap:5px;padding:6px 8px;border-radius:7px;cursor:pointer;font-size:11px;font-weight:600;transition:all .15s;border:none;user-select:none;white-space:nowrap;overflow:hidden;width:97px;box-sizing:border-box;flex-shrink:0}
+.ebody{flex:1;display:grid;grid-template-columns:200px 1fr 252px;overflow:hidden;min-height:0;min-width:0}
+.epal{background:var(--deep);border-right:1px solid var(--bdr);padding:10px;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:3px;width:200px;min-width:200px;max-width:200px}
+.eptitle{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:4px;padding:4px 0 2px;border-bottom:1px solid var(--bdr)}
+.epi{display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;transition:all .15s;border:none;user-select:none;color:white;width:100%}
 .epi:hover{opacity:.85;transform:scale(.97)}
 .epi:active{transform:scale(.94)}
 .edot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.ecanvas{position:relative;flex:1;overflow:hidden;background:var(--void)!important;background-image:radial-gradient(rgba(100,120,255,0.07) 1px,transparent 1px)!important;background-size:28px 28px;cursor:default;z-index:1}
+.ecanvas{position:relative;overflow:hidden;background:var(--void);background-image:radial-gradient(rgba(100,120,255,0.07) 1px,transparent 1px);background-size:28px 28px;cursor:default;min-width:0;min-height:0}
 #esvg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5}
 #enodes{position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;transform-origin:0 0}
 .chint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0;text-align:center;color:var(--dim);font-size:13px}
@@ -653,44 +653,44 @@ insert into storage.buckets (id, name, public)
   </div>
   <div class="ebody">
     <div class="epal">
-      <div style="font-size:9px;letter-spacing:2px;color:var(--acc);font-weight:700;margin-bottom:2px;width:100%;flex-basis:100%;padding-bottom:4px;border-bottom:1px solid var(--bdr)">ADICIONAR NÓ</div>
-      <div class="epi" style="background:#0097b2;color:white;border-radius:8px" data-type="message">💬 Mensagem</div>
-      <div class="epi" style="background:#7b2d8b;color:white;border-radius:8px" data-type="question">❓ Pergunta</div>❓ Pergunta</div>
-      <div class="epi" style="background:#e67e22;color:white;border-radius:8px" data-type="image">🖼️ Imagem</div>🖼️ Imagem</div>
-      <div class="epi" style="background:#c0392b;color:white;border-radius:8px" data-type="video">🎥 Vídeo</div>🎥 Vídeo</div>
-      <div class="epi" style="background:#8e44ad;color:white;border-radius:8px" data-type="link">🔗 Link</div>🔗 Link</div>
-      <div class="epi" style="background:#2980b9;color:white;border-radius:8px" data-type="condition">⚡ Condição</div>⚡ Condição</div>
-      <div class="epi" style="background:#27ae60;color:white;border-radius:8px" data-type="delay">⏳ Delay</div>⏳ Delay</div>
-      <div class="epi" style="background:#922b21;color:white;border-radius:8px" data-type="end">🏁 Fim</div>🏁 Fim do Fluxo</div>
-      <div style="font-size:9px;letter-spacing:1.5px;color:var(--dim);padding:8px 2px 3px;text-transform:uppercase;font-weight:700;border-top:1px solid var(--bdr);margin-top:4px;width:100%;flex-basis:100%">⚡ Avançado</div>
-      <div class="epi" style="background:#009688;color:white;border-radius:8px" data-type="choices">☑️ Múltipla</div>☑️ Múltipla Escolha</div>
-      <div class="epi" style="background:#c2185b;color:white;border-radius:8px" data-type="audio">🎙️ Áudio</div>🎙️ Áudio</div>
-      <div class="epi" style="background:#e64a19;color:white;border-radius:8px" data-type="pdf">📄 PDF</div>📄 PDF</div>
-      <div class="epi" style="background:#0288d1;color:white;border-radius:8px" data-type="collect">📋 Captura</div>📋 Captura de Dados</div>
-      <div class="epi" style="background:#128c7e;color:white;border-radius:8px" data-type="whatsapp">📱 WhatsApp</div>📱 Captura WhatsApp</div>
-      <div class="epi" style="background:#f57f17;color:white;border-radius:8px" data-type="confetti">🎉 Confete</div>🎉 Confete</div>
-      <div class="epi" style="background:#c62828;color:white;border-radius:8px" data-type="scarcity">⏰ Escassez</div>⏰ Escassez</div>
-      <div class="epi" style="background:#e65c00;color:white;border-radius:8px" data-type="discount">🏷️ Cupom</div>🏷️ Cupom/Desconto</div>
-      <div class="epi" style="background:#6a1b9a;color:white;border-radius:8px" data-type="testimonial">⭐ Depoimento</div>⭐ Depoimento</div>
-      <div class="epi" style="background:#2e7d32;color:white;border-radius:8px" data-type="bonus">🎁 Bônus</div>🎁 Bônus</div>
-      <div class="epi" style="background:#01579b;color:white;border-radius:8px" data-type="product">🛍️ Produto</div>🛍️ Produto</div>
-      <div class="epi" style="background:#b71c1c;color:white;border-radius:8px" data-type="linkimg">🔗🖼️ LinkImg</div>🔗🖼️ Link c/ Imagem</div>
-      <div style="font-size:9px;letter-spacing:1.5px;color:var(--dim);padding:8px 2px 3px;text-transform:uppercase;font-weight:700;border-top:1px solid var(--bdr);margin-top:4px;width:100%;flex-basis:100%">🎨 Conteúdo</div>
-      <div class="epi" style="background:#f9a825;color:white;border-radius:8px" data-type="title">Aa Título</div>Aa Título</div>
-      <div class="epi" style="background:#455a64;color:white;border-radius:8px" data-type="text">📝 Texto</div>📝 Texto</div>
-      <div class="epi" style="background:#00695c;color:white;border-radius:8px" data-type="faq">❓ FAQ</div>❓ FAQ</div>
-      <div class="epi" style="background:#6a1b9a;color:white;border-radius:8px" data-type="chart">📊 Gráfico</div>📊 Gráfico</div>
-      <div class="epi" style="background:#e65100;color:white;border-radius:8px" data-type="list">📋 Lista</div>📋 Lista Feed</div>
-      <div class="epi" style="background:#880e4f;color:white;border-radius:8px" data-type="carousel">🎠 Carrossel</div>🎠 Carrossel</div>
-      <div class="epi" style="background:#006064;color:white;border-radius:8px" data-type="compare">⚖️ Comparar</div>⚖️ Comparar</div>
-      <div class="epi" style="background:#1b5e20;color:white;border-radius:8px" data-type="price">💰 Preço</div>💰 Preço</div>
-      <div class="epi" style="background:#bf360c;color:white;border-radius:8px" data-type="marquee">📣 Marquise</div>📣 Marquise</div>
-      <div class="epi" style="background:#0d47a1;color:white;border-radius:8px" data-type="level">📶 Nível</div>📶 Nível</div>
-      <div class="epi" style="background:#4e342e;color:white;border-radius:8px" data-type="options">☰ Opções</div>☰ Opções</div>
-      <div class="epi" style="background:#37474f;color:white;border-radius:8px" data-type="loading">⏳ Loading</div>⏳ Carregando</div>
-      <div class="epi" style="background:#1b5e20;color:white;border-radius:8px" data-type="continueBtn">▶ Continuar</div>▶ Continuar</div>
-      <div class="epi" style="background:#f57f17;color:white;border-radius:8px" data-type="arguments">✅ Argumentos</div>✅ Argumentos</div>
-      <div class="epi" style="background:#212121;color:white;border-radius:8px" data-type="invisible">👁 Invisível</div>👁 Script Invisível</div>
+      <div class="eptitle">Adicionar Nó</div>
+      <div class="epi" style="background:#0097b2" data-type="message">💬 Mensagem</div>
+      <div class="epi" style="background:#7b2d8b" data-type="question">❓ Pergunta</div>
+      <div class="epi" style="background:#e67e22" data-type="image">🖼️ Imagem</div>
+      <div class="epi" style="background:#c0392b" data-type="video">🎥 Vídeo</div>
+      <div class="epi" style="background:#8e44ad" data-type="link">🔗 Link</div>
+      <div class="epi" style="background:#2980b9" data-type="condition">⚡ Condição</div>
+      <div class="epi" style="background:#27ae60" data-type="delay">⏳ Delay</div>
+      <div class="epi" style="background:#922b21" data-type="end">🏁 Fim do Fluxo</div>
+      <div class="eptitle" style="margin-top:8px">⚡ Avançado</div>
+      <div class="epi" style="background:#009688" data-type="choices">☑️ Múltipla Escolha</div>
+      <div class="epi" style="background:#c2185b" data-type="audio">🎙️ Áudio</div>
+      <div class="epi" style="background:#e64a19" data-type="pdf">📄 PDF</div>
+      <div class="epi" style="background:#0288d1" data-type="collect">📋 Captura Dados</div>
+      <div class="epi" style="background:#128c7e" data-type="whatsapp">📱 Captura WhatsApp</div>
+      <div class="epi" style="background:#f57f17" data-type="confetti">🎉 Confete</div>
+      <div class="epi" style="background:#c62828" data-type="scarcity">⏰ Escassez</div>
+      <div class="epi" style="background:#e65c00" data-type="discount">🏷️ Cupom/Desconto</div>
+      <div class="epi" style="background:#6a1b9a" data-type="testimonial">⭐ Depoimento</div>
+      <div class="epi" style="background:#2e7d32" data-type="bonus">🎁 Bônus</div>
+      <div class="epi" style="background:#01579b" data-type="product">🛍️ Produto</div>
+      <div class="epi" style="background:#b71c1c" data-type="linkimg">🔗🖼️ Link c/ Imagem</div>
+      <div class="eptitle" style="margin-top:8px">🎨 Conteúdo</div>
+      <div class="epi" style="background:#f9a825;color:#333" data-type="title">Aa Título</div>
+      <div class="epi" style="background:#455a64" data-type="text">📝 Texto</div>
+      <div class="epi" style="background:#00695c" data-type="faq">❓ FAQ</div>
+      <div class="epi" style="background:#6a1b9a" data-type="chart">📊 Gráfico</div>
+      <div class="epi" style="background:#e65100" data-type="list">📋 Lista Feed</div>
+      <div class="epi" style="background:#880e4f" data-type="carousel">🎠 Carrossel</div>
+      <div class="epi" style="background:#006064" data-type="compare">⚖️ Comparar</div>
+      <div class="epi" style="background:#1b5e20" data-type="price">💰 Preço</div>
+      <div class="epi" style="background:#bf360c" data-type="marquee">📣 Marquise</div>
+      <div class="epi" style="background:#0d47a1" data-type="level">📶 Nível</div>
+      <div class="epi" style="background:#4e342e" data-type="options">☰ Opções</div>
+      <div class="epi" style="background:#37474f" data-type="loading">⏳ Carregando</div>
+      <div class="epi" style="background:#1b5e20" data-type="continueBtn">▶ Continuar</div>
+      <div class="epi" style="background:#f57f17" data-type="arguments">✅ Argumentos</div>
+      <div class="epi" style="background:#212121" data-type="invisible">👁 Script Invisível</div>
     </div>
     <div class="ecanvas" id="ecanvas">
       <svg id="esvg"></svg>
