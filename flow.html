@@ -319,15 +319,44 @@ function saveLeadLocal(val,type,label){
   try{
     var key='mdk_leads_'+(curFId||'pub');
     var leads=JSON.parse(localStorage.getItem(key)||'[]');
-    leads.push({value:val,type:type,label:label,flowId:curFId,ts:new Date().toISOString()});
+    var entry={value:val,type:type,label:label,flowId:curFId,ts:new Date().toISOString()};
+    // Adicionar snapshot do perfil completo
+    if(captureProfile&&Object.keys(captureProfile).length>2){
+      entry.profile=Object.assign({},captureProfile);
+    }
+    leads.push(entry);
     localStorage.setItem(key,JSON.stringify(leads));
-  }catch(e){}
+    console.log('[Mandrake] Lead salvo localmente:',entry);
+  }catch(e){console.warn('[Mandrake] Erro ao salvar lead:',e);}
 }
 function sendWebhook(val,type,label){
   var wh=pubWebhook||(function(){try{return sessionStorage.getItem('mdk_wh')||'';}catch(e){return '';}}());
-  if(!wh)return;
-  var payload=Object.assign({},captureProfile,{ultimoCampo:label,ultimoValor:val,type:type,flowId:curFId});
-  fetch(wh,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){});
+  if(!wh){console.warn('[Mandrake] Webhook não configurado');return;}
+  // Normalizar campos para compatibilidade com Google Sheets
+  var profile=captureProfile||{};
+  var payload={
+    nome:profile.nome||profile.name||'',
+    email:profile.email||'',
+    whatsapp:profile.whatsapp||'',
+    telefone:profile.telefone||profile.tel||'',
+    flowId:curFId||'',
+    ts:new Date().toISOString()
+  };
+  // Adicionar o campo atual
+  if(type==='whatsapp')payload.whatsapp=val;
+  else if(type==='email')payload.email=val;
+  else if(type==='tel'||type==='telefone')payload.telefone=val;
+  else if(label&&label.toLowerCase().includes('nome'))payload.nome=val;
+  else if(label&&label.toLowerCase().includes('email'))payload.email=val;
+  else if(label&&label.toLowerCase().includes('whatsapp'))payload.whatsapp=val;
+  else payload[label||type||'campo']=val;
+  // Incluir todos os outros campos capturados
+  Object.keys(profile).forEach(function(k){
+    if(k!=='flowId'&&k!=='ts'&&!payload[k])payload[k]=profile[k];
+  });
+  console.log('[Mandrake] Enviando webhook para:',wh.slice(0,50));
+  console.log('[Mandrake] Payload:',JSON.stringify(payload));
+  fetch(wh,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(e){console.warn('[Mandrake] Webhook erro:',e);});
 }
 
 function normalizeImgUrl(url){
@@ -417,7 +446,16 @@ function addBubble(n,who){
         display='📱 '+(val.length===11?'('+val.slice(0,2)+') '+val.slice(2,7)+'-'+val.slice(7):'('+val.slice(0,2)+') '+val.slice(2,6)+'-'+val.slice(6));
         captureProfile['whatsapp']=display;
       }else{
-        var fk=n.inputType==='email'?'email':n.inputType==='tel'?'telefone':(n.content||n.inputType||'campo');
+        // Normalizar chave: usar tipo padrão quando possível
+        var fk;
+        if(n.inputType==='email')fk='email';
+        else if(n.inputType==='tel')fk='telefone';
+        else if(n.inputType==='number')fk='numero';
+        else if((n.content||'').toLowerCase().includes('nome'))fk='nome';
+        else if((n.content||'').toLowerCase().includes('email'))fk='email';
+        else if((n.content||'').toLowerCase().includes('whatsapp'))fk='whatsapp';
+        else if((n.content||'').toLowerCase().includes('telefone')||n.inputType==='tel')fk='telefone';
+        else fk=n.content||n.inputType||'campo';
         captureProfile[fk]=val;
       }
       captureProfile.ts=new Date().toISOString();
