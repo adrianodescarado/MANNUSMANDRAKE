@@ -136,11 +136,11 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
 .ehdr{padding:0 18px;height:54px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bdr);background:var(--deep);flex-shrink:0;gap:14px}
 .etitle{background:transparent;border:none;color:var(--txt);font-family:var(--fd);font-size:16px;font-weight:700;outline:none;min-width:180px}.etitle::placeholder{color:var(--dim)}
 .ebody{flex:1;display:grid;grid-template-columns:192px 1fr 252px;overflow:hidden}
-.epal{background:var(--deep);border-right:1px solid var(--bdr);padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:3px}
-.eptitle{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);font-weight:600;margin-bottom:7px}
-.epi{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:600;transition:all .18s;border:1px solid transparent;user-select:none;letter-spacing:.1px}
-.epi:hover{transform:translateX(3px);border-color:var(--bdr2);background:rgba(92,111,255,.1)}
-.epi:active{transform:scale(.97)}
+.epal{background:var(--deep);border-right:1px solid var(--bdr);padding:10px 8px;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;gap:4px;align-content:start;width:192px}
+.eptitle{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:2px;grid-column:1/-1;padding:6px 2px 2px}
+.epi{display:flex;align-items:center;gap:6px;padding:7px 10px;border-radius:8px;cursor:pointer;font-size:11px;font-weight:600;transition:all .15s;border:none;user-select:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.epi:hover{opacity:.85;transform:scale(.97)}
+.epi:active{transform:scale(.94)}
 .edot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .ecanvas{position:relative;flex:1;overflow:hidden;background:var(--void);background-image:radial-gradient(rgba(100,120,255,0.07) 1px,transparent 1px);background-size:28px 28px;cursor:default}
 #esvg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5}
@@ -653,44 +653,44 @@ insert into storage.buckets (id, name, public)
   </div>
   <div class="ebody">
     <div class="epal">
-      <div class="eptitle" style="font-size:11px;letter-spacing:2px;color:var(--acc);font-weight:700;margin-bottom:10px">ADICIONAR NÓ</div>
-      <div class="epi" style="background:linear-gradient(135deg,#00b4d8,#0077b6);color:white;border:none" data-type="message"><span style="font-size:14px">💬</span> Mensagem</div>
-      <div class="epi" style="background:linear-gradient(135deg,#7b2d8b,#9b59b6);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="question"><span style="font-size:13px;flex-shrink:0">+</span> ❓ Pergunta</div>❓ Pergunta</div>
-      <div class="epi" style="background:linear-gradient(135deg,#f39c12,#e67e22);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="image"><span style="font-size:13px;flex-shrink:0">+</span> 🖼️ Imagem</div>🖼️ Imagem</div>
-      <div class="epi" style="background:linear-gradient(135deg,#e74c3c,#c0392b);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="video"><span style="font-size:13px;flex-shrink:0">+</span> 🎥 Vídeo</div>🎥 Vídeo</div>
-      <div class="epi" style="background:linear-gradient(135deg,#8e44ad,#6c3483);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="link"><span style="font-size:13px;flex-shrink:0">+</span> 🔗 Link</div>🔗 Link</div>
-      <div class="epi" style="background:linear-gradient(135deg,#2980b9,#1a6fa3);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="condition"><span style="font-size:13px;flex-shrink:0">+</span> ⚡ Condição</div>⚡ Condição</div>
-      <div class="epi" style="background:linear-gradient(135deg,#27ae60,#1e8449);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="delay"><span style="font-size:13px;flex-shrink:0">+</span> ⏳ Delay</div>⏳ Delay</div>
-      <div class="epi" style="background:linear-gradient(135deg,#e74c3c,#922b21);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="end"><span style="font-size:13px;flex-shrink:0">+</span> 🏁 Fim do Fluxo</div>🏁 Fim do Fluxo</div>
-      <div style="font-size:9px;letter-spacing:1.5px;color:var(--dim);padding:12px 4px 5px;text-transform:uppercase;font-weight:700;border-top:1px solid var(--bdr);margin-top:4px">⚡ Avançado</div>
-      <div class="epi" style="background:linear-gradient(135deg,#00b894,#00cec9);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="choices"><span style="font-size:13px;flex-shrink:0">+</span> ☑️ Múltipla Escolha</div>☑️ Múltipla Escolha</div>
-      <div class="epi" style="background:linear-gradient(135deg,#e91e63,#c2185b);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="audio"><span style="font-size:13px;flex-shrink:0">+</span> 🎙️ Áudio</div>🎙️ Áudio</div>
-      <div class="epi" style="background:linear-gradient(135deg,#ff5722,#e64a19);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="pdf"><span style="font-size:13px;flex-shrink:0">+</span> 📄 PDF</div>📄 PDF</div>
-      <div class="epi" style="background:linear-gradient(135deg,#03a9f4,#0288d1);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="collect"><span style="font-size:13px;flex-shrink:0">+</span> 📋 Captura de Dados</div>📋 Captura de Dados</div>
-      <div class="epi" style="background:linear-gradient(135deg,#25d366,#128c7e);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="whatsapp"><span style="font-size:13px;flex-shrink:0">+</span> 📱 Captura WhatsApp</div>📱 Captura WhatsApp</div>
-      <div class="epi" style="background:linear-gradient(135deg,#ffd700,#ffa500);color:#333;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="confetti"><span style="font-size:13px;flex-shrink:0">+</span> 🎉 Confete</div>🎉 Confete</div>
-      <div class="epi" style="background:linear-gradient(135deg,#ff4444,#cc0000);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="scarcity"><span style="font-size:13px;flex-shrink:0">+</span> ⏰ Escassez</div>⏰ Escassez</div>
-      <div class="epi" style="background:linear-gradient(135deg,#ff9900,#e65c00);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="discount"><span style="font-size:13px;flex-shrink:0">+</span> 🏷️ Cupom/Desconto</div>🏷️ Cupom/Desconto</div>
-      <div class="epi" style="background:linear-gradient(135deg,#7c4dff,#651fff);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="testimonial"><span style="font-size:13px;flex-shrink:0">+</span> ⭐ Depoimento</div>⭐ Depoimento</div>
-      <div class="epi" style="background:linear-gradient(135deg,#4caf50,#388e3c);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="bonus"><span style="font-size:13px;flex-shrink:0">+</span> 🎁 Bônus</div>🎁 Bônus</div>
-      <div class="epi" style="background:linear-gradient(135deg,#29b6f6,#0288d1);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="product"><span style="font-size:13px;flex-shrink:0">+</span> 🛍️ Produto</div>🛍️ Produto</div>
-      <div class="epi" style="background:linear-gradient(135deg,#ef5350,#c62828);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="linkimg"><span style="font-size:13px;flex-shrink:0">+</span> 🔗🖼️ Link c/ Imagem</div>🔗🖼️ Link c/ Imagem</div>
-      <div style="font-size:9px;letter-spacing:1.5px;color:var(--dim);padding:12px 4px 5px;text-transform:uppercase;font-weight:700;border-top:1px solid var(--bdr);margin-top:4px">🎨 Conteúdo</div>
-      <div class="epi" style="background:linear-gradient(135deg,#ffee58,#fdd835);color:#333;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="title"><span style="font-size:13px;flex-shrink:0">+</span> Aa Título</div>Aa Título</div>
-      <div class="epi" style="background:linear-gradient(135deg,#78909c,#546e7a);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="text"><span style="font-size:13px;flex-shrink:0">+</span> 📝 Texto</div>📝 Texto</div>
-      <div class="epi" style="background:linear-gradient(135deg,#26a69a,#00796b);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="faq"><span style="font-size:13px;flex-shrink:0">+</span> ❓ FAQ</div>❓ FAQ</div>
-      <div class="epi" style="background:linear-gradient(135deg,#ab47bc,#7b1fa2);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="chart"><span style="font-size:13px;flex-shrink:0">+</span> 📊 Gráfico</div>📊 Gráfico</div>
-      <div class="epi" style="background:linear-gradient(135deg,#ffa726,#f57c00);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="list"><span style="font-size:13px;flex-shrink:0">+</span> 📋 Lista Feed</div>📋 Lista Feed</div>
-      <div class="epi" style="background:linear-gradient(135deg,#f06292,#e91e63);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="carousel"><span style="font-size:13px;flex-shrink:0">+</span> 🎠 Carrossel</div>🎠 Carrossel</div>
-      <div class="epi" style="background:linear-gradient(135deg,#4dd0e1,#0097a7);color:#333;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="compare"><span style="font-size:13px;flex-shrink:0">+</span> ⚖️ Comparar</div>⚖️ Comparar</div>
-      <div class="epi" style="background:linear-gradient(135deg,#66bb6a,#388e3c);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="price"><span style="font-size:13px;flex-shrink:0">+</span> 💰 Preço</div>💰 Preço</div>
-      <div class="epi" style="background:linear-gradient(135deg,#ff7043,#e64a19);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="marquee"><span style="font-size:13px;flex-shrink:0">+</span> 📣 Marquise</div>📣 Marquise</div>
-      <div class="epi" style="background:linear-gradient(135deg,#42a5f5,#1565c0);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="level"><span style="font-size:13px;flex-shrink:0">+</span> 📶 Nível</div>📶 Nível</div>
-      <div class="epi" style="background:linear-gradient(135deg,#8d6e63,#5d4037);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="options"><span style="font-size:13px;flex-shrink:0">+</span> ☰ Opções</div>☰ Opções</div>
-      <div class="epi" style="background:linear-gradient(135deg,#90a4ae,#607d8b);color:white;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="loading"><span style="font-size:13px;flex-shrink:0">+</span> ⏳ Carregando</div>⏳ Carregando</div>
-      <div class="epi" style="background:linear-gradient(135deg,#69f0ae,#00e676);color:#333;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="continueBtn"><span style="font-size:13px;flex-shrink:0">+</span> ▶ Continuar</div>▶ Continuar</div>
-      <div class="epi" style="background:linear-gradient(135deg,#ffe082,#ffca28);color:#333;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="arguments"><span style="font-size:13px;flex-shrink:0">+</span> ✅ Argumentos</div>✅ Argumentos</div>
-      <div class="epi" style="background:linear-gradient(135deg,#424242,#212121);color:rgba(255,255,255,.5);border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)" data-type="invisible"><span style="font-size:13px;flex-shrink:0">+</span> 👁 Script Invisível</div>👁 Script Invisível</div>
+      <div style="font-size:9px;letter-spacing:2px;color:var(--acc);font-weight:700;margin-bottom:2px;grid-column:1/-1;padding-bottom:4px;border-bottom:1px solid var(--bdr)">ADICIONAR NÓ</div>
+      <div class="epi" style="background:#0097b2;color:white;border-radius:8px" data-type="message">💬 Mensagem</div>
+      <div class="epi" style="background:#7b2d8b;color:white;border-radius:8px" data-type="question">❓ Pergunta</div>❓ Pergunta</div>
+      <div class="epi" style="background:#e67e22;color:white;border-radius:8px" data-type="image">🖼️ Imagem</div>🖼️ Imagem</div>
+      <div class="epi" style="background:#c0392b;color:white;border-radius:8px" data-type="video">🎥 Vídeo</div>🎥 Vídeo</div>
+      <div class="epi" style="background:#8e44ad;color:white;border-radius:8px" data-type="link">🔗 Link</div>🔗 Link</div>
+      <div class="epi" style="background:#2980b9;color:white;border-radius:8px" data-type="condition">⚡ Condição</div>⚡ Condição</div>
+      <div class="epi" style="background:#27ae60;color:white;border-radius:8px" data-type="delay">⏳ Delay</div>⏳ Delay</div>
+      <div class="epi" style="background:#922b21;color:white;border-radius:8px" data-type="end">🏁 Fim</div>🏁 Fim do Fluxo</div>
+      <div style="font-size:9px;letter-spacing:1.5px;color:var(--dim);padding:10px 2px 3px;text-transform:uppercase;font-weight:700;border-top:1px solid var(--bdr);margin-top:4px;grid-column:1/-1">⚡ Avançado</div>
+      <div class="epi" style="background:#009688;color:white;border-radius:8px" data-type="choices">☑️ Múltipla</div>☑️ Múltipla Escolha</div>
+      <div class="epi" style="background:#c2185b;color:white;border-radius:8px" data-type="audio">🎙️ Áudio</div>🎙️ Áudio</div>
+      <div class="epi" style="background:#e64a19;color:white;border-radius:8px" data-type="pdf">📄 PDF</div>📄 PDF</div>
+      <div class="epi" style="background:#0288d1;color:white;border-radius:8px" data-type="collect">📋 Captura</div>📋 Captura de Dados</div>
+      <div class="epi" style="background:#128c7e;color:white;border-radius:8px" data-type="whatsapp">📱 WhatsApp</div>📱 Captura WhatsApp</div>
+      <div class="epi" style="background:#f57f17;color:white;border-radius:8px" data-type="confetti">🎉 Confete</div>🎉 Confete</div>
+      <div class="epi" style="background:#c62828;color:white;border-radius:8px" data-type="scarcity">⏰ Escassez</div>⏰ Escassez</div>
+      <div class="epi" style="background:#e65c00;color:white;border-radius:8px" data-type="discount">🏷️ Cupom</div>🏷️ Cupom/Desconto</div>
+      <div class="epi" style="background:#6a1b9a;color:white;border-radius:8px" data-type="testimonial">⭐ Depoimento</div>⭐ Depoimento</div>
+      <div class="epi" style="background:#2e7d32;color:white;border-radius:8px" data-type="bonus">🎁 Bônus</div>🎁 Bônus</div>
+      <div class="epi" style="background:#01579b;color:white;border-radius:8px" data-type="product">🛍️ Produto</div>🛍️ Produto</div>
+      <div class="epi" style="background:#b71c1c;color:white;border-radius:8px" data-type="linkimg">🔗🖼️ LinkImg</div>🔗🖼️ Link c/ Imagem</div>
+      <div style="font-size:9px;letter-spacing:1.5px;color:var(--dim);padding:10px 2px 3px;text-transform:uppercase;font-weight:700;border-top:1px solid var(--bdr);margin-top:4px;grid-column:1/-1">🎨 Conteúdo</div>
+      <div class="epi" style="background:#f9a825;color:white;border-radius:8px" data-type="title">Aa Título</div>Aa Título</div>
+      <div class="epi" style="background:#455a64;color:white;border-radius:8px" data-type="text">📝 Texto</div>📝 Texto</div>
+      <div class="epi" style="background:#00695c;color:white;border-radius:8px" data-type="faq">❓ FAQ</div>❓ FAQ</div>
+      <div class="epi" style="background:#6a1b9a;color:white;border-radius:8px" data-type="chart">📊 Gráfico</div>📊 Gráfico</div>
+      <div class="epi" style="background:#e65100;color:white;border-radius:8px" data-type="list">📋 Lista</div>📋 Lista Feed</div>
+      <div class="epi" style="background:#880e4f;color:white;border-radius:8px" data-type="carousel">🎠 Carrossel</div>🎠 Carrossel</div>
+      <div class="epi" style="background:#006064;color:white;border-radius:8px" data-type="compare">⚖️ Comparar</div>⚖️ Comparar</div>
+      <div class="epi" style="background:#1b5e20;color:white;border-radius:8px" data-type="price">💰 Preço</div>💰 Preço</div>
+      <div class="epi" style="background:#bf360c;color:white;border-radius:8px" data-type="marquee">📣 Marquise</div>📣 Marquise</div>
+      <div class="epi" style="background:#0d47a1;color:white;border-radius:8px" data-type="level">📶 Nível</div>📶 Nível</div>
+      <div class="epi" style="background:#4e342e;color:white;border-radius:8px" data-type="options">☰ Opções</div>☰ Opções</div>
+      <div class="epi" style="background:#37474f;color:white;border-radius:8px" data-type="loading">⏳ Loading</div>⏳ Carregando</div>
+      <div class="epi" style="background:#1b5e20;color:white;border-radius:8px" data-type="continueBtn">▶ Continuar</div>▶ Continuar</div>
+      <div class="epi" style="background:#f57f17;color:white;border-radius:8px" data-type="arguments">✅ Argumentos</div>✅ Argumentos</div>
+      <div class="epi" style="background:#212121;color:white;border-radius:8px" data-type="invisible">👁 Invisível</div>👁 Script Invisível</div>
     </div>
     <div class="ecanvas" id="ecanvas">
       <svg id="esvg"></svg>
@@ -1884,6 +1884,28 @@ const TEMPLATES={
     {id:'etre1',from:'tre1',to:'tre2'},{id:'etre2',from:'tre2',to:'tre3'},{id:'etre3',from:'tre3',to:'tre4'},
     {id:'etre4',from:'tre4',to:'tre5'},{id:'etre5',from:'tre5',to:'tre6'},{id:'etre6',from:'tre6',to:'tre7'},
     {id:'etre7',from:'tre7',to:'tre8'}
+  ]},
+  turismo:{name:'Agente de Turismo - Viagens',channel:'wpp',botName:'Agente de Viagens',nodes:[
+    {id:'tt1',type:'marquee',x:60,y:60,content:'✈️ PROMOÇÃO ESPECIAL! Pacotes de viagem com até 40% OFF!',url:'',delay:0},
+    {id:'tt2',type:'message',x:60,y:180,content:'Olá, viajante! ✈️ Sou seu agente de viagens pessoal. Vou te ajudar a planejar a viagem dos seus sonhos com o melhor custo-benefício!',url:'',delay:2},
+    {id:'tt3',type:'choices',x:60,y:340,content:'Qual tipo de viagem você prefere?',url:'',delay:0,options:'Nacional (praias, capitais, natureza)\nInternacional (Europa, EUA, Cancún)\nViagem em família\nLua de mel / Casal\nAventura e ecoturismo'},
+    {id:'tt4',type:'question',x:60,y:500,content:'Para quando você quer viajar? (Ex: julho/2026)',url:'',delay:0},
+    {id:'tt5',type:'choices',x:60,y:640,content:'Qual é o seu orçamento por pessoa?',url:'',delay:0,options:'Até R$ 2.000\nDe R$ 2.000 a R$ 5.000\nDe R$ 5.000 a R$ 10.000\nAcima de R$ 10.000'},
+    {id:'tt6',type:'collect',x:60,y:780,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'tt7',type:'collect',x:60,y:920,content:'Qual é o seu email para enviarmos os roteiros?',url:'',delay:0,inputType:'email',placeholder:'seu@email.com'},
+    {id:'tt8',type:'whatsapp',x:60,y:1060,content:'Qual é o seu WhatsApp para nosso consultor entrar em contato?',url:'',delay:0},
+    {id:'tt9',type:'loading',x:60,y:1200,content:'🔍 Buscando os melhores pacotes para você...',url:'',delay:0},
+    {id:'tt10',type:'testimonial',x:60,y:1340,content:'Viagem incrível para Cancún! Tudo organizado e sem estresse!\nFernanda R., São Paulo',url:'5',delay:0},
+    {id:'tt11',type:'arguments',x:60,y:1480,content:'Passagem + Hotel + Transfer inclusos\nGuia em português disponível\nSeguro viagem completo\nParcelamento em até 12x sem juros\nAtendimento 24h durante a viagem',url:'',delay:0},
+    {id:'tt12',type:'scarcity',x:60,y:1620,content:'⏰ Promoção por tempo limitado!',url:'3600',delay:0},
+    {id:'tt13',type:'price',x:60,y:1760,content:'A partir de R$ 1.897,00\nPor pessoa (parcelado)\n✈️ Quero garantir minha viagem! →',url:'https://wa.me/5511999999999',delay:0},
+    {id:'tt14',type:'end',x:60,y:1900,content:'Perfeito! Nossa equipe entrará em contato em até 2 horas com roteiros personalizados. Boas viagens! ✈️🌍',url:'',delay:0}
+  ],edges:[
+    {id:'ett1',from:'tt1',to:'tt2'},{id:'ett2',from:'tt2',to:'tt3'},{id:'ett3',from:'tt3',to:'tt4'},
+    {id:'ett4',from:'tt4',to:'tt5'},{id:'ett5',from:'tt5',to:'tt6'},{id:'ett6',from:'tt6',to:'tt7'},
+    {id:'ett7',from:'tt7',to:'tt8'},{id:'ett8',from:'tt8',to:'tt9'},{id:'ett9',from:'tt9',to:'tt10'},
+    {id:'ett10',from:'tt10',to:'tt11'},{id:'ett11',from:'tt11',to:'tt12'},{id:'ett12',from:'tt12',to:'tt13'},
+    {id:'ett13',from:'tt13',to:'tt14'}
   ]}
 };
 function loadTemplate(key){
