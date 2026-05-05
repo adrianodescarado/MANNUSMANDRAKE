@@ -137,19 +137,19 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
 .etitle{background:transparent;border:none;color:var(--txt);font-family:var(--fd);font-size:16px;font-weight:700;outline:none;min-width:180px}.etitle::placeholder{color:var(--dim)}
 .ebody{flex:1;display:grid;grid-template-columns:200px 1fr 252px;overflow:hidden;min-height:0;min-width:0}
 .epal{background:var(--deep);border-right:1px solid var(--bdr);padding:10px;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:3px;width:200px;min-width:200px;max-width:200px}
-.eptitle{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:4px;padding:4px 0 2px;border-bottom:1px solid var(--bdr)}
-.epi{display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;transition:all .15s;border:none;user-select:none;color:white;width:100%}
+.eptitle{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--acc);font-weight:800;margin-bottom:5px;padding:6px 0 4px;border-bottom:2px solid var(--bdr2)}
+.epi{display:flex;align-items:center;gap:6px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:all .12s;border:none;user-select:none;color:white;width:100%;letter-spacing:.2px}
 .epi:hover{opacity:.85;transform:scale(.97)}
 .epi:active{transform:scale(.94)}
 .edot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.ecanvas{position:relative;overflow:hidden;background:var(--void);background-image:radial-gradient(rgba(100,120,255,0.07) 1px,transparent 1px);background-size:28px 28px;cursor:default;min-width:0;min-height:0}
+.ecanvas{position:relative;overflow:hidden;background:#060820;background-image:linear-gradient(rgba(92,111,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(92,111,255,0.04) 1px,transparent 1px);background-size:40px 40px;cursor:default;min-width:0;min-height:0}
 #esvg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5}
 #enodes{position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;transform-origin:0 0}
 .chint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0;text-align:center;color:var(--dim);font-size:13px}
 .ezoom{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;background:var(--deep);border:1px solid var(--bdr);border-radius:8px;padding:5px;z-index:10}
 .ezoom button{background:none;border:none;color:var(--muted);cursor:pointer;padding:4px 8px;border-radius:4px;font-size:13px;transition:all .2s}.ezoom button:hover{background:rgba(255,255,255,.07);color:var(--txt)}
-.fnode{position:absolute;background:var(--deep);border:1px solid var(--bdr);border-radius:10px;padding:12px;min-width:174px;cursor:default;user-select:none;transition:border-color .15s,box-shadow .15s}
-.fnode:hover{border-color:var(--bdr2)}.fnode.sel{border-color:var(--acc);box-shadow:0 0 0 3px var(--accg)}
+.fnode{position:absolute;background:var(--deep);border:1px solid var(--bdr);border-radius:12px;padding:12px 14px;min-width:180px;cursor:default;user-select:none;transition:all .15s;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.fnode:hover{border-color:var(--bdr2);box-shadow:0 4px 16px rgba(0,0,0,.4);transform:translateY(-1px)}.fnode.sel{border-color:var(--acc);box-shadow:0 0 0 3px var(--accg),0 4px 20px rgba(92,111,255,.2)}
 .fnh{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
 .fntype{font-size:9px;letter-spacing:1.2px;text-transform:uppercase;font-weight:600;display:flex;align-items:center;gap:5px}
 .fndel{background:none;border:none;color:var(--dim);cursor:pointer;font-size:14px;line-height:1;padding:2px 4px;border-radius:3px;transition:all .2s}.fndel:hover{color:var(--red);background:rgba(255,91,91,.1)}
@@ -691,6 +691,9 @@ insert into storage.buckets (id, name, public)
       <div class="epi" style="background:#1b5e20" data-type="continueBtn">▶ Continuar</div>
       <div class="epi" style="background:#f57f17" data-type="arguments">✅ Argumentos</div>
       <div class="epi" style="background:#212121" data-type="invisible">👁 Script Invisível</div>
+      <div class="eptitle" style="margin-top:8px">🚀 Conversão</div>
+      <div class="epi" style="background:#c2185b" data-type="visitors">🔴 Visitantes Vivo</div>
+      <div class="epi" style="background:#00897b" data-type="pix">💰 Pagamento PIX</div>
     </div>
     <div class="ecanvas" id="ecanvas">
       <svg id="esvg"></svg>
@@ -1242,7 +1245,9 @@ const NC={
   continueBtn:{dot:'#69f0ae',lbl:'Continuar',def:'Continuar →'},
   arguments:{dot:'#ffe082',lbl:'Argumentos ✅',def:'Benefício 1\nBenefício 2\nBenefício 3'},
   invisible:{dot:'rgba(255,255,255,.2)',lbl:'Script Invisível',def:''},
-  end:{dot:'#ff8080',lbl:'Fim do Fluxo',def:'Obrigado! Até logo! 👋'}
+  end:{dot:'#ff8080',lbl:'Fim do Fluxo',def:'Obrigado! Até logo! 👋'},
+  visitors:{dot:'#ff6b9d',lbl:'Visitantes ao Vivo 🔴',def:'pessoas estão vendo isso agora'},
+  pix:{dot:'#32bcad',lbl:'Pagamento PIX 💰',def:'R$ 97,00\nChave PIX: email@email.com\nClique para copiar a chave'}
 };
 const CH_MAP={wpp:{cls:'tw',e:'💬',n:'WhatsApp'},ig:{cls:'ti',e:'📸',n:'Instagram'},msg:{cls:'tm',e:'💙',n:'Messenger'},tg:{cls:'tg',e:'✈️',n:'Telegram'},web:{cls:'twb',e:'🌐',n:'Web Chat'}};
 
@@ -1924,6 +1929,73 @@ const TEMPLATES={
     {id:'ett7',from:'tt7',to:'tt8'},{id:'ett8',from:'tt8',to:'tt9'},{id:'ett9',from:'tt9',to:'tt10'},
     {id:'ett10',from:'tt10',to:'tt11'},{id:'ett11',from:'tt11',to:'tt12'},{id:'ett12',from:'tt12',to:'tt13'},
     {id:'ett13',from:'tt13',to:'tt14'}
+  ]},
+  receitas:{name:'Funil Receitas Saudáveis',channel:'wpp',botName:'Consultora de Receitas',nodes:[
+    {id:'trec1',type:'message',x:60,y:60,content:'Olá! 🥘 Você vai aprender receitas incríveis, saudáveis e fáceis de fazer! Chega de comer sempre a mesma coisa!',url:'',delay:2},
+    {id:'trec2',type:'choices',x:60,y:200,content:'Qual é o seu estilo alimentar?',url:'',delay:0,options:'Como de tudo\nSou vegetariano(a)\nSou vegano(a)\nTenho restrições alimentares'},
+    {id:'trec3',type:'choices',x:60,y:360,content:'Quanto tempo você tem para cozinhar?',url:'',delay:0,options:'Até 15 minutos\n15 a 30 minutos\n30 a 60 minutos\nTenho bastante tempo'},
+    {id:'trec4',type:'collect',x:60,y:500,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'trec5',type:'collect',x:60,y:640,content:'Qual é o seu email para receber as receitas?',url:'',delay:0,inputType:'email',placeholder:'seu@email.com'},
+    {id:'trec6',type:'bonus',x:60,y:780,content:'100 receitas em até 30 minutos\nLista de compras semanal\nDicas de congelamento\nCardápio mensal pronto',url:'',delay:0},
+    {id:'trec7',type:'visitors',x:60,y:920,content:'pessoas já baixaram hoje',url:'',delay:0},
+    {id:'trec8',type:'price',x:60,y:1060,content:'R$ 27,00\nDe R$ 97,00\n🥘 Quero as receitas agora! →',url:'https://hotmart.com',delay:0}
+  ],edges:[
+    {id:'erec1',from:'trec1',to:'trec2'},{id:'erec2',from:'trec2',to:'trec3'},{id:'erec3',from:'trec3',to:'trec4'},
+    {id:'erec4',from:'trec4',to:'trec5'},{id:'erec5',from:'trec5',to:'trec6'},{id:'erec6',from:'trec6',to:'trec7'},
+    {id:'erec7',from:'trec7',to:'trec8'}
+  ]},
+  dinheiro:{name:'Funil Investimentos & Dinheiro',channel:'wpp',botName:'Consultor Financeiro',nodes:[
+    {id:'tdin1',type:'marquee',x:60,y:60,content:'💰 Aprenda a fazer seu dinheiro trabalhar por você!',url:'',delay:0},
+    {id:'tdin2',type:'message',x:60,y:180,content:'Olá! 💰 Você sabia que 87% dos brasileiros não conseguem guardar dinheiro? Vou te mostrar o método que já mudou mais de 10.000 vidas financeiras!',url:'',delay:2},
+    {id:'tdin3',type:'choices',x:60,y:340,content:'Qual é a sua situação financeira hoje?',url:'',delay:0,options:'Estou endividado(a)\nConsigo pagar as contas mas não sobra\nConsigo guardar um pouco\nQuero multiplicar o que tenho'},
+    {id:'tdin4',type:'choices',x:60,y:500,content:'Qual é o seu objetivo?',url:'',delay:0,options:'Sair das dívidas\nMontar reserva de emergência\nInvestir e ter renda passiva\nMe aposentar mais cedo'},
+    {id:'tdin5',type:'collect',x:60,y:660,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'tdin6',type:'whatsapp',x:60,y:800,content:'Qual é o seu WhatsApp para o consultor entrar em contato?',url:'',delay:0},
+    {id:'tdin7',type:'arguments',x:60,y:940,content:'Método validado por +10.000 alunos\nResultado em 30 dias\nAcesso vitalício ao curso\nPlanilha de controle inclusa\nGarantia de 30 dias',url:'',delay:0},
+    {id:'tdin8',type:'scarcity',x:60,y:1080,content:'Turma com vagas limitadas!',url:'1800',delay:0},
+    {id:'tdin9',type:'price',x:60,y:1220,content:'R$ 197,00\nDe R$ 497,00\n💰 Quero transformar minha vida financeira! →',url:'https://hotmart.com',delay:0}
+  ],edges:[
+    {id:'edin1',from:'tdin1',to:'tdin2'},{id:'edin2',from:'tdin2',to:'tdin3'},{id:'edin3',from:'tdin3',to:'tdin4'},
+    {id:'edin4',from:'tdin4',to:'tdin5'},{id:'edin5',from:'tdin5',to:'tdin6'},{id:'edin6',from:'tdin6',to:'tdin7'},
+    {id:'edin7',from:'tdin7',to:'tdin8'},{id:'edin8',from:'tdin8',to:'tdin9'}
+  ]},
+  estetica:{name:'Funil Estética & Beleza',channel:'wpp',botName:'Consultora de Beleza',nodes:[
+    {id:'test1',type:'message',x:60,y:60,content:'Olá, linda! 💅 Sou sua consultora de beleza virtual. Vou te ajudar a realçar sua beleza natural!',url:'',delay:2},
+    {id:'test2',type:'choices',x:60,y:200,content:'Qual é o seu maior desejo de beleza?',url:'',delay:0,options:'Pele perfeita e sem manchas\nCabelo saudável e brilhante\nPerder medidas e definir o corpo\nAutoestima elevada no geral'},
+    {id:'test3',type:'collect',x:60,y:360,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'test4',type:'testimonial',x:60,y:500,content:'Minha pele nunca esteve tão linda! Recomendo muito!\nPatrícia M., Belo Horizonte',url:'5',delay:0},
+    {id:'test5',type:'testimonial',x:60,y:640,content:'Perdi 8cm de cintura em 3 semanas! Incrível!\nRoberta S., Curitiba',url:'5',delay:0},
+    {id:'test6',type:'whatsapp',x:60,y:780,content:'Qual é o seu WhatsApp para enviarmos seu guia personalizado?',url:'',delay:0},
+    {id:'test7',type:'visitors',x:60,y:920,content:'mulheres já transformaram sua beleza',url:'',delay:0},
+    {id:'test8',type:'price',x:60,y:1060,content:'R$ 57,00\nDe R$ 197,00\n💅 Quero transformar minha beleza! →',url:'https://hotmart.com',delay:0}
+  ],edges:[
+    {id:'eest1',from:'test1',to:'test2'},{id:'eest2',from:'test2',to:'test3'},{id:'eest3',from:'test3',to:'test4'},
+    {id:'eest4',from:'test4',to:'test5'},{id:'eest5',from:'test5',to:'test6'},{id:'eest6',from:'test6',to:'test7'},
+    {id:'eest7',from:'test7',to:'test8'}
+  ]},
+  espiritualidade:{name:'Funil Espiritualidade & Mindset',channel:'wpp',botName:'Mentora',nodes:[
+    {id:'tesp1',type:'message',x:60,y:60,content:'Olá! 🙏 Que bom ter você aqui. Você está prestes a descobrir como alinhar sua mente, corpo e espírito para atrair abundância!',url:'',delay:2},
+    {id:'tesp2',type:'choices',x:60,y:200,content:'O que você mais busca na sua vida agora?',url:'',delay:0,options:'Paz interior e equilíbrio\nPropósito e direção\nAbundância financeira\nRelacionamentos saudáveis'},
+    {id:'tesp3',type:'question',x:60,y:360,content:'Em uma palavra, como você se sente hoje?',url:'',delay:0},
+    {id:'tesp4',type:'collect',x:60,y:500,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'tesp5',type:'collect',x:60,y:640,content:'Qual é o seu email para receber a meditação gratuita?',url:'',delay:0,inputType:'email',placeholder:'seu@email.com'},
+    {id:'tesp6',type:'arguments',x:60,y:780,content:'Meditação guiada exclusiva incluída\nTécnicas de manifestação comprovadas\nComunidade de apoio 24h\nGarantia espiritual de 7 dias',url:'',delay:0},
+    {id:'tesp7',type:'price',x:60,y:920,content:'R$ 47,00\nDe R$ 197,00\n🙏 Quero minha transformação! →',url:'https://hotmart.com',delay:0}
+  ],edges:[
+    {id:'eesp1',from:'tesp1',to:'tesp2'},{id:'eesp2',from:'tesp2',to:'tesp3'},{id:'eesp3',from:'tesp3',to:'tesp4'},
+    {id:'eesp4',from:'tesp4',to:'tesp5'},{id:'eesp5',from:'tesp5',to:'tesp6'},{id:'eesp6',from:'tesp6',to:'tesp7'}
+  ]},
+  infantil:{name:'Funil Educação Infantil',channel:'wpp',botName:'Pedagoga Virtual',nodes:[
+    {id:'tinf1',type:'message',x:60,y:60,content:'Olá, mamãe ou papai! 👶 Vou te ajudar a desenvolver seu filho de forma lúdica e inteligente!',url:'',delay:2},
+    {id:'tinf2',type:'choices',x:60,y:200,content:'Qual é a idade do seu filho?',url:'',delay:0,options:'0 a 2 anos\n2 a 4 anos\n4 a 6 anos\n6 a 10 anos'},
+    {id:'tinf3',type:'choices',x:60,y:360,content:'O que você mais quer desenvolver nele?',url:'',delay:0,options:'Linguagem e fala\nMotricidade e coordenação\nConcentração e foco\nSocialização e emoções'},
+    {id:'tinf4',type:'collect',x:60,y:500,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'tinf5',type:'whatsapp',x:60,y:640,content:'Qual é o seu WhatsApp para enviarmos as atividades?',url:'',delay:0},
+    {id:'tinf6',type:'bonus',x:60,y:780,content:'50 atividades por faixa etária\nGuia de estimulação cerebral\nDicionário de comportamentos\nSuport com pedagoga',url:'',delay:0},
+    {id:'tinf7',type:'price',x:60,y:920,content:'R$ 47,00\nDe R$ 147,00\n👶 Quero desenvolver meu filho! →',url:'https://hotmart.com',delay:0}
+  ],edges:[
+    {id:'einf1',from:'tinf1',to:'tinf2'},{id:'einf2',from:'tinf2',to:'tinf3'},{id:'einf3',from:'tinf3',to:'tinf4'},
+    {id:'einf4',from:'tinf4',to:'tinf5'},{id:'einf5',from:'tinf5',to:'tinf6'},{id:'einf6',from:'tinf6',to:'tinf7'}
   ]}
 };
 function loadTemplate(key){
