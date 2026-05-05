@@ -697,10 +697,11 @@ insert into storage.buckets (id, name, public)
       <div id="enodes"></div>
       <div class="chint" id="chint"><div><div style="font-size:30px;opacity:.25;margin-bottom:8px">⊕</div><p>Clique em um nó para adicionar<br>ou arraste para o canvas</p><p style="font-size:11px;margin-top:6px;opacity:.6">Clique na linha de conexão para removê-la</p></div></div>
       <div class="ezoom">
-        <button id="btn-zoom-out">−</button>
+        <button id="btn-zoom-out" title="Diminuir zoom">−</button>
         <span id="zlbl" style="font-size:12px;color:var(--muted);padding:0 4px">100%</span>
-        <button id="btn-zoom-in">+</button>
-        <button id="btn-zoom-reset">⊙</button>
+        <button id="btn-zoom-in" title="Aumentar zoom">+</button>
+        <button id="btn-zoom-reset" title="Centralizar (100%)">⊙</button>
+        <button id="btn-zoom-fit" title="Ver todos os nós">⊞</button>
       </div>
     </div>
     <div class="eprops" id="eprops">
@@ -1667,6 +1668,23 @@ function openEditor(fid,ch){
   const ch2=CH_MAP[curChannel]||CH_MAP.wpp;
   document.getElementById('flow-ch-badge').textContent=ch2.e+' '+ch2.n;
   clearSel();renderCanvas();updateHint();showPage('editor');
+  // Auto-fit se tem muitos nós
+  if(nodes.length>6){
+    setTimeout(()=>{
+      const wr=document.getElementById('ecanvas');if(!wr||!nodes.length)return;
+      const minX=Math.min(...nodes.map(n=>n.x))-40;
+      const minY=Math.min(...nodes.map(n=>n.y))-40;
+      const maxX=Math.max(...nodes.map(n=>n.x+220));
+      const maxY=Math.max(...nodes.map(n=>n.y+120));
+      const w=maxX-minX,h=maxY-minY;
+      const scaleX=wr.clientWidth/w,scaleY=wr.clientHeight/h;
+      const zoom=Math.min(scaleX,scaleY,0.9);
+      cZoom=Math.max(zoom,0.25);
+      cOff={x:-minX*cZoom+20,y:-minY*cZoom+20};
+      applyT();redrawEdges();
+      document.getElementById('zlbl').textContent=Math.round(cZoom*100)+'%';
+    },150);
+  }
 }
 async function saveFlow(){
   if(!CU){toast('Faça login para salvar','❌');return;}
@@ -1929,21 +1947,31 @@ function loadTemplate(key){
 }
 function organizeNodes(){
   if(!nodes.length){toast('Nenhum nó para organizar','ℹ');return;}
-  // Build order using BFS from root
   const ordered=buildOrder(nodes,edges);
   const COLS_MAX=4;
-  const NODE_W=200,NODE_H=100,GAP_X=60,GAP_Y=80;
-  const START_X=60,START_Y=60;
-  // Assign positions in a grid flowing left-to-right, top-to-bottom
+  const NODE_W=220,NODE_H=120,GAP_X=80,GAP_Y=100;
+  const START_X=80,START_Y=80;
   ordered.forEach((n,i)=>{
     const col=i%COLS_MAX;
     const row=Math.floor(i/COLS_MAX);
     n.x=START_X+col*(NODE_W+GAP_X);
     n.y=START_Y+row*(NODE_H+GAP_Y);
   });
-  cOff={x:0,y:0};cZoom=1;
+  // Auto-zoom para caber todos os nós na tela
+  const wr=document.getElementById('ecanvas');
+  if(wr&&ordered.length){
+    const maxX=Math.max(...ordered.map(n=>n.x))+NODE_W+80;
+    const maxY=Math.max(...ordered.map(n=>n.y))+NODE_H+80;
+    const scaleX=wr.clientWidth/maxX;
+    const scaleY=wr.clientHeight/maxY;
+    const fitZoom=Math.min(scaleX,scaleY,1);
+    cZoom=Math.max(fitZoom,0.3);
+    cOff={x:20,y:20};
+  } else {
+    cOff={x:0,y:0};cZoom=1;
+  }
   renderCanvas();applyT();
-  document.getElementById('zlbl').textContent='100%';
+  document.getElementById('zlbl').textContent=Math.round(cZoom*100)+'%';
   toast('Fluxo organizado! ✨','✓');
 }
 async function backToDash(){
@@ -3096,6 +3124,19 @@ document.addEventListener('DOMContentLoaded',async()=>{
   document.getElementById('btn-templates')?.addEventListener('click',()=>{
     document.getElementById('templates-modal').classList.add('open');
   });
+  // Template category tabs
+  document.getElementById('tpl-cat-tabs')?.addEventListener('click',e=>{
+    const btn=e.target.closest('.tpl-tab');if(!btn)return;
+    document.querySelectorAll('.tpl-tab').forEach(b=>{
+      b.classList.remove('active');
+      b.style.background='';b.style.color='';
+    });
+    btn.classList.add('active');
+    const cat=btn.dataset.cat;
+    document.querySelectorAll('#tpl-grid .fcard').forEach(card=>{
+      card.style.display=(cat==='all'||!card.dataset.cat||card.dataset.cat===cat)?'block':'none';
+    });
+  });
   // Palette: click or drag to add nodes
   document.querySelector('.epal')?.addEventListener('mousedown',ev=>{
     const item=ev.target.closest('[data-type]');
@@ -3161,10 +3202,37 @@ document.addEventListener('DOMContentLoaded',async()=>{
   document.addEventListener('mousemove',e=>{if(panning){cOff.x=e.clientX-panSt.x;cOff.y=e.clientY-panSt.y;applyT();redrawEdges();}});
   const wr=document.getElementById('ecanvas');
   document.addEventListener('mouseup',()=>{if(panning){panning=false;if(wr)wr.style.cursor='default';}});
-  if(wr)wr.addEventListener('wheel',e=>{e.preventDefault();doZoom(e.deltaY<0?.08:-.08);},{passive:false});
+  if(wr){
+    wr.addEventListener('wheel',e=>{e.preventDefault();doZoom(e.deltaY<0?.08:-.08);},{passive:false});
+    // Middle mouse button pan
+    wr.addEventListener('mousedown',e=>{
+      if(e.button===1){e.preventDefault();panning=true;panSt={x:e.clientX-cOff.x,y:e.clientY-cOff.y};wr.style.cursor='grabbing';}
+    });
+    // Space+drag pan (like Figma)
+    let spaceDown=false;
+    document.addEventListener('keydown',ev=>{if(ev.code==='Space'&&document.getElementById('page-editor').classList.contains('active')&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){spaceDown=true;wr.style.cursor='grab';ev.preventDefault();}});
+    document.addEventListener('keyup',ev=>{if(ev.code==='Space'){spaceDown=false;wr.style.cursor='default';}});
+    wr.addEventListener('mousedown',e=>{if(spaceDown&&e.button===0){e.preventDefault();panning=true;panSt={x:e.clientX-cOff.x,y:e.clientY-cOff.y};wr.style.cursor='grabbing';}});
+  }
   document.getElementById('btn-zoom-in')?.addEventListener('click',()=>doZoom(.15));
   document.getElementById('btn-zoom-out')?.addEventListener('click',()=>doZoom(-.15));
   document.getElementById('btn-zoom-reset')?.addEventListener('click',resetZoom);
+  document.getElementById('btn-zoom-fit')?.addEventListener('click',()=>{
+    if(!nodes.length){resetZoom();return;}
+    const wr=document.getElementById('ecanvas');if(!wr)return;
+    const minX=Math.min(...nodes.map(n=>n.x))-40;
+    const minY=Math.min(...nodes.map(n=>n.y))-40;
+    const maxX=Math.max(...nodes.map(n=>n.x+220));
+    const maxY=Math.max(...nodes.map(n=>n.y+120));
+    const w=maxX-minX,h=maxY-minY;
+    const scaleX=wr.clientWidth/w,scaleY=wr.clientHeight/h;
+    const zoom=Math.min(scaleX,scaleY,1.2);
+    cZoom=Math.max(zoom,0.2);
+    cOff={x:-minX*cZoom+20,y:-minY*cZoom+20};
+    applyT();redrawEdges();
+    document.getElementById('zlbl').textContent=Math.round(cZoom*100)+'%';
+    toast('Ajustado para caber tudo ✨','✓');
+  });
   // Handle node connections and deletes (delegated)
   document.getElementById('enodes')?.addEventListener('mousedown',e=>{
     if(e.target.dataset.htype==='out')startConn(e,e.target.dataset.node);
