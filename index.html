@@ -138,8 +138,9 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
 .ebody{flex:1;display:grid;grid-template-columns:192px 1fr 252px;overflow:hidden}
 .epal{background:var(--deep);border-right:1px solid var(--bdr);padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:3px}
 .eptitle{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);font-weight:600;margin-bottom:7px}
-.epi{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:500;transition:all .2s;border:1px solid transparent;user-select:none}
-.epi:hover{background:rgba(92,111,255,.07);border-color:var(--bdr)}
+.epi{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:600;transition:all .18s;border:1px solid transparent;user-select:none;letter-spacing:.1px}
+.epi:hover{transform:translateX(3px);border-color:var(--bdr2);background:rgba(92,111,255,.1)}
+.epi:active{transform:scale(.97)}
 .edot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .ecanvas{position:relative;flex:1;overflow:hidden;background:var(--void);background-image:radial-gradient(rgba(100,120,255,0.07) 1px,transparent 1px);background-size:28px 28px;cursor:default}
 #esvg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5}
@@ -661,7 +662,7 @@ insert into storage.buckets (id, name, public)
       <div class="epi" style="color:#80c8ff" data-type="condition"><div class="edot" style="background:#80c8ff"></div>⚡ Condição</div>
       <div class="epi" style="color:#80ffb0" data-type="delay"><div class="edot" style="background:#80ffb0"></div>⏳ Delay</div>
       <div class="epi" style="color:#ff8080" data-type="end"><div class="edot" style="background:#ff8080"></div>🏁 Fim do Fluxo</div>
-      <div style="font-size:10px;letter-spacing:1px;color:var(--dim);padding:10px 4px 4px;text-transform:uppercase;font-weight:600">Avançado</div>
+      <div style="font-size:9px;letter-spacing:1.5px;color:var(--dim);padding:12px 4px 5px;text-transform:uppercase;font-weight:700;border-top:1px solid var(--bdr);margin-top:4px">⚡ Avançado</div>
       <div class="epi" style="color:#00e5c3" data-type="choices"><div class="edot" style="background:#00e5c3"></div>☑️ Múltipla Escolha</div>
       <div class="epi" style="color:#ffb0ff" data-type="audio"><div class="edot" style="background:#ffb0ff"></div>🎙️ Áudio</div>
       <div class="epi" style="color:#ff8060" data-type="pdf"><div class="edot" style="background:#ff8060"></div>📄 PDF</div>
@@ -674,7 +675,7 @@ insert into storage.buckets (id, name, public)
       <div class="epi" style="color:#66bb6a" data-type="bonus"><div class="edot" style="background:#66bb6a"></div>🎁 Bônus</div>
       <div class="epi" style="color:#29b6f6" data-type="product"><div class="edot" style="background:#29b6f6"></div>🛍️ Produto</div>
       <div class="epi" style="color:#ef9a9a" data-type="linkimg"><div class="edot" style="background:#ef9a9a"></div>🔗🖼️ Link c/ Imagem</div>
-      <div style="font-size:10px;letter-spacing:1px;color:var(--dim);padding:10px 4px 4px;text-transform:uppercase;font-weight:600">Conteúdo</div>
+      <div style="font-size:9px;letter-spacing:1.5px;color:var(--dim);padding:12px 4px 5px;text-transform:uppercase;font-weight:700;border-top:1px solid var(--bdr);margin-top:4px">🎨 Conteúdo</div>
       <div class="epi" style="color:#fff176" data-type="title"><div class="edot" style="background:#fff176"></div>Aa Título</div>
       <div class="epi" style="color:#e0e0e0" data-type="text"><div class="edot" style="background:#e0e0e0"></div>📝 Texto</div>
       <div class="epi" style="color:#80cbc4" data-type="faq"><div class="edot" style="background:#80cbc4"></div>❓ FAQ</div>
@@ -730,7 +731,7 @@ insert into storage.buckets (id, name, public)
             <input type="text" class="pi" id="p-link-img" placeholder="https://... ou clique abaixo">
             <button class="btn btn-ghost btn-sm" id="btn-upload-linkimg" style="margin-top:4px">📁 Subir imagem</button>
           </div>
-          <div class="pf" id="p-collect-f" style="display:none"><label class="pl">Tipo de Dado</label><select class="pi" id="p-collect-type"><option value="text">Texto</option><option value="email">Email</option><option value="tel">Telefone</option><option value="number">Número</option></select></div>
+          <div class="pf" id="p-collect-f" style="display:none"><label class="pl">Tipo de Dado</label><select class="pi" id="p-collect-type"><option value="name">Nome</option><option value="text">Texto</option><option value="email">Email</option><option value="tel">Telefone</option><option value="number">Número</option></select></div>
           <div class="pf" id="p-collect-ph-f" style="display:none"><label class="pl">Placeholder</label><input class="pi" id="p-collect-ph" placeholder="Ex: Digite seu email..."></div>
           <div class="pf" id="p-webhook-f" style="display:none"><label class="pl">Webhook (URL)</label><input class="pi" id="p-webhook" placeholder="https://..."></div>
         </div>
@@ -936,6 +937,30 @@ insert into storage.buckets (id, name, public)
         <div style="font-size:28px;margin-bottom:8px">💬</div>
         <h3 style="font-size:14px">Atendimento / Suporte</h3>
         <p style="font-size:12px;color:var(--muted)">Menu de opções + captura + encaminha para humano.</p>
+        <div style="margin-top:8px;font-size:11px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('recuperacao')">
+        <div style="font-size:28px;margin-bottom:8px">🛒</div>
+        <h3 style="font-size:14px">Recuperação de Carrinho</h3>
+        <p style="font-size:12px;color:var(--muted)">Reengaja quem abandonou + cupom + urgência.</p>
+        <div style="margin-top:8px;font-size:11px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('nutricao')">
+        <div style="font-size:28px;margin-bottom:8px">🥗</div>
+        <h3 style="font-size:14px">Funil Saúde & Nutrição</h3>
+        <p style="font-size:12px;color:var(--muted)">Quiz de perfil + captura + oferta personalizada.</p>
+        <div style="margin-top:8px;font-size:11px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('fitness')">
+        <div style="font-size:28px;margin-bottom:8px">💪</div>
+        <h3 style="font-size:14px">Funil Treino & Fitness</h3>
+        <p style="font-size:12px;color:var(--muted)">Nível + objetivo + captura + oferta de personal.</p>
+        <div style="margin-top:8px;font-size:11px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('lancamento')">
+        <div style="font-size:28px;margin-bottom:8px">🌱</div>
+        <h3 style="font-size:14px">Lançamento Semente</h3>
+        <p style="font-size:12px;color:var(--muted)">Lista VIP + captura completa + escassez + bônus.</p>
         <div style="margin-top:8px;font-size:11px;color:var(--grn)">8 nós</div>
       </div>
     </div>
@@ -1661,7 +1686,7 @@ async function saveFlow(){
 }
 const TEMPLATES={
   vendas:{name:'Funil de Vendas Completo',channel:'wpp',botName:'Atendente',nodes:[
-    {id:'tv1',type:'image',x:60,y:60,content:'',url:'https://i.imgur.com/placeholder.jpg',delay:0},
+    {id:'tv1',type:'image',x:60,y:60,content:'',url:'',delay:0},
     {id:'tv2',type:'marquee',x:60,y:180,content:'🔥 ATENÇÃO! Oferta por tempo limitado!',url:'',delay:0},
     {id:'tv3',type:'message',x:60,y:300,content:'Olá! 👋 Você está prestes a descobrir como [resultado desejado] em apenas [tempo].',url:'',delay:2},
     {id:'tv4',type:'video',x:60,y:420,content:'Assista este vídeo importante:',url:'https://www.youtube.com/watch?v=',delay:3},
@@ -1744,6 +1769,60 @@ const TEMPLATES={
     {id:'es1',from:'ts1',to:'ts2'},{id:'es2',from:'ts2',to:'ts3'},{id:'es3',from:'ts3',to:'ts4'},
     {id:'es4',from:'ts4',to:'ts5'},{id:'es5',from:'ts5',to:'ts7'},{id:'es6',from:'ts2',to:'ts8'},
     {id:'es7',from:'ts8',to:'ts6'}
+  ]},
+  recuperacao:{name:'Recuperação de Carrinho',channel:'wpp',botName:'Suporte',nodes:[
+    {id:'tr1',type:'message',x:60,y:60,content:'Olá! 👋 Notamos que você não finalizou sua compra.',url:'',delay:2},
+    {id:'tr2',type:'message',x:60,y:180,content:'Separamos seu pedido e ele ainda está disponível por tempo limitado! ⏰',url:'',delay:1},
+    {id:'tr3',type:'scarcity',x:60,y:300,content:'Seu carrinho expira em:',url:'900',delay:0},
+    {id:'tr4',type:'choices',x:60,y:440,content:'O que aconteceu?',url:'',delay:0,options:'Esqueci de finalizar\nTive um problema no pagamento\nQuero ver outras opções\nNão tenho interesse'},
+    {id:'tr5',type:'discount',x:60,y:580,content:'Cupom especial para você:',url:'VOLTA10',delay:0},
+    {id:'tr6',type:'price',x:60,y:720,content:'R$ 97,00\nDe R$ 147,00\nFinalizar minha compra →',url:'https://hotmart.com',delay:0},
+    {id:'tr7',type:'end',x:60,y:860,content:'Obrigado! Acesso enviado no seu email. ✅',url:'',delay:0}
+  ],edges:[
+    {id:'etr1',from:'tr1',to:'tr2'},{id:'etr2',from:'tr2',to:'tr3'},{id:'etr3',from:'tr3',to:'tr4'},
+    {id:'etr4',from:'tr4',to:'tr5'},{id:'etr5',from:'tr5',to:'tr6'},{id:'etr6',from:'tr6',to:'tr7'}
+  ]},
+  nutricao:{name:'Funil Saúde & Nutrição',channel:'wpp',botName:'Nutricionista Virtual',nodes:[
+    {id:'tn1',type:'message',x:60,y:60,content:'Olá! 🥗 Sou a sua consultora de saúde virtual. Vou te ajudar a alcançar seus objetivos!',url:'',delay:2},
+    {id:'tn2',type:'choices',x:60,y:200,content:'Qual é o seu principal objetivo?',url:'',delay:0,options:'Emagrecer\nGanhar massa muscular\nMelhorar minha saúde\nTer mais energia no dia a dia'},
+    {id:'tn3',type:'question',x:60,y:360,content:'Quantos kg você quer perder/ganhar?',url:'',delay:0},
+    {id:'tn4',type:'collect',x:60,y:500,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'tn5',type:'whatsapp',x:60,y:640,content:'Qual é o seu WhatsApp para enviar o plano personalizado?',url:'',delay:0},
+    {id:'tn6',type:'loading',x:60,y:780,content:'🔬 Analisando seu perfil...',url:'',delay:0},
+    {id:'tn7',type:'testimonial',x:60,y:920,content:'Perdi 12kg em 3 meses seguindo o método!\nCarolina S., São Paulo',url:'5',delay:0},
+    {id:'tn8',type:'price',x:60,y:1060,content:'R$ 67,00\nDe R$ 197,00\nQuero meu plano personalizado →',url:'https://hotmart.com',delay:0}
+  ],edges:[
+    {id:'etn1',from:'tn1',to:'tn2'},{id:'etn2',from:'tn2',to:'tn3'},{id:'etn3',from:'tn3',to:'tn4'},
+    {id:'etn4',from:'tn4',to:'tn5'},{id:'etn5',from:'tn5',to:'tn6'},{id:'etn6',from:'tn6',to:'tn7'},
+    {id:'etn7',from:'tn7',to:'tn8'}
+  ]},
+  fitness:{name:'Funil Treino & Fitness',channel:'wpp',botName:'Personal Virtual',nodes:[
+    {id:'tf1',type:'marquee',x:60,y:60,content:'💪 MÉTODO EXCLUSIVO — Resultado em 30 dias!',url:'',delay:0},
+    {id:'tf2',type:'message',x:60,y:180,content:'Olá! Sou o seu personal trainer virtual. Vou montar um treino 100% personalizado para você! 💪',url:'',delay:2},
+    {id:'tf3',type:'choices',x:60,y:320,content:'Onde você prefere treinar?',url:'',delay:0,options:'Academia\nEm casa sem equipamentos\nEm casa com equipamentos\nAo ar livre'},
+    {id:'tf4',type:'choices',x:60,y:460,content:'Qual é o seu nível atual?',url:'',delay:0,options:'Iniciante (nunca treinei)\nIntermediário (treino às vezes)\nAvançado (treino regularmente)'},
+    {id:'tf5',type:'collect',x:60,y:600,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'tf6',type:'collect',x:60,y:740,content:'Qual é o seu email?',url:'',delay:0,inputType:'email',placeholder:'seu@email.com'},
+    {id:'tf7',type:'arguments',x:60,y:880,content:'Treinos de 30 a 45 minutos\nProgressão inteligente de cargas\nSuporte direto no WhatsApp\nAcesso vitalício ao app',url:'',delay:0},
+    {id:'tf8',type:'price',x:60,y:1020,content:'R$ 47,00\nDe R$ 197,00\nQuero meu treino agora! →',url:'https://hotmart.com',delay:0}
+  ],edges:[
+    {id:'etf1',from:'tf1',to:'tf2'},{id:'etf2',from:'tf2',to:'tf3'},{id:'etf3',from:'tf3',to:'tf4'},
+    {id:'etf4',from:'tf4',to:'tf5'},{id:'etf5',from:'tf5',to:'tf6'},{id:'etf6',from:'tf6',to:'tf7'},
+    {id:'etf7',from:'tf7',to:'tf8'}
+  ]},
+  lancamento:{name:'Lançamento Semente',channel:'wpp',botName:'Lançamento',nodes:[
+    {id:'tls1',type:'message',x:60,y:60,content:'🌱 A lista VIP está aberta! Você foi selecionado(a) para ter acesso antecipado.',url:'',delay:2},
+    {id:'tls2',type:'collect',x:60,y:200,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'tls3',type:'collect',x:60,y:340,content:'Qual é o seu melhor email?',url:'',delay:0,inputType:'email',placeholder:'seu@email.com'},
+    {id:'tls4',type:'whatsapp',x:60,y:480,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'tls5',type:'scarcity',x:60,y:620,content:'Vagas encerram em:',url:'3600',delay:0},
+    {id:'tls6',type:'bonus',x:60,y:760,content:'Acesso antecipado com desconto\nBônus exclusivo para fundadores\nComunidade VIP privada',url:'',delay:0},
+    {id:'tls7',type:'price',x:60,y:900,content:'R$ 197,00\nDe R$ 497,00\nGarantir minha vaga VIP →',url:'https://hotmart.com',delay:0},
+    {id:'tls8',type:'confetti',x:60,y:1040,content:'Parabéns! Você é um fundador! 🎉',url:'',delay:0}
+  ],edges:[
+    {id:'etls1',from:'tls1',to:'tls2'},{id:'etls2',from:'tls2',to:'tls3'},{id:'etls3',from:'tls3',to:'tls4'},
+    {id:'etls4',from:'tls4',to:'tls5'},{id:'etls5',from:'tls5',to:'tls6'},{id:'etls6',from:'tls6',to:'tls7'},
+    {id:'etls7',from:'tls7',to:'tls8'}
   ]}
 };
 function loadTemplate(key){
