@@ -902,79 +902,174 @@ insert into storage.buckets (id, name, public)
 
 <!-- ════════════ TEMPLATES MODAL ════════════ -->
 <div class="cmodal" id="templates-modal">
-  <div class="cbox" style="max-width:680px">
+  <div class="cbox" style="max-width:780px;max-height:85vh;overflow-y:auto">
     <button class="mclose" onclick="document.getElementById('templates-modal').classList.remove('open')">✕</button>
     <h2>⚡ Templates de Funil</h2>
-    <p style="color:var(--muted);font-size:13px;margin-bottom:16px">Clique em um template para carregar no editor.</p>
-    
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px" id="tpl-cat-tabs">
-      <button class="btn btn-primary btn-sm tpl-tab active" data-cat="all">Todos</button>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:16px">Clique em um template para carregar no editor. Personalize e compartilhe.</p>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px" id="tpl-cat-tabs">
+      <button class="btn btn-primary btn-sm tpl-tab" data-cat="all">✨ Todos (21)</button>
       <button class="btn btn-ghost btn-sm tpl-tab" data-cat="vendas">🔥 Vendas</button>
-      <button class="btn btn-ghost btn-sm tpl-tab" data-cat="saude">❤️ Saúde</button>
+      <button class="btn btn-ghost btn-sm tpl-tab" data-cat="saude">❤️ Saúde & Beleza</button>
       <button class="btn btn-ghost btn-sm tpl-tab" data-cat="dinheiro">💰 Dinheiro</button>
+      <button class="btn btn-ghost btn-sm tpl-tab" data-cat="nicho">🎯 Nichos</button>
       <button class="btn btn-ghost btn-sm tpl-tab" data-cat="outros">💬 Outros</button>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px" id="tpl-grid">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:10px" id="tpl-grid">
+
+      <!-- VENDAS -->
       <div class="fcard" style="cursor:pointer" onclick="loadTemplate('vendas')" data-cat="vendas">
-        <div style="font-size:28px;margin-bottom:8px">🔥</div>
-        <h3 style="font-size:14px">Funil de Vendas Completo</h3>
-        <p style="font-size:12px;color:var(--muted)">VSL + captura + escassez + preço. Para infoprodutos.</p>
-        <div style="margin-top:8px;font-size:11px;color:var(--grn)">12 nós</div>
+        <div style="font-size:26px;margin-bottom:6px">🔥</div>
+        <h3 style="font-size:13px">Funil de Vendas Completo</h3>
+        <p style="font-size:11px;color:var(--muted)">VSL + captura + escassez + preço.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">12 nós</div>
       </div>
       <div class="fcard" style="cursor:pointer" onclick="loadTemplate('quiz')" data-cat="vendas">
-        <div style="font-size:28px;margin-bottom:8px">🎯</div>
-        <h3 style="font-size:14px">Quiz de Segmentação</h3>
-        <p style="font-size:12px;color:var(--muted)">Pergunta perfil + captura + redireciona para oferta.</p>
-        <div style="margin-top:8px;font-size:11px;color:var(--grn)">8 nós</div>
+        <div style="font-size:26px;margin-bottom:6px">🎯</div>
+        <h3 style="font-size:13px">Quiz de Segmentação</h3>
+        <p style="font-size:11px;color:var(--muted)">Perfil + captura + oferta personalizada.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
       </div>
       <div class="fcard" style="cursor:pointer" onclick="loadTemplate('lead')" data-cat="vendas">
-        <div style="font-size:28px;margin-bottom:8px">📋</div>
-        <h3 style="font-size:14px">Captura de Leads</h3>
-        <p style="font-size:12px;color:var(--muted)">Nome + Email + WhatsApp com bônus de isca.</p>
-        <div style="margin-top:8px;font-size:11px;color:var(--grn)">6 nós</div>
+        <div style="font-size:26px;margin-bottom:6px">📋</div>
+        <h3 style="font-size:13px">Captura de Leads</h3>
+        <p style="font-size:11px;color:var(--muted)">Nome + Email + WhatsApp + bônus.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">6 nós</div>
       </div>
       <div class="fcard" style="cursor:pointer" onclick="loadTemplate('depoimento')" data-cat="vendas">
-        <div style="font-size:28px;margin-bottom:8px">⭐</div>
-        <h3 style="font-size:14px">Prova Social</h3>
-        <p style="font-size:12px;color:var(--muted)">Depoimentos + argumentos + oferta final.</p>
-        <div style="margin-top:8px;font-size:11px;color:var(--grn)">7 nós</div>
+        <div style="font-size:26px;margin-bottom:6px">⭐</div>
+        <h3 style="font-size:13px">Prova Social</h3>
+        <p style="font-size:11px;color:var(--muted)">Depoimentos + argumentos + oferta.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
       </div>
       <div class="fcard" style="cursor:pointer" onclick="loadTemplate('ecommerce')" data-cat="vendas">
-        <div style="font-size:28px;margin-bottom:8px">🛍️</div>
-        <h3 style="font-size:14px">Lançamento de Produto</h3>
-        <p style="font-size:12px;color:var(--muted)">Antecipação + lançamento + cupom exclusivo.</p>
-        <div style="margin-top:8px;font-size:11px;color:var(--grn)">9 nós</div>
-      </div>
-      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('suporte')" data-cat="outros">
-        <div style="font-size:28px;margin-bottom:8px">💬</div>
-        <h3 style="font-size:14px">Atendimento / Suporte</h3>
-        <p style="font-size:12px;color:var(--muted)">Menu de opções + captura + encaminha para humano.</p>
-        <div style="margin-top:8px;font-size:11px;color:var(--grn)">8 nós</div>
+        <div style="font-size:26px;margin-bottom:6px">🛍️</div>
+        <h3 style="font-size:13px">Lançamento de Produto</h3>
+        <p style="font-size:11px;color:var(--muted)">Antecipação + lançamento + cupom.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">9 nós</div>
       </div>
       <div class="fcard" style="cursor:pointer" onclick="loadTemplate('recuperacao')" data-cat="vendas">
-        <div style="font-size:28px;margin-bottom:8px">🛒</div>
-        <h3 style="font-size:14px">Recuperação de Carrinho</h3>
-        <p style="font-size:12px;color:var(--muted)">Reengaja quem abandonou + cupom + urgência.</p>
-        <div style="margin-top:8px;font-size:11px;color:var(--grn)">7 nós</div>
-      </div>
-      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('nutricao')" data-cat="saude">
-        <div style="font-size:28px;margin-bottom:8px">🥗</div>
-        <h3 style="font-size:14px">Funil Saúde & Nutrição</h3>
-        <p style="font-size:12px;color:var(--muted)">Quiz de perfil + captura + oferta personalizada.</p>
-        <div style="margin-top:8px;font-size:11px;color:var(--grn)">8 nós</div>
-      </div>
-      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('fitness')" data-cat="saude">
-        <div style="font-size:28px;margin-bottom:8px">💪</div>
-        <h3 style="font-size:14px">Funil Treino & Fitness</h3>
-        <p style="font-size:12px;color:var(--muted)">Nível + objetivo + captura + oferta de personal.</p>
-        <div style="margin-top:8px;font-size:11px;color:var(--grn)">8 nós</div>
+        <div style="font-size:26px;margin-bottom:6px">🛒</div>
+        <h3 style="font-size:13px">Recuperação de Carrinho</h3>
+        <p style="font-size:11px;color:var(--muted)">Reengaja + cupom + urgência.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
       </div>
       <div class="fcard" style="cursor:pointer" onclick="loadTemplate('lancamento')" data-cat="vendas">
-        <div style="font-size:28px;margin-bottom:8px">🌱</div>
-        <h3 style="font-size:14px">Lançamento Semente</h3>
-        <p style="font-size:12px;color:var(--muted)">Lista VIP + captura completa + escassez + bônus.</p>
-        <div style="margin-top:8px;font-size:11px;color:var(--grn)">8 nós</div>
+        <div style="font-size:26px;margin-bottom:6px">🌱</div>
+        <h3 style="font-size:13px">Lançamento Semente</h3>
+        <p style="font-size:11px;color:var(--muted)">Lista VIP + captura + bônus.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
       </div>
+
+      <!-- SAÚDE & BELEZA -->
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('nutricao')" data-cat="saude">
+        <div style="font-size:26px;margin-bottom:6px">🥗</div>
+        <h3 style="font-size:13px">Saúde & Nutrição</h3>
+        <p style="font-size:11px;color:var(--muted)">Quiz perfil + captura + oferta.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('fitness')" data-cat="saude">
+        <div style="font-size:26px;margin-bottom:6px">💪</div>
+        <h3 style="font-size:13px">Treino & Fitness</h3>
+        <p style="font-size:11px;color:var(--muted)">Nível + objetivo + captura + oferta.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('receitas')" data-cat="saude">
+        <div style="font-size:26px;margin-bottom:6px">🥘</div>
+        <h3 style="font-size:13px">Receitas Saudáveis</h3>
+        <p style="font-size:11px;color:var(--muted)">Estilo + tempo + captura + oferta.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('estetica')" data-cat="saude">
+        <div style="font-size:26px;margin-bottom:6px">💅</div>
+        <h3 style="font-size:13px">Estética & Beleza</h3>
+        <p style="font-size:11px;color:var(--muted)">Desejo + depoimentos + captura.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('suplementos')" data-cat="saude">
+        <div style="font-size:26px;margin-bottom:6px">💊</div>
+        <h3 style="font-size:13px">Suplementos</h3>
+        <p style="font-size:11px;color:var(--muted)">Objetivo + captura + oferta + PIX.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">9 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('skincare')" data-cat="saude">
+        <div style="font-size:26px;margin-bottom:6px">🧴</div>
+        <h3 style="font-size:13px">Skin Care</h3>
+        <p style="font-size:11px;color:var(--muted)">Tipo de pele + rotina + captura.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">9 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('unhas')" data-cat="saude">
+        <div style="font-size:26px;margin-bottom:6px">💅</div>
+        <h3 style="font-size:13px">Unhas & Nail Design</h3>
+        <p style="font-size:11px;color:var(--muted)">Portfolio + captura + agendamento.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('cabelo')" data-cat="saude">
+        <div style="font-size:26px;margin-bottom:6px">💇</div>
+        <h3 style="font-size:13px">Cabelo & Hair</h3>
+        <p style="font-size:11px;color:var(--muted)">Tipo + problema + captura + oferta.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">9 nós</div>
+      </div>
+
+      <!-- DINHEIRO -->
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('rendaextra')" data-cat="dinheiro">
+        <div style="font-size:26px;margin-bottom:6px">💸</div>
+        <h3 style="font-size:13px">Renda Extra Online</h3>
+        <p style="font-size:11px;color:var(--muted)">Tempo + objetivo + captura + oferta.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('dinheiro')" data-cat="dinheiro">
+        <div style="font-size:26px;margin-bottom:6px">💰</div>
+        <h3 style="font-size:13px">Investimentos & Dinheiro</h3>
+        <p style="font-size:11px;color:var(--muted)">Situação + objetivo + captura.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">9 nós</div>
+      </div>
+
+      <!-- NICHOS -->
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('turismo')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">✈️</div>
+        <h3 style="font-size:13px">Agente de Viagens</h3>
+        <p style="font-size:11px;color:var(--muted)">Destino + orçamento + captura + oferta.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">14 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('freeflow')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">🚗</div>
+        <h3 style="font-size:13px">Tag Free Flow</h3>
+        <p style="font-size:11px;color:var(--muted)">Evite multas + regularize + afiliado.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">10 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('culinaria')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">👨‍🍳</div>
+        <h3 style="font-size:13px">Culinária</h3>
+        <p style="font-size:11px;color:var(--muted)">Quiz + captura + bônus + oferta.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">6 nós</div>
+      </div>
+
+      <!-- OUTROS -->
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('relacionamento')" data-cat="outros">
+        <div style="font-size:26px;margin-bottom:6px">💕</div>
+        <h3 style="font-size:13px">Relacionamento & Amor</h3>
+        <p style="font-size:11px;color:var(--muted)">Situação + captura + escassez.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('espiritualidade')" data-cat="outros">
+        <div style="font-size:26px;margin-bottom:6px">🙏</div>
+        <h3 style="font-size:13px">Espiritualidade & Mindset</h3>
+        <p style="font-size:11px;color:var(--muted)">Propósito + captura + argumentos.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('infantil')" data-cat="outros">
+        <div style="font-size:26px;margin-bottom:6px">👶</div>
+        <h3 style="font-size:13px">Educação Infantil</h3>
+        <p style="font-size:11px;color:var(--muted)">Faixa etária + objetivo + captura.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('suporte')" data-cat="outros">
+        <div style="font-size:26px;margin-bottom:6px">💬</div>
+        <h3 style="font-size:13px">Atendimento / Suporte</h3>
+        <p style="font-size:11px;color:var(--muted)">Menu + captura + encaminha humano.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1996,6 +2091,65 @@ const TEMPLATES={
   ],edges:[
     {id:'einf1',from:'tinf1',to:'tinf2'},{id:'einf2',from:'tinf2',to:'tinf3'},{id:'einf3',from:'tinf3',to:'tinf4'},
     {id:'einf4',from:'tinf4',to:'tinf5'},{id:'einf5',from:'tinf5',to:'tinf6'},{id:'einf6',from:'tinf6',to:'tinf7'}
+  ]},
+  suplementos:{name:'Funil Suplementos',channel:'wpp',botName:'Consultor de Suplementos',nodes:[
+    {id:'tsup1',type:'marquee',x:60,y:60,content:'💊 RESULTADO GARANTIDO — Suplementos com até 40% OFF!',url:'',delay:0},
+    {id:'tsup2',type:'message',x:60,y:180,content:'Olá! 💪 Sou seu consultor de suplementação. Vou te ajudar a escolher os suplementos CERTOS para o seu objetivo!',url:'',delay:2},
+    {id:'tsup3',type:'choices',x:60,y:320,content:'Qual é o seu objetivo principal?',url:'',delay:0,options:'Ganhar massa muscular\nEmagrecer e definir\nMelhorar performance\nSaúde e bem-estar geral'},
+    {id:'tsup4',type:'choices',x:60,y:460,content:'Você já usa algum suplemento?',url:'',delay:0,options:'Nunca usei\nUso proteína/whey\nUso vários suplementos\nParei de usar, quero voltar'},
+    {id:'tsup5',type:'collect',x:60,y:600,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'tsup6',type:'whatsapp',x:60,y:740,content:'Qual é o seu WhatsApp para o consultor enviar o protocolo?',url:'',delay:0},
+    {id:'tsup7',type:'loading',x:60,y:880,content:'🔬 Montando seu protocolo personalizado...',url:'',delay:0},
+    {id:'tsup8',type:'arguments',x:60,y:1020,content:'Suplementos 100% originais e certificados\nEntrega em até 3 dias úteis\nConsultoria gratuita inclusa\nGarantia de resultados em 30 dias\nParcelamento em até 12x',url:'',delay:0},
+    {id:'tsup9',type:'price',x:60,y:1160,content:'A partir de R$ 89,90\nFrete grátis acima de R$ 200\n💊 Ver meu protocolo personalizado →',url:'https://hotmart.com',delay:0}
+  ],edges:[
+    {id:'esup1',from:'tsup1',to:'tsup2'},{id:'esup2',from:'tsup2',to:'tsup3'},{id:'esup3',from:'tsup3',to:'tsup4'},
+    {id:'esup4',from:'tsup4',to:'tsup5'},{id:'esup5',from:'tsup5',to:'tsup6'},{id:'esup6',from:'tsup6',to:'tsup7'},
+    {id:'esup7',from:'tsup7',to:'tsup8'},{id:'esup8',from:'tsup8',to:'tsup9'}
+  ]},
+  skincare:{name:'Funil Skin Care',channel:'wpp',botName:'Dermatologista Virtual',nodes:[
+    {id:'tsk1',type:'message',x:60,y:60,content:'Olá! 🧴 Sou sua dermatologista virtual. Vou criar uma rotina de skin care PERSONALIZADA para você!',url:'',delay:2},
+    {id:'tsk2',type:'choices',x:60,y:200,content:'Qual é o seu tipo de pele?',url:'',delay:0,options:'Pele seca e ressecada\nPele oleosa e com brilho\nPele mista (oleosa na T-zone)\nPele sensível e irritada'},
+    {id:'tsk3',type:'choices',x:60,y:360,content:'Qual é o seu maior problema de pele?',url:'',delay:0,options:'Acne e espinhas\nManchas e melasma\nRugas e linhas de expressão\nPoros dilatados'},
+    {id:'tsk4',type:'collect',x:60,y:500,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'tsk5',type:'collect',x:60,y:640,content:'Qual é o seu email para enviarmos sua rotina personalizada?',url:'',delay:0,inputType:'email',placeholder:'seu@email.com'},
+    {id:'tsk6',type:'loading',x:60,y:780,content:'🔬 Analisando seu perfil de pele...',url:'',delay:0},
+    {id:'tsk7',type:'testimonial',x:60,y:920,content:'Minha pele nunca esteve tão uniforme e hidratada!\nFernanda L., São Paulo',url:'5',delay:0},
+    {id:'tsk8',type:'visitors',x:60,y:1060,content:'pessoas já transformaram sua pele',url:'',delay:0},
+    {id:'tsk9',type:'price',x:60,y:1200,content:'R$ 67,00\nDe R$ 197,00\n🧴 Quero minha rotina personalizada! →',url:'https://hotmart.com',delay:0}
+  ],edges:[
+    {id:'esk1',from:'tsk1',to:'tsk2'},{id:'esk2',from:'tsk2',to:'tsk3'},{id:'esk3',from:'tsk3',to:'tsk4'},
+    {id:'esk4',from:'tsk4',to:'tsk5'},{id:'esk5',from:'tsk5',to:'tsk6'},{id:'esk6',from:'tsk6',to:'tsk7'},
+    {id:'esk7',from:'tsk7',to:'tsk8'},{id:'esk8',from:'tsk8',to:'tsk9'}
+  ]},
+  unhas:{name:'Funil Unhas & Nail Design',channel:'wpp',botName:'Nail Designer',nodes:[
+    {id:'tun1',type:'message',x:60,y:60,content:'Olá! 💅 Sou nail designer e estou aqui para transformar suas unhas! Veja meu trabalho e agende seu horário!',url:'',delay:2},
+    {id:'tun2',type:'choices',x:60,y:200,content:'O que você gostaria de fazer?',url:'',delay:0,options:'Unhas em gel\nUnhas acrílicas\nNail art e design\nManutenção e esmaltação'},
+    {id:'tun3',type:'choices',x:60,y:360,content:'Com que frequência você vai à manicure?',url:'',delay:0,options:'Toda semana\nA cada 15 dias\nUma vez ao mês\nRaramente'},
+    {id:'tun4',type:'collect',x:60,y:500,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'tun5',type:'whatsapp',x:60,y:640,content:'Qual é o seu WhatsApp para agendarmos seu horário?',url:'',delay:0},
+    {id:'tun6',type:'testimonial',x:60,y:780,content:'As minhas unhas nunca ficaram tão lindas! Trabalho incrível!\nJessica M., Rio de Janeiro',url:'5',delay:0},
+    {id:'tun7',type:'scarcity',x:60,y:920,content:'⏰ Vagas esta semana quase esgotadas!',url:'3600',delay:0},
+    {id:'tun8',type:'price',x:60,y:1060,content:'A partir de R$ 45,00\nAgendamento com 10% de desconto\n💅 Agendar meu horário →',url:'https://wa.me/5511999999999',delay:0}
+  ],edges:[
+    {id:'eun1',from:'tun1',to:'tun2'},{id:'eun2',from:'tun2',to:'tun3'},{id:'eun3',from:'tun3',to:'tun4'},
+    {id:'eun4',from:'tun4',to:'tun5'},{id:'eun5',from:'tun5',to:'tun6'},{id:'eun6',from:'tun6',to:'tun7'},
+    {id:'eun7',from:'tun7',to:'tun8'}
+  ]},
+  cabelo:{name:'Funil Cabelo & Hair',channel:'wpp',botName:'Hair Designer',nodes:[
+    {id:'thair1',type:'marquee',x:60,y:60,content:'✨ CABELO DOS SONHOS — Transformação garantida!',url:'',delay:0},
+    {id:'thair2',type:'message',x:60,y:180,content:'Olá! 💇 Sou especialista em cabelos e vou te ajudar a ter o cabelo dos seus sonhos de forma personalizada!',url:'',delay:2},
+    {id:'thair3',type:'choices',x:60,y:320,content:'Qual é o seu tipo de cabelo?',url:'',delay:0,options:'Liso natural\nOndulado\nCacheado\nCrespo/Afro'},
+    {id:'thair4',type:'choices',x:60,y:460,content:'Qual é o seu principal problema capilar?',url:'',delay:0,options:'Queda de cabelo\nFrizz e rebeldia\nCabelo seco e quebradiço\nCouro cabeludo oleoso'},
+    {id:'thair5',type:'collect',x:60,y:600,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'thair6',type:'collect',x:60,y:740,content:'Qual é o seu email para receber o diagnóstico capilar?',url:'',delay:0,inputType:'email',placeholder:'seu@email.com'},
+    {id:'thair7',type:'loading',x:60,y:880,content:'🔬 Analisando seu perfil capilar...',url:'',delay:0},
+    {id:'thair8',type:'arguments',x:60,y:1020,content:'Diagnóstico capilar 100% personalizado\nProtocolo de tratamento exclusivo\nProdutos recomendados por tipo\nAcompanhamento profissional\nResultados visíveis em 30 dias',url:'',delay:0},
+    {id:'thair9',type:'price',x:60,y:1160,content:'R$ 57,00\nDe R$ 197,00\n💇 Quero transformar meu cabelo! →',url:'https://hotmart.com',delay:0}
+  ],edges:[
+    {id:'ehair1',from:'thair1',to:'thair2'},{id:'ehair2',from:'thair2',to:'thair3'},{id:'ehair3',from:'thair3',to:'thair4'},
+    {id:'ehair4',from:'thair4',to:'thair5'},{id:'ehair5',from:'thair5',to:'thair6'},{id:'ehair6',from:'thair6',to:'thair7'},
+    {id:'ehair7',from:'thair7',to:'thair8'},{id:'ehair8',from:'thair8',to:'thair9'}
   ]}
 };
 function loadTemplate(key){
