@@ -239,13 +239,15 @@ function startFlow(flow){
   var msgs=document.getElementById('pub-msgs');
   if(msgs){
     msgs.innerHTML='';
-    // Apply saved background color
     if(flow.bgColor&&flow.bgColor!=='__pattern_dark'){
       msgs.style.background=flow.bgColor;
+      // Apply WhatsApp-style pattern overlay
+      msgs.style.backgroundImage=generatePattern(flow.bgColor);
+      msgs.style.backgroundSize='22px 22px';
     }else if(flow.bgColor==='__pattern_dark'){
-      msgs.style.background='#1a1a1a';
-      msgs.style.backgroundImage='radial-gradient(rgba(255,255,255,0.05) 1px,transparent 1px)';
-      msgs.style.backgroundSize='24px 24px';
+      msgs.style.background='#0d1117';
+      msgs.style.backgroundImage=generatePattern('#0d1117');
+      msgs.style.backgroundSize='22px 22px';
     }
   }
   document.getElementById('pub-wrap').style.display='flex';
@@ -357,6 +359,13 @@ function sendWebhook(val,type,label){
   console.log('[Mandrake] Enviando webhook para:',wh.slice(0,50));
   console.log('[Mandrake] Payload:',JSON.stringify(payload));
   fetch(wh,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(e){console.warn('[Mandrake] Webhook erro:',e);});
+}
+
+function generatePattern(color){
+  // Simple CSS pattern - radial dots like WhatsApp
+  var isDark=color.startsWith('#1')||color.startsWith('#0')||color==='#000'||color==='#0d1117';
+  var pc=isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.05)';
+  return 'radial-gradient('+pc+' 1.5px,transparent 1.5px)';
 }
 
 function normalizeImgUrl(url){
@@ -489,22 +498,26 @@ function addBubble(n,who){
   }else if(n.type==='linkimg'){
     var liUrl=n.imgUrl||n.data||n.url||'';
     var liLink=n.link||'#';
-    b.style.cssText='max-width:88%;align-self:flex-start;cursor:pointer;border-radius:10px;overflow:hidden;background:#25d366;border:none;padding:0;display:block';
-    b.onclick=function(){if(liLink&&liLink!=='#')window.open(liLink,'_blank');};
+    // Wrapper principal - não usa <b> diretamente para evitar compressão
+    b.style.cssText='background:transparent;border:none;padding:0;align-self:flex-start;max-width:88%;display:block';
+    var liWrap=document.createElement('div');
+    liWrap.style.cssText='border-radius:10px;overflow:hidden;cursor:pointer;display:block;width:100%';
+    liWrap.onclick=function(){if(liLink&&liLink!=='#')window.open(liLink,'_blank');};
     // Imagem acima do botão
     var normalizedLi=normalizeImgUrl(liUrl);
     if(normalizedLi){
       var liImg=document.createElement('img');
       liImg.src=normalizedLi;
       liImg.setAttribute('referrerpolicy','no-referrer');
-      liImg.style.cssText='width:100%;display:block;max-height:220px;object-fit:cover';
+      liImg.style.cssText='width:100%;display:block;height:180px;object-fit:cover';
       liImg.onerror=function(){if(liImg.parentNode)liImg.parentNode.removeChild(liImg);};
-      b.appendChild(liImg);
+      liWrap.appendChild(liImg);
     }
     var lc=document.createElement('div');
     lc.style.cssText='background:#25d366;color:white;padding:11px 14px;font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px';
     lc.innerHTML='🔗 '+(n.content||'Clique para saber mais')+' <span style="margin-left:auto">→</span>';
-    b.appendChild(lc);
+    liWrap.appendChild(lc);
+    b.appendChild(liWrap);
   }else if(n.type==='scarcity'){
     var secs=(parseInt(n.url)>0?parseInt(n.url):0)||(parseInt(n.content)>0?parseInt(n.content):0)||300;
     b.style.cssText='background:linear-gradient(135deg,#ff4444,#cc0000);color:white;border-radius:12px;padding:14px 18px;text-align:center;max-width:88%;align-self:flex-start;border:none';
