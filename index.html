@@ -788,6 +788,7 @@ insert into storage.buckets (id, name, public)
       <p style="font-size:12px;font-weight:600;margin-bottom:8px">Nós do Fluxo</p>
       <div id="prev-nodes-list" style="display:flex;flex-direction:column;gap:5px"></div>
     </div>
+    <button class="btn btn-sec btn-sm" id="btn-save-bg" style="width:100%;justify-content:center;margin-bottom:6px">💾 Salvar Fundo</button>
     <button class="btn btn-ghost btn-sm" id="btn-restart" style="width:100%;justify-content:center">↺ Reiniciar</button>
   </div>
   <div class="prev-main">
@@ -2296,13 +2297,14 @@ function toggleTheme(){
   }
 }
 function setWppPatternBg(){
-  // Dark background with subtle dot pattern (like the uploaded photo)
   const style='#1a1a1a';
   const msgs=document.getElementById('prev-msgs');
   const pubMsgs=document.getElementById('pub-msgs');
   if(msgs){msgs.style.background=style;msgs.style.backgroundImage='radial-gradient(rgba(255,255,255,0.05) 1px,transparent 1px)';msgs.style.backgroundSize='24px 24px';}
   if(pubMsgs){pubMsgs.style.background=style;pubMsgs.style.backgroundImage='radial-gradient(rgba(255,255,255,0.05) 1px,transparent 1px)';pubMsgs.style.backgroundSize='24px 24px';}
   try{localStorage.setItem('mdk_wpp_bg','__pattern_dark');}catch{}
+  const saveBtn=document.getElementById('btn-save-bg');
+  if(saveBtn){saveBtn.style.background='var(--grn)';saveBtn.style.color='#000';saveBtn.textContent='💾 Salvar Fundo ←';}
 }
 function setWppBg(color){
   const msgs=document.getElementById('prev-msgs');
@@ -2310,6 +2312,9 @@ function setWppBg(color){
   if(msgs){msgs.style.background=color;msgs.style.backgroundImage='';}
   if(pubMsgs){pubMsgs.style.background=color;pubMsgs.style.backgroundImage='';}
   try{localStorage.setItem('mdk_wpp_bg',color);}catch{}
+  // Show reminder to save
+  const saveBtn=document.getElementById('btn-save-bg');
+  if(saveBtn){saveBtn.style.background='var(--grn)';saveBtn.style.color='#000';saveBtn.textContent='💾 Salvar Fundo ←';}
 }
 function formatTimer(secs){
   const h=Math.floor(secs/3600);
@@ -3000,6 +3005,27 @@ document.addEventListener('DOMContentLoaded',async()=>{
   document.getElementById('btn-prev-dash')?.addEventListener('click',backToDash);
   document.getElementById('btn-prev-share')?.addEventListener('click',openShare);
   document.getElementById('btn-restart')?.addEventListener('click',restartPreview);
+  document.getElementById('btn-save-bg')?.addEventListener('click',async()=>{
+    // Get current background color from localStorage
+    const bg=localStorage.getItem('mdk_wpp_bg')||'';
+    // Save into the current flow object
+    const ex=(flows||[]).findIndex(f=>f.id===curFId);
+    if(ex>=0){
+      flows[ex].bgColor=bg;
+      await persistFlow(flows[ex]);
+      toast('Fundo salvo no fluxo! 🎨','✓');
+      const sb=document.getElementById('btn-save-bg');
+      if(sb){sb.style.background='';sb.style.color='';sb.textContent='💾 Salvar Fundo';}
+    } else {
+      // Flow not saved yet - save it first
+      await saveFlow();
+      const ex2=(flows||[]).findIndex(f=>f.id===curFId);
+      if(ex2>=0){flows[ex2].bgColor=bg;await persistFlow(flows[ex2]);}
+      toast('Fluxo e fundo salvos! 🎨','✓');
+      const sb2=document.getElementById('btn-save-bg');
+      if(sb2){sb2.style.background='';sb2.style.color='';sb2.textContent='💾 Salvar Fundo';}
+    }
+  });
   document.getElementById('prev-send')?.addEventListener('click',prevSend);
   document.getElementById('prev-input')?.addEventListener('keydown',e=>{if(e.key==='Enter')prevSend();});
   document.querySelectorAll('[data-theme]').forEach(btn=>{
