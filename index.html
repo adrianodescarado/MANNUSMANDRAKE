@@ -969,10 +969,15 @@ insert into storage.buckets (id, name, public)
       <div>
         <p style="font-size:13px;font-weight:500;margin-bottom:6px">Foto do atendente</p>
         <div style="display:flex;gap:8px">
-          <button class="btn btn-ghost btn-sm" id="btn-bot-photo">📷 Alterar</button>
+          <button class="btn btn-ghost btn-sm" id="btn-bot-photo">📷 Upload</button>
           <button class="btn btn-danger btn-sm" id="btn-bot-remove">🗑 Remover</button>
         </div>
       </div>
+    </div>
+    <div class="fg">
+      <label class="fl">🔗 URL da foto (recomendado)</label>
+      <input type="text" class="fi" id="bot-avatar-url" placeholder="https://i.imgur.com/SuaFoto.jpg">
+      <p style="font-size:11px;color:var(--dim);margin-top:4px;line-height:1.5">Cole a URL direta da imagem. Funciona em qualquer dispositivo ao compartilhar.</p>
     </div>
     <div class="fg"><label class="fl">Nome do Atendente</label><input type="text" class="fi" id="bot-name-input" placeholder="Ex: Ana, Suporte, Vendas..."></div>
     <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:4px" id="btn-save-bot">Salvar</button>
@@ -2774,6 +2779,9 @@ function copyLink(){
 // ═══════════════════════════════════════════════
 function openBotConfig(){
   document.getElementById('bot-name-input').value=botName;
+  // Populate URL field if avatar is a URL
+  const urlField=document.getElementById('bot-avatar-url');
+  if(urlField)urlField.value=(botAvatar&&botAvatar.startsWith('http'))?botAvatar:'';
   const av=document.getElementById('bot-av-preview');
   if(botAvatar){av.style.backgroundImage='url('+botAvatar+')';av.style.backgroundSize='cover';av.textContent='';}
   else{av.style.backgroundImage='';av.textContent='🤖';}
@@ -3024,6 +3032,16 @@ document.addEventListener('DOMContentLoaded',async()=>{
 
   // ── Bot config modal
   document.getElementById('btn-close-bot')?.addEventListener('click',()=>document.getElementById('bot-modal').classList.remove('open'));
+  // Live preview when typing URL
+  document.getElementById('bot-avatar-url')?.addEventListener('input',e=>{
+    const url=e.target.value.trim();
+    const av=document.getElementById('bot-av-preview');
+    if(url&&url.startsWith('http')){
+      av.style.backgroundImage='url('+url+')';av.style.backgroundSize='cover';av.style.backgroundPosition='center';av.textContent='';
+    } else if(!url){
+      av.style.backgroundImage='';av.textContent='🤖';
+    }
+  });
   document.getElementById('bot-modal')?.addEventListener('click',e=>{if(e.target===e.currentTarget)document.getElementById('bot-modal').classList.remove('open');});
   document.getElementById('btn-bot-photo')?.addEventListener('click',()=>{
     const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
@@ -3051,7 +3069,18 @@ document.addEventListener('DOMContentLoaded',async()=>{
     };inp.click();
   });
   document.getElementById('btn-bot-remove')?.addEventListener('click',()=>{botAvatar='';const av=document.getElementById('bot-av-preview');av.style.backgroundImage='';av.textContent='🤖';toast('Foto removida','ℹ');});
-  document.getElementById('btn-save-bot')?.addEventListener('click',()=>{botName=document.getElementById('bot-name-input').value.trim()||'Atendente';document.getElementById('bot-modal').classList.remove('open');toast('Atendente configurado!','✓');});
+  document.getElementById('btn-save-bot')?.addEventListener('click',()=>{
+  botName=document.getElementById('bot-name-input').value.trim()||'Atendente';
+  // URL takes priority over upload (works cross-browser in shared links)
+  const urlVal=(document.getElementById('bot-avatar-url')?.value||'').trim();
+  if(urlVal){
+    botAvatar=urlVal;
+    const av=document.getElementById('bot-av-preview');
+    av.style.backgroundImage='url('+urlVal+')';av.style.backgroundSize='cover';av.textContent='';
+  }
+  document.getElementById('bot-modal').classList.remove('open');
+  toast('Atendente configurado! ✓','✓');
+});
 
   // ── Editor header buttons (previously unwired)
   document.getElementById('btn-back-dash')?.addEventListener('click', backToDash);
