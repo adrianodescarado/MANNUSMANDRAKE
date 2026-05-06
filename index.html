@@ -1201,7 +1201,22 @@ function encodeFlow(f){
       }),
       ed:(f.edges||[]).map(e=>({i:e.id,f:e.from,t:e.to}))
     };
-    return btoa(unescape(encodeURIComponent(JSON.stringify(min))));
+    const jsonStr = JSON.stringify(min);
+    // Try standard encoding
+    try {
+      return btoa(unescape(encodeURIComponent(jsonStr)));
+    } catch(e1) {
+      // Fallback: encode as UTF-8 directly
+      try {
+        const bytes = new TextEncoder().encode(jsonStr);
+        let binary = '';
+        bytes.forEach(b => binary += String.fromCharCode(b));
+        return btoa(binary);
+      } catch(e2) {
+        console.warn('encodeFlow both methods failed:', e2);
+        return null;
+      }
+    }
   }catch(err){console.warn('encodeFlow:',err);return null;}
 }
 function injectPixel(pixelId){
