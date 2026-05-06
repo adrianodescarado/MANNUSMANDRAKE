@@ -170,7 +170,9 @@ function decodeFlow(s){
       var c=raw.charCodeAt(i);
       escaped+=c>127?'%'+c.toString(16).toUpperCase().padStart(2,'0'):raw[i];
     }
-    var d=JSON.parse(decodeURIComponent(escaped));
+    // Fix bare % signs (e.g. "40% OFF") that break decodeURIComponent
+    var safeEscaped=escaped.replace(/%(?![0-9A-Fa-f]{2})/g,'%25');
+    var d=JSON.parse(decodeURIComponent(safeEscaped));
     if(d&&d.nd)return mapFlow(d);
   }catch(e1){
     try{
