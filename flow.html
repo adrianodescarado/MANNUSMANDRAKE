@@ -192,16 +192,23 @@ function mapFlow(d){
     botName:d.bn||'Atendente',botAvatar:d.ba||'',
     webhook:d.wh||'',pixel:d.px||'',gtag:d.gt||'',bgColor:d.bg||'',
     nodes:(d.nd||[]).map(function(n){
-      // Restore images from localStorage if they were stored separately
       var da=n.da||'';
       var iu=n.iu||'';
       if(da.indexOf('__img__')===0){try{da=localStorage.getItem('mdk_img_'+d.id+'_'+n.i)||da;}catch(e){}}
       if(iu.indexOf('__img__')===0){try{iu=localStorage.getItem('mdk_img_'+d.id+'_'+n.i+'_iu')||iu;}catch(e){}}
       return{
-        id:n.i,type:n.t,x:n.x||0,y:n.y||0,
-        content:n.c||'',url:n.u||'',delay:n.d||0,
-        options:n.o||'',inputType:n.it||'',placeholder:n.ph||'',
-        webhook:n.wk||'',data:da,link:n.lk||'',imgUrl:iu
+        id:n.i,type:n.t,
+        x:n.x||0,y:n.y||0,
+        content:n.c||'',
+        url:n.u||'',
+        delay:(n.d===undefined?0:n.d),
+        options:n.o||'',
+        inputType:n.it||'',
+        placeholder:n.ph||'',
+        webhook:n.wk||'',
+        data:da,
+        link:n.lk||'',
+        imgUrl:iu
       };
     }),
     edges:(d.ed||[]).map(function(e){return{id:e.i,from:e.f,to:e.t};})
