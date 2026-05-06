@@ -1184,20 +1184,27 @@ function encodeFlow(f){
       gt:gtag,
       bg:f.bgColor||'',
       nd:(f.nodes||[]).map(n=>{
-        // Compress base64 images before encoding to keep URL small
-        // Store large images separately in localStorage
         const imgData=n.data||'';
         const imgUrl=n.imgUrl||'';
         const da=imgData.startsWith('data:')&&imgData.length>5000?'__img__'+n.id:imgData;
         const iu=imgUrl.startsWith('data:')&&imgUrl.length>5000?'__img__'+n.id+'_iu':imgUrl;
         if(da==='__img__'+n.id)try{localStorage.setItem('mdk_img_'+f.id+'_'+n.id,imgData);}catch(e){}
         if(iu==='__img__'+n.id+'_iu')try{localStorage.setItem('mdk_img_'+f.id+'_'+n.id+'_iu',imgUrl);}catch(e){}
-        return{
-          i:n.id,t:n.type,x:n.x,y:n.y,
-          c:n.content||'',u:(n.url&&n.url.startsWith('data:')?'':n.url||''),d:n.delay||0,
-          o:n.options||'',it:n.inputType||'',ph:n.placeholder||'',
-          wk:n.webhook||'',da:da,lk:n.link||'',iu:iu
-        };
+        // Only include non-empty/non-default fields to minimize URL size
+        const obj={i:n.id,t:n.type};
+        // x,y only needed in editor, skip for smaller URLs
+        if(n.content)obj.c=n.content;
+        const url=n.url&&!n.url.startsWith('data:')?n.url:'';
+        if(url)obj.u=url;
+        if(n.delay&&n.delay!==3)obj.d=n.delay;
+        if(n.options)obj.o=n.options;
+        if(n.inputType)obj.it=n.inputType;
+        if(n.placeholder)obj.ph=n.placeholder;
+        if(n.webhook)obj.wk=n.webhook;
+        if(da)obj.da=da;
+        if(n.link)obj.lk=n.link;
+        if(iu)obj.iu=iu;
+        return obj;
       }),
       ed:(f.edges||[]).map(e=>({i:e.id,f:e.from,t:e.to}))
     };
