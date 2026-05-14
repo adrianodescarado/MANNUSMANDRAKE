@@ -794,30 +794,68 @@ document.getElementById('pub-input').addEventListener('input',function(){
 });
 
 window.addEventListener('load',function(){
+  var SUPA_URL='https://mkpjgywvjxexlubthezj.supabase.co';
+  var SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rcGpneXd2anhleGx1YnRoZXpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMzQ1NzcsImV4cCI6MjA5MjkxMDU3N30.2GVZ2EiJXRheMk51_b2GCccA9BCoh7FVHm1K8xJcOb4';
   var fdata=getRawParam('fdata');
-  var fid=getRawParam('flow');
-  if(!fdata&&!fid){window.location.href=location.origin+'/';return;}
+  var flowId=getRawParam('id')||getRawParam('flow');
+
   if(fdata){
-    var flow=decodeFlow(fdata);
-    if(flow&&flow.nodes&&flow.nodes.length>0){
+    // Link longo - decode direto
+    var fc=decodeFlow(fdata);
+    if(fc&&fc.nodes&&fc.nodes.length>0){
       document.getElementById('loading-screen').style.display='none';
-      try{sessionStorage.setItem('mdk_flow_'+flow.id,JSON.stringify(flow));}catch(e){}
-      try{history.replaceState({},'',location.pathname+'?flow='+flow.id);}catch(e){}
-      startFlow(flow);return;
+      startFlow(fc);
+    } else {
+      document.getElementById('loading-screen').innerHTML='<div style="text-align:center;padding:40px;color:#999;font-size:14px">❌ Erro ao carregar fluxo.</div>';
     }
+  } else if(flowId){
+    // Link curto - buscar do Supabase
+    document.getElementById('loading-screen').innerHTML='<div style="text-align:center;padding:60px 20px"><div style="font-size:40px;margin-bottom:12px">⏳</div><div style="color:#999;font-size:14px">Carregando fluxo...</div></div>';
+    fetch(SUPA_URL+'/rest/v1/mandrake_flows?id=eq.'+encodeURIComponent(flowId)+'&select=*',{
+      headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}
+    })
+    .then(function(r){return r.json();})
+    .then(function(rows){
+      if(rows&&rows.length>0){
+        var row=rows[0];
+        var fc={
+          id:row.id,name:row.name||'Fluxo',channel:row.channel||'wpp',
+          botName:row.bot_name||'Atendente',
+          botAvatar:row.bot_avatar||'',
+          bgColor:row.bg_color||'',
+          webhook:row.webhook||'',
+          nodes:JSON.parse(row.nodes_json||'[]'),
+          edges:JSON.parse(row.edges_json||'[]')
+        };
+        document.getElementById('loading-screen').style.display='none';
+        startFlow(fc);
+      } else {
+        // Fallback: localStorage cache
+        try{
+          var cached=localStorage.getItem('mdk_pub_'+flowId);
+          if(cached){
+            var fc2=JSON.parse(cached);
+            if(fc2&&fc2.nodes){
+              document.getElementById('loading-screen').style.display='none';
+              startFlow(fc2);return;
+            }
+          }
+        }catch(e){}
+        document.getElementById('loading-screen').innerHTML='<div style="text-align:center;padding:60px;color:#999;font-size:14px">Fluxo não encontrado ou foi removido.</div>';
+      }
+    })
+    .catch(function(err){
+      console.warn('[Mandrake] Erro Supabase:',err);
+      // Fallback: localStorage
+      try{
+        var cached=localStorage.getItem('mdk_pub_'+flowId);
+        if(cached){var fc3=JSON.parse(cached);if(fc3&&fc3.nodes){document.getElementById('loading-screen').style.display='none';startFlow(fc3);return;}}
+      }catch(e2){}
+      document.getElementById('loading-screen').innerHTML='<div style="text-align:center;padding:60px;color:#999;font-size:14px">Erro ao carregar. Verifique sua conexão.</div>';
+    });
+  } else {
+    window.location.href=location.origin+'/';
   }
-  if(fid){
-    try{
-      var cached=sessionStorage.getItem('mdk_flow_'+fid);
-      if(cached){var cf=JSON.parse(cached);if(cf&&cf.nodes&&cf.nodes.length>0){document.getElementById('loading-screen').style.display='none';startFlow(cf);return;}}
-    }catch(e){}
-    try{
-      var cached2=localStorage.getItem('mdk_flow_'+fid);
-      if(cached2){var cf2=JSON.parse(cached2);if(cf2&&cf2.nodes&&cf2.nodes.length>0){document.getElementById('loading-screen').style.display='none';startFlow(cf2);return;}}
-    }catch(e){}
-  }
-  document.getElementById('loading-screen').style.display='none';
-  document.getElementById('error-screen').style.display='flex';
 });
 </script>
 </body>
