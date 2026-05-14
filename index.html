@@ -1152,7 +1152,18 @@ async function sbGetUser(token){
   }catch{return null;}
 }
 async function sbSaveFlow(flow){
-  const body={user_id:CU.id,name:flow.name,channel:flow.channel||'wpp',status:flow.status||'draft',description:flow.desc||'',nodes_json:JSON.stringify(flow.nodes||[]),edges_json:JSON.stringify(flow.edges||[]),updated_at:new Date().toISOString()};
+  const wh=(function(){try{return flow.webhook||localStorage.getItem('mdk_webhook')||'';}catch(e){return '';}}());
+  const body={
+    user_id:CU.id,name:flow.name,channel:flow.channel||'wpp',
+    status:flow.status||'draft',description:flow.desc||'',
+    nodes_json:JSON.stringify(flow.nodes||[]),
+    edges_json:JSON.stringify(flow.edges||[]),
+    updated_at:new Date().toISOString(),
+    bot_name:flow.botName||'Atendente',
+    bot_avatar:flow.botAvatar||'',
+    bg_color:flow.bgColor||'',
+    webhook:wh
+  };
   let r=await sbReq('/rest/v1/mandrake_flows?id=eq.'+flow.id,{method:'PATCH',body:JSON.stringify(body)});
   if(r.ok&&r.data&&r.data.length)return;
   body.id=flow.id;body.created_at=flow.createdAt||new Date().toISOString();
@@ -3189,79 +3200,55 @@ async function openShare(){
   const fCache=(flows||[]).find(x=>x.id===curFId);
   if(!fCache){toast('Salve o fluxo primeiro','❌');return;}
   const flowBase=location.origin+'/flow.html';
-  // Cache locally as backup
   try{localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(fCache));}catch{}
 
-  // ESTRATÉGIA: tentar link curto via Supabase primeiro
-  // Link curto: /flow.html?id=FLOW_ID (~50 chars, funciona em qualquer encurtador)
-  // Fallback: fdata na URL (link longo, sempre funciona)
-  
-  const shortLink=flowBase+'?id='+curFId;
-  let link=shortLink; // tentativa otimista
-  let savedToCloud=false;
+  let link=flowBase+'?id='+curFId;   // link curto (padrão)
+  let shortOk=false;
 
-  // Tentar salvar no Supabase para link curto
-  if(CU){
+  // Tentar salvar no Supabase via sbSaveFlow (usa SB_TOKEN do usuário logado)
+  if(CU&&SB_TOKEN){
     try{
-      const payload={
-        id:curFId,
-        user_id:CU.id,
-        name:fCache.name||'Fluxo',
-        channel:fCache.channel||'wpp',
-        nodes_json:JSON.stringify(fCache.nodes||[]),
-        edges_json:JSON.stringify(fCache.edges||[]),
-        bot_name:fCache.botName||'Atendente',
-        bot_avatar:fCache.botAvatar||'',
-        bg_color:fCache.bgColor||'',
-        webhook:(function(){try{return fCache.webhook||localStorage.getItem('mdk_webhook')||'';}catch(e){return '';}}()),
-        status:'published'
-      };
-      const r=await fetch(SB_URL+'/rest/v1/mandrake_flows',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+(SB_TOKEN||SB_KEY),'Prefer':'resolution=merge-duplicates,return=minimal'},
-        body:JSON.stringify(payload)
-      });
-      if(r.ok||r.status===201||r.status===200){
-        savedToCloud=true;
-        link=shortLink;
-        console.log('[Mandrake] ✅ Fluxo salvo na nuvem, link curto:',link.length,'chars');
-      }
-    }catch(e){console.warn('[Mandrake] Supabase save failed, usando fdata:',e);}
+      await sbSaveFlow(fCache);
+      shortOk=true;
+      console.log('[Mandrake] ✅ Link curto gerado:',link);
+    }catch(e){
+      console.warn('[Mandrake] Supabase falhou, usando link longo:',e);
+    }
   }
 
   // Se não salvou na nuvem, usar link longo com fdata
-  if(!savedToCloud){
+  if(!shortOk){
     try{
       const encoded=encodeFlow(fCache);
-      if(encoded){
-        const longLink=flowBase+'?fdata='+encodeURIComponent(encoded);
-        link=longLink;
-        console.log('[Mandrake] ⚠️ Link longo (sem login):',link.length,'chars');
-      }
+      if(encoded)link=flowBase+'?fdata='+encodeURIComponent(encoded);
     }catch(e){console.warn('encodeFlow failed:',e);}
   }
 
   document.getElementById('share-link').textContent=link;
-  // Mostrar dica se link longo
-  const linkHint=document.getElementById('share-link-hint');
-  if(linkHint){
-    if(savedToCloud){
-      linkHint.textContent='✅ Link curto — funciona em qualquer encurtador!';
-      linkHint.style.color='var(--grn)';
+
+  // Feedback visual
+  const hint=document.getElementById('share-link-hint');
+  if(hint){
+    if(shortOk){
+      hint.innerHTML='✅ <b>Link curto!</b> Funciona no bit.ly e qualquer encurtador.';
+      hint.style.color='var(--grn)';
     } else {
-      linkHint.textContent='⚠️ Faça login para gerar link curto. Este link pode ser longo.';
-      linkHint.style.color='#f39c12';
+      hint.innerHTML='⚠️ <b>Faça login</b> para gerar link curto. Este link é longo.';
+      hint.style.color='#f39c12';
     }
   }
-  // QR
+
+  // QR Code simples
   const cv=document.getElementById('qr-canvas');
-  const ctx=cv.getContext('2d');
-  ctx.fillStyle='#fff';ctx.fillRect(0,0,88,88);ctx.fillStyle='#000';
-  for(let r=0;r<14;r++)for(let c2=0;c2<14;c2++){if(Math.random()>.5||(r<4&&c2<4)||(r<4&&c2>9)||(r>9&&c2<4)){ctx.fillRect(2+c2*6,2+r*6,5,5);}}
-  ctx.fillStyle='#fff';ctx.fillRect(2,2,22,22);ctx.fillRect(66,2,22,22);ctx.fillRect(2,66,22,22);
-  ctx.fillStyle='#000';ctx.fillRect(2,2,20,20);ctx.fillRect(66,2,20,20);ctx.fillRect(2,66,20,20);
-  ctx.fillStyle='#fff';ctx.fillRect(4,4,16,16);ctx.fillRect(68,4,16,16);ctx.fillRect(4,68,16,16);
-  ctx.fillStyle='#000';ctx.fillRect(8,8,8,8);ctx.fillRect(72,8,8,8);ctx.fillRect(8,72,8,8);
+  if(cv){
+    const ctx=cv.getContext('2d');
+    ctx.fillStyle='#fff';ctx.fillRect(0,0,88,88);ctx.fillStyle='#000';
+    for(let r=0;r<14;r++)for(let c2=0;c2<14;c2++){if(Math.random()>.5||(r<4&&c2<4)||(r<4&&c2>9)||(r>9&&c2<4)){ctx.fillRect(2+c2*6,2+r*6,5,5);}}
+    ctx.fillStyle='#fff';ctx.fillRect(2,2,22,22);ctx.fillRect(66,2,22,22);ctx.fillRect(2,66,22,22);
+    ctx.fillStyle='#000';ctx.fillRect(2,2,20,20);ctx.fillRect(66,2,20,20);ctx.fillRect(2,66,20,20);
+    ctx.fillStyle='#fff';ctx.fillRect(4,4,16,16);ctx.fillRect(68,4,16,16);ctx.fillRect(4,68,16,16);
+    ctx.fillStyle='#000';ctx.fillRect(8,8,8,8);ctx.fillRect(72,8,8,8);ctx.fillRect(8,72,8,8);
+  }
   document.getElementById('share-modal').classList.add('open');
 }
 function openShareFor(fid){
