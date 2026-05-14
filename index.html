@@ -3216,9 +3216,9 @@ async function openShare(){
         webhook:(function(){try{return fCache.webhook||localStorage.getItem('mdk_webhook')||'';}catch(e){return '';}}()),
         status:'published'
       };
-      const r=await fetch(SUPA+'rest/v1/mandrake_flows',{
+      const r=await fetch(SB_URL+'/rest/v1/mandrake_flows',{
         method:'POST',
-        headers:{'Content-Type':'application/json','apikey':SKEY,'Authorization':'Bearer '+SKEY,'Prefer':'resolution=merge-duplicates'},
+        headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+(SB_TOKEN||SB_KEY),'Prefer':'resolution=merge-duplicates,return=minimal'},
         body:JSON.stringify(payload)
       });
       if(r.ok||r.status===201||r.status===200){
