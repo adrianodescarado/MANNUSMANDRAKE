@@ -3186,24 +3186,73 @@ function removeTyping(id){const t=document.getElementById(id);if(t)t.remove();}
 // ═══════════════════════════════════════════════
 async function openShare(){
   await saveFlow();
-  const baseUrl=location.origin+location.pathname;
   const fCache=(flows||[]).find(x=>x.id===curFId);
   if(!fCache){toast('Salve o fluxo primeiro','❌');return;}
+  const flowBase=location.origin+'/flow.html';
   // Cache locally as backup
   try{localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(fCache));}catch{}
-  // ALWAYS encode full flow into URL — works cross-browser without Supabase
-  // Use /flow.html as dedicated viewer (isolates from dashboard code)
-  const flowBase=location.origin+'/flow.html';
-  let link=flowBase+'?flow='+curFId; // fallback
-  try{
-    const encoded=encodeFlow(fCache);
-    if(encoded){
-      // encodeURIComponent preserves + and / in base64 (otherwise URLSearchParams breaks them)
-      link=flowBase+'?fdata='+encodeURIComponent(encoded);
-      console.log('[Mandrake] Generated link for flow.html, length:',link.length);
-    }
-  }catch(e){console.warn('encodeFlow failed:',e);}
+
+  // ESTRATÉGIA: tentar link curto via Supabase primeiro
+  // Link curto: /flow.html?id=FLOW_ID (~50 chars, funciona em qualquer encurtador)
+  // Fallback: fdata na URL (link longo, sempre funciona)
+  
+  const shortLink=flowBase+'?id='+curFId;
+  let link=shortLink; // tentativa otimista
+  let savedToCloud=false;
+
+  // Tentar salvar no Supabase para link curto
+  if(CU){
+    try{
+      const payload={
+        id:curFId,
+        user_id:CU.id,
+        name:fCache.name||'Fluxo',
+        channel:fCache.channel||'wpp',
+        nodes_json:JSON.stringify(fCache.nodes||[]),
+        edges_json:JSON.stringify(fCache.edges||[]),
+        bot_name:fCache.botName||'Atendente',
+        bot_avatar:fCache.botAvatar||'',
+        bg_color:fCache.bgColor||'',
+        webhook:(function(){try{return fCache.webhook||localStorage.getItem('mdk_webhook')||'';}catch(e){return '';}}()),
+        status:'published'
+      };
+      const r=await fetch(SUPA+'rest/v1/mandrake_flows',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','apikey':SKEY,'Authorization':'Bearer '+SKEY,'Prefer':'resolution=merge-duplicates'},
+        body:JSON.stringify(payload)
+      });
+      if(r.ok||r.status===201||r.status===200){
+        savedToCloud=true;
+        link=shortLink;
+        console.log('[Mandrake] ✅ Fluxo salvo na nuvem, link curto:',link.length,'chars');
+      }
+    }catch(e){console.warn('[Mandrake] Supabase save failed, usando fdata:',e);}
+  }
+
+  // Se não salvou na nuvem, usar link longo com fdata
+  if(!savedToCloud){
+    try{
+      const encoded=encodeFlow(fCache);
+      if(encoded){
+        const longLink=flowBase+'?fdata='+encodeURIComponent(encoded);
+        link=longLink;
+        console.log('[Mandrake] ⚠️ Link longo (sem login):',link.length,'chars');
+      }
+    }catch(e){console.warn('encodeFlow failed:',e);}
+  }
+
   document.getElementById('share-link').textContent=link;
+  // Mostrar dica se link longo
+  const linkHint=document.getElementById('share-link-hint');
+  if(linkHint){
+    if(savedToCloud){
+      linkHint.textContent='✅ Link curto — funciona em qualquer encurtador!';
+      linkHint.style.color='var(--grn)';
+    } else {
+      linkHint.textContent='⚠️ Faça login para gerar link curto. Este link pode ser longo.';
+      linkHint.style.color='#f39c12';
+    }
+  }
   // QR
   const cv=document.getElementById('qr-canvas');
   const ctx=cv.getContext('2d');
