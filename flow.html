@@ -806,7 +806,15 @@ window.addEventListener('load',function(){
       document.getElementById('loading-screen').style.display='none';
       startFlow(fc);
     } else {
-      document.getElementById('loading-screen').innerHTML='<div style="text-align:center;padding:40px;color:#999;font-size:14px">❌ Erro ao carregar fluxo.</div>';
+      // fdata decode failed - try ?flow= fallback
+      var fid2=getRawParam('flow');
+      if(fid2){
+        try{
+          var c=localStorage.getItem('mdk_pub_'+fid2)||sessionStorage.getItem('mdk_flow_'+fid2);
+          if(c){var f4=JSON.parse(c);if(f4&&f4.nodes&&f4.nodes.length>0){document.getElementById('loading-screen').style.display='none';startFlow(f4);return;}}
+        }catch(e){}
+      }
+      document.getElementById('loading-screen').innerHTML='<div style="text-align:center;padding:40px;color:#999;font-size:14px">❌ Erro ao carregar fluxo. Peça um novo link.</div>';
     }
   } else if(flowId){
     // Link curto - buscar do Supabase
