@@ -907,12 +907,13 @@ insert into storage.buckets (id, name, public)
     <h2>⚡ Templates de Funil</h2>
     <p style="color:var(--muted);font-size:13px;margin-bottom:16px">Clique em um template para carregar no editor. Personalize e compartilhe.</p>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px" id="tpl-cat-tabs">
-      <button class="btn btn-primary btn-sm tpl-tab" data-cat="all">✨ Todos (21)</button>
+      <button class="btn btn-primary btn-sm tpl-tab" data-cat="all">✨ Todos (63)</button>
       <button class="btn btn-ghost btn-sm tpl-tab" data-cat="vendas">🔥 Vendas</button>
       <button class="btn btn-ghost btn-sm tpl-tab" data-cat="saude">❤️ Saúde & Beleza</button>
       <button class="btn btn-ghost btn-sm tpl-tab" data-cat="dinheiro">💰 Dinheiro</button>
       <button class="btn btn-ghost btn-sm tpl-tab" data-cat="nicho">🎯 Nichos</button>
       <button class="btn btn-ghost btn-sm tpl-tab" data-cat="outros">💬 Outros</button>
+      <button class="btn btn-ghost btn-sm tpl-tab" data-cat="nicho">🏪 Serviços</button>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:10px" id="tpl-grid">
 
@@ -1070,6 +1071,242 @@ insert into storage.buckets (id, name, public)
         <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
       </div>
 
+
+      <!-- NICHOS / SERVIÇOS -->
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('lojaroupas')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">👗</div>
+        <h3 style="font-size:13px">Loja de Roupas</h3>
+        <p style="font-size:11px;color:var(--muted)">Categorias + captura + argumentos.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('clinicamedica')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">🏥</div>
+        <h3 style="font-size:13px">Clínica Médica</h3>
+        <p style="font-size:11px;color:var(--muted)">Agendamento + especialidade + captura.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('clinicaodonto')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">😁</div>
+        <h3 style="font-size:13px">Clínica Odontológica</h3>
+        <p style="font-size:11px;color:var(--muted)">Serviço + captura + depoimento.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('autoescola')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">🚗</div>
+        <h3 style="font-size:13px">Auto Escola</h3>
+        <p style="font-size:11px;color:var(--muted)">Categoria CNH + captura + preço.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('psicologo')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">🧠</div>
+        <h3 style="font-size:13px">Psicólogo</h3>
+        <p style="font-size:11px;color:var(--muted)">Motivo + formato + captura + agenda.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('agenciaveiculos')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">🚘</div>
+        <h3 style="font-size:13px">Agência de Veículos</h3>
+        <p style="font-size:11px;color:var(--muted)">Tipo + modelo + captura + argumentos.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('farmacia')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">💊</div>
+        <h3 style="font-size:13px">Drogaria / Farmácia</h3>
+        <p style="font-size:11px;color:var(--muted)">Serviço + captura + argumentos.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">6 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('laboratorio')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">🔬</div>
+        <h3 style="font-size:13px">Laboratório Clínico</h3>
+        <p style="font-size:11px;color:var(--muted)">Serviço + captura + argumentos.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">6 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('lojasapatos')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">👟</div>
+        <h3 style="font-size:13px">Loja de Sapatos</h3>
+        <p style="font-size:11px;color:var(--muted)">Categoria + captura + argumentos.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('bancario')" data-cat="dinheiro">
+        <div style="font-size:26px;margin-bottom:6px">🏦</div>
+        <h3 style="font-size:13px">Produtos Bancários</h3>
+        <p style="font-size:11px;color:var(--muted)">Produto + dados + captura.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('emprestimo')" data-cat="dinheiro">
+        <div style="font-size:26px;margin-bottom:6px">💰</div>
+        <h3 style="font-size:13px">Loja de Empréstimos</h3>
+        <p style="font-size:11px;color:var(--muted)">Valor + dados + análise rápida.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('consignado')" data-cat="dinheiro">
+        <div style="font-size:26px;margin-bottom:6px">💳</div>
+        <h3 style="font-size:13px">Empréstimo Consignado</h3>
+        <p style="font-size:11px;color:var(--muted)">Perfil + dados + argumentos.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('barbeiro')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">💈</div>
+        <h3 style="font-size:13px">Barbearia Masculina</h3>
+        <p style="font-size:11px;color:var(--muted)">Serviço + captura + depoimento.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('pararfumar')" data-cat="saude">
+        <div style="font-size:26px;margin-bottom:6px">🚭</div>
+        <h3 style="font-size:13px">Parar de Fumar</h3>
+        <p style="font-size:11px;color:var(--muted)">Quiz + captura + método + oferta.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('parardebeber')" data-cat="saude">
+        <div style="font-size:26px;margin-bottom:6px">🍺</div>
+        <h3 style="font-size:13px">Parar de Beber</h3>
+        <p style="font-size:11px;color:var(--muted)">Acolhimento + captura + tratamento.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('mamaeprimeira')" data-cat="saude">
+        <div style="font-size:26px;margin-bottom:6px">🤰</div>
+        <h3 style="font-size:13px">Mamãe de Primeira Viagem</h3>
+        <p style="font-size:11px;color:var(--muted)">Fase + captura + guia completo.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">6 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('bebedorme')" data-cat="saude">
+        <div style="font-size:26px;margin-bottom:6px">😴</div>
+        <h3 style="font-size:13px">Bebê Dorme, Mamãe Descansa</h3>
+        <p style="font-size:11px;color:var(--muted)">Idade + problema + depoimento + oferta.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('otica')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">👓</div>
+        <h3 style="font-size:13px">Ótica</h3>
+        <p style="font-size:11px;color:var(--muted)">Serviço + captura + agendamento.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('vendedorgeral')" data-cat="vendas">
+        <div style="font-size:26px;margin-bottom:6px">🤝</div>
+        <h3 style="font-size:13px">Vendedor no Geral</h3>
+        <p style="font-size:11px;color:var(--muted)">Interesse + captura + urgência.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('sexshop')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">💜</div>
+        <h3 style="font-size:13px">Sex Shop</h3>
+        <p style="font-size:11px;color:var(--muted)">Categoria + captura discreta.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">6 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('petshop')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">🐾</div>
+        <h3 style="font-size:13px">Loja de Pet / Pet Shop</h3>
+        <p style="font-size:11px;color:var(--muted)">Serviço + pet + captura + agenda.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('marketingIA')" data-cat="vendas">
+        <div style="font-size:26px;margin-bottom:6px">🤖</div>
+        <h3 style="font-size:13px">Marketing com IA</h3>
+        <p style="font-size:11px;color:var(--muted)">Desafio + captura + argumentos + oferta.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('oratoria')" data-cat="vendas">
+        <div style="font-size:26px;margin-bottom:6px">🎤</div>
+        <h3 style="font-size:13px">Oratória — Falar em Público</h3>
+        <p style="font-size:11px;color:var(--muted)">Desafio + captura + método + oferta.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">6 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('apresentador')" data-cat="outros">
+        <div style="font-size:26px;margin-bottom:6px">🎭</div>
+        <h3 style="font-size:13px">Apresentador de Palco</h3>
+        <p style="font-size:11px;color:var(--muted)">Evento + data + captura + orçamento.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('motoboy')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">🏍️</div>
+        <h3 style="font-size:13px">Motoboy / Entregador</h3>
+        <p style="font-size:11px;color:var(--muted)">Tipo + endereços + captura.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('seguros')" data-cat="dinheiro">
+        <div style="font-size:26px;margin-bottom:6px">🛡️</div>
+        <h3 style="font-size:13px">Corretor de Seguros</h3>
+        <p style="font-size:11px;color:var(--muted)">Tipo + captura + cotação.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('planosaude')" data-cat="saude">
+        <div style="font-size:26px;margin-bottom:6px">❤️</div>
+        <h3 style="font-size:13px">Corretor Plano de Saúde</h3>
+        <p style="font-size:11px;color:var(--muted)">Perfil + orçamento + captura.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('adestrador')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">🐕</div>
+        <h3 style="font-size:13px">Adestrador de Cães</h3>
+        <p style="font-size:11px;color:var(--muted)">Problema + porte + captura.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('contratarshow')" data-cat="outros">
+        <div style="font-size:26px;margin-bottom:6px">🎵</div>
+        <h3 style="font-size:13px">Contratante de Shows</h3>
+        <p style="font-size:11px;color:var(--muted)">Evento + estilo + data + captura.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('musico')" data-cat="outros">
+        <div style="font-size:26px;margin-bottom:6px">🎸</div>
+        <h3 style="font-size:13px">Músico — Me Contrate</h3>
+        <p style="font-size:11px;color:var(--muted)">Evento + argumentos + orçamento.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('jogadorfutebol')" data-cat="outros">
+        <div style="font-size:26px;margin-bottom:6px">⚽</div>
+        <h3 style="font-size:13px">Jogador de Futebol</h3>
+        <p style="font-size:11px;color:var(--muted)">Perfil + proposta + captura.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">6 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('assessorinvest')" data-cat="dinheiro">
+        <div style="font-size:26px;margin-bottom:6px">💹</div>
+        <h3 style="font-size:13px">Assessor de Investimentos</h3>
+        <p style="font-size:11px;color:var(--muted)">Perfil + valor + captura.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('instrutorvolante')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">🚗</div>
+        <h3 style="font-size:13px">Instrutor de Volante</h3>
+        <p style="font-size:11px;color:var(--muted)">Serviço + captura + vagas.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('contador')" data-cat="dinheiro">
+        <div style="font-size:26px;margin-bottom:6px">📊</div>
+        <h3 style="font-size:13px">Contador / Contabilidade</h3>
+        <p style="font-size:11px;color:var(--muted)">Perfil + serviço + captura.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('segurancaeventos')" data-cat="outros">
+        <div style="font-size:26px;margin-bottom:6px">🛡️</div>
+        <h3 style="font-size:13px">Segurança de Eventos</h3>
+        <p style="font-size:11px;color:var(--muted)">Evento + data + captura + argumentos.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('eventos')" data-cat="outros">
+        <div style="font-size:26px;margin-bottom:6px">🎉</div>
+        <h3 style="font-size:13px">Organizador de Eventos</h3>
+        <p style="font-size:11px;color:var(--muted)">Tipo + data + captura + argumentos.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">8 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('prestadorservicos')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">🔧</div>
+        <h3 style="font-size:13px">Prestador de Serviços</h3>
+        <p style="font-size:11px;color:var(--muted)">Serviço + descrição + captura.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('mecanico')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">🔩</div>
+        <h3 style="font-size:13px">Mecânico / Oficina</h3>
+        <p style="font-size:11px;color:var(--muted)">Problema + veículo + captura.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('funileiro')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">🚗</div>
+        <h3 style="font-size:13px">Funileiro / Martelinho</h3>
+        <p style="font-size:11px;color:var(--muted)">Problema + foto + captura.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
+      </div>
     </div>
   </div>
 </div>
@@ -2184,6 +2421,362 @@ const TEMPLATES={
     {id:'ehair4',from:'thair4',to:'thair5'},{id:'ehair5',from:'thair5',to:'thair6'},{id:'ehair6',from:'thair6',to:'thair7'},
     {id:'ehair7',from:'thair7',to:'thair8'},{id:'ehair8',from:'thair8',to:'thair9'}
   ]}
+  ,lojaroupas:{name:'Loja de Roupas',channel:'wpp',botName:'Atendente da Loja',nodes:[
+    {id:'lr1',type:'marquee',x:60,y:60,content:'👗 NOVAS COLEÇÕES — Moda feminina e masculina com até 50% OFF!',url:'',delay:0},
+    {id:'lr2',type:'message',x:60,y:180,content:'Olá! 👗 Bem-vindo(a) à nossa loja! Temos as melhores peças para o seu estilo.',url:'',delay:2},
+    {id:'lr3',type:'choices',x:60,y:320,content:'O que você está procurando?',url:'',delay:0,options:'Roupas femininas\nRoupas masculinas\nRoupas infantis\nAcessórios\nVer promoções'},
+    {id:'lr4',type:'collect',x:60,y:460,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'lr5',type:'whatsapp',x:60,y:600,content:'Qual é o seu WhatsApp para enviarmos as novidades?',url:'',delay:0},
+    {id:'lr6',type:'arguments',x:60,y:740,content:'Entrega em todo o Brasil\nTroca fácil em até 30 dias\nParcele em até 12x sem juros\nNovidades toda semana',url:'',delay:0},
+    {id:'lr7',type:'price',x:60,y:880,content:'A partir de R$ 49,90\nFrete grátis acima de R$ 199\n👗 Ver catálogo completo →',url:'https://wa.me/5511999999999',delay:0}
+  ],edges:[{id:'elr1',from:'lr1',to:'lr2'},{id:'elr2',from:'lr2',to:'lr3'},{id:'elr3',from:'lr3',to:'lr4'},{id:'elr4',from:'lr4',to:'lr5'},{id:'elr5',from:'lr5',to:'lr6'},{id:'elr6',from:'lr6',to:'lr7'}]},
+  clinicamedica:{name:'Clínica Médica',channel:'wpp',botName:'Recepção',nodes:[
+    {id:'cm1',type:'message',x:60,y:60,content:'Olá! 🏥 Bem-vindo(a) à nossa clínica. Como posso ajudar?',url:'',delay:1},
+    {id:'cm2',type:'choices',x:60,y:200,content:'Qual é o motivo do contato?',url:'',delay:0,options:'Agendar consulta\nResultado de exame\nInformações sobre planos\nUrgência / Emergência\nFalar com atendente'},
+    {id:'cm3',type:'collect',x:60,y:360,content:'Qual é o seu nome completo?',url:'',delay:0,inputType:'name',placeholder:'Nome completo'},
+    {id:'cm4',type:'whatsapp',x:60,y:500,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'cm5',type:'choices',x:60,y:640,content:'Qual especialidade você precisa?',url:'',delay:0,options:'Clínico Geral\nCardiologia\nGinecologia\nPediatria\nDermatologia\nOutra especialidade'},
+    {id:'cm6',type:'loading',x:60,y:780,content:'🔍 Verificando horários disponíveis...',url:'',delay:0},
+    {id:'cm7',type:'message',x:60,y:920,content:'Perfeito! Nossa equipe entrará em contato em até 30 minutos para confirmar seu agendamento. ✅',url:'',delay:0},
+    {id:'cm8',type:'end',x:60,y:1060,content:'Obrigado! Estamos aqui para cuidar de você. 🏥',url:'',delay:0}
+  ],edges:[{id:'ecm1',from:'cm1',to:'cm2'},{id:'ecm2',from:'cm2',to:'cm3'},{id:'ecm3',from:'cm3',to:'cm4'},{id:'ecm4',from:'cm4',to:'cm5'},{id:'ecm5',from:'cm5',to:'cm6'},{id:'ecm6',from:'cm6',to:'cm7'},{id:'ecm7',from:'cm7',to:'cm8'}]},
+  clinicaodonto:{name:'Clínica Odontológica',channel:'wpp',botName:'Recepção Odonto',nodes:[
+    {id:'co1',type:'message',x:60,y:60,content:'Olá! 😁 Bem-vindo(a) à nossa clínica odontológica! Cuide do seu sorriso com quem entende.',url:'',delay:2},
+    {id:'co2',type:'choices',x:60,y:200,content:'O que você precisa?',url:'',delay:0,options:'Consulta / Avaliação gratuita\nLimpeza dental\nClareamento dental\nAparelho ortodôntico\nImplante dentário\nEmergência / Dor'},
+    {id:'co3',type:'collect',x:60,y:360,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'co4',type:'whatsapp',x:60,y:500,content:'Qual é o seu WhatsApp para agendarmos?',url:'',delay:0},
+    {id:'co5',type:'testimonial',x:60,y:640,content:'Sorriso transformado! Atendimento incrível e resultado perfeito!\nCarolina M., São Paulo',url:'5',delay:0},
+    {id:'co6',type:'scarcity',x:60,y:780,content:'Vagas limitadas para avaliação gratuita!',url:'3600',delay:0},
+    {id:'co7',type:'end',x:60,y:920,content:'Agendamento realizado! Te esperamos. 😁✨',url:'',delay:0}
+  ],edges:[{id:'eco1',from:'co1',to:'co2'},{id:'eco2',from:'co2',to:'co3'},{id:'eco3',from:'co3',to:'co4'},{id:'eco4',from:'co4',to:'co5'},{id:'eco5',from:'co5',to:'co6'},{id:'eco6',from:'co6',to:'co7'}]},
+  autoescola:{name:'Auto Escola',channel:'wpp',botName:'Atendente Auto Escola',nodes:[
+    {id:'ae1',type:'message',x:60,y:60,content:'Olá! 🚗 Pronto para tirar sua CNH? Somos a auto escola mais aprovada da região!',url:'',delay:2},
+    {id:'ae2',type:'choices',x:60,y:200,content:'O que você precisa?',url:'',delay:0,options:'Tirar CNH pela primeira vez\nAdicionar categoria\nRenovar CNH\nRecuperar pontos\nInformações e preços'},
+    {id:'ae3',type:'collect',x:60,y:360,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'ae4',type:'collect',x:60,y:500,content:'Qual é o seu email?',url:'',delay:0,inputType:'email',placeholder:'seu@email.com'},
+    {id:'ae5',type:'whatsapp',x:60,y:640,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'ae6',type:'arguments',x:60,y:780,content:'Aprovação garantida ou devolvemos o dinheiro\nAulas flexíveis: manhã, tarde e noite\nSimulador moderno\nParcelamento em até 12x',url:'',delay:0},
+    {id:'ae7',type:'price',x:60,y:920,content:'A partir de R$ 1.490,00\nParcelado em até 12x\n🚗 Quero agendar minha avaliação →',url:'https://wa.me/5511999999999',delay:0}
+  ],edges:[{id:'eae1',from:'ae1',to:'ae2'},{id:'eae2',from:'ae2',to:'ae3'},{id:'eae3',from:'ae3',to:'ae4'},{id:'eae4',from:'ae4',to:'ae5'},{id:'eae5',from:'ae5',to:'ae6'},{id:'eae6',from:'ae6',to:'ae7'}]},
+  psicologo:{name:'Psicólogo',channel:'wpp',botName:'Consultório',nodes:[
+    {id:'ps1',type:'message',x:60,y:60,content:'Olá 🙏 Que bom que você deu esse passo. Estamos aqui para te apoiar.',url:'',delay:2},
+    {id:'ps2',type:'choices',x:60,y:200,content:'O que te trouxe até aqui?',url:'',delay:0,options:'Ansiedade e estresse\nDepressão ou tristeza\nProblemas de relacionamento\nAutoconhecimento\nTrauma ou luto\nOutro motivo'},
+    {id:'ps3',type:'choices',x:60,y:360,content:'Qual formato prefere?',url:'',delay:0,options:'Presencial\nOnline (videochamada)\nAmbos'},
+    {id:'ps4',type:'collect',x:60,y:500,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'ps5',type:'whatsapp',x:60,y:640,content:'Qual é o seu WhatsApp para agendarmos a primeira consulta?',url:'',delay:0},
+    {id:'ps6',type:'message',x:60,y:780,content:'A primeira consulta é para nos conhecermos e entender o que você precisa. Sem julgamentos. 💙',url:'',delay:1},
+    {id:'ps7',type:'scarcity',x:60,y:920,content:'Agenda com horários limitados esta semana',url:'1800',delay:0},
+    {id:'ps8',type:'end',x:60,y:1060,content:'Agendamento confirmado! Te envio a confirmação no WhatsApp. 💙',url:'',delay:0}
+  ],edges:[{id:'eps1',from:'ps1',to:'ps2'},{id:'eps2',from:'ps2',to:'ps3'},{id:'eps3',from:'ps3',to:'ps4'},{id:'eps4',from:'ps4',to:'ps5'},{id:'eps5',from:'ps5',to:'ps6'},{id:'eps6',from:'ps6',to:'ps7'},{id:'eps7',from:'ps7',to:'ps8'}]},
+  agenciaveiculos:{name:'Agência de Veículos',channel:'wpp',botName:'Consultor de Veículos',nodes:[
+    {id:'av1',type:'marquee',x:60,y:60,content:'🚗 OPORTUNIDADES EM VEÍCULOS — Financiamento facilitado!',url:'',delay:0},
+    {id:'av2',type:'message',x:60,y:180,content:'Olá! 🚗 Bem-vindo(a)! Temos os melhores veículos seminovos e novos com as melhores condições do mercado.',url:'',delay:2},
+    {id:'av3',type:'choices',x:60,y:320,content:'O que você está procurando?',url:'',delay:0,options:'Carro novo\nCarro seminovo\nMoto\nFinanciamento\nTroca / Consórcio'},
+    {id:'av4',type:'question',x:60,y:460,content:'Qual modelo ou tipo de veículo você tem em mente?',url:'',delay:0},
+    {id:'av5',type:'collect',x:60,y:600,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'av6',type:'whatsapp',x:60,y:740,content:'Qual é o seu WhatsApp para nosso consultor entrar em contato?',url:'',delay:0},
+    {id:'av7',type:'arguments',x:60,y:880,content:'Financiamento em até 60x\nAceitamos seu carro na troca\nLaudo de procedência\nGarantia de fábrica\nIPVA e transferência inclusos',url:'',delay:0},
+    {id:'av8',type:'end',x:60,y:1020,content:'Nosso consultor entrará em contato em instantes! 🚗',url:'',delay:0}
+  ],edges:[{id:'eav1',from:'av1',to:'av2'},{id:'eav2',from:'av2',to:'av3'},{id:'eav3',from:'av3',to:'av4'},{id:'eav4',from:'av4',to:'av5'},{id:'eav5',from:'av5',to:'av6'},{id:'eav6',from:'av6',to:'av7'},{id:'eav7',from:'av7',to:'av8'}]},
+  farmacia:{name:'Drogaria / Farmácia',channel:'wpp',botName:'Farmácia',nodes:[
+    {id:'fa1',type:'message',x:60,y:60,content:'Olá! 💊 Bem-vindo(a) à nossa farmácia! Como posso ajudar?',url:'',delay:1},
+    {id:'fa2',type:'choices',x:60,y:200,content:'O que você precisa?',url:'',delay:0,options:'Verificar medicamento\nEntrega em domicílio\nMedicamento manipulado\nPressão / Glicemia\nOrtopedia e correlatos\nPerfumaria e cosméticos'},
+    {id:'fa3',type:'collect',x:60,y:360,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'fa4',type:'whatsapp',x:60,y:500,content:'Qual é o seu WhatsApp para enviarmos o orçamento?',url:'',delay:0},
+    {id:'fa5',type:'arguments',x:60,y:640,content:'Entrega em até 2 horas\nMedicamentos com receita e sem\nAplicação de injeção\nAferição gratuita\nCartão fidelidade com desconto',url:'',delay:0},
+    {id:'fa6',type:'end',x:60,y:780,content:'Vamos te atender agora! Nossa equipe entrará em contato. 💊',url:'',delay:0}
+  ],edges:[{id:'efa1',from:'fa1',to:'fa2'},{id:'efa2',from:'fa2',to:'fa3'},{id:'efa3',from:'fa3',to:'fa4'},{id:'efa4',from:'fa4',to:'fa5'},{id:'efa5',from:'fa5',to:'fa6'}]},
+  laboratorio:{name:'Laboratório de Análises Clínicas',channel:'wpp',botName:'Laboratório',nodes:[
+    {id:'la1',type:'message',x:60,y:60,content:'Olá! 🔬 Bem-vindo(a) ao nosso laboratório. Exames rápidos, seguros e com resultados online.',url:'',delay:2},
+    {id:'la2',type:'choices',x:60,y:200,content:'Como posso ajudar?',url:'',delay:0,options:'Agendar exames\nResultado de exame\nColeta em domicílio\nConvênios aceitos\nPreparo para exames'},
+    {id:'la3',type:'collect',x:60,y:360,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'la4',type:'whatsapp',x:60,y:500,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'la5',type:'arguments',x:60,y:640,content:'Resultado em até 24h\nAcesso online via app\nColeta em domicílio disponível\nMais de 500 tipos de exames\nAceita todos os convênios',url:'',delay:0},
+    {id:'la6',type:'end',x:60,y:780,content:'Agendamento confirmado! Te enviamos as instruções de preparo. 🔬',url:'',delay:0}
+  ],edges:[{id:'ela1',from:'la1',to:'la2'},{id:'ela2',from:'la2',to:'la3'},{id:'ela3',from:'la3',to:'la4'},{id:'ela4',from:'la4',to:'la5'},{id:'ela5',from:'la5',to:'la6'}]},
+  lojasapatos:{name:'Loja de Sapatos',channel:'wpp',botName:'Atendente',nodes:[
+    {id:'ls1',type:'marquee',x:60,y:60,content:'👟 LANÇAMENTOS — Calçados masculinos e femininos!',url:'',delay:0},
+    {id:'ls2',type:'message',x:60,y:180,content:'Olá! 👟 Bem-vindo(a)! Temos calçados para todos os estilos e ocasiões.',url:'',delay:2},
+    {id:'ls3',type:'choices',x:60,y:320,content:'O que você procura?',url:'',delay:0,options:'Sapatos femininos\nSapatos masculinos\nTênis\nSandálias\nBotas\nInfantil'},
+    {id:'ls4',type:'collect',x:60,y:460,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'ls5',type:'whatsapp',x:60,y:600,content:'Qual é o seu WhatsApp para enviarmos as opções?',url:'',delay:0},
+    {id:'ls6',type:'arguments',x:60,y:740,content:'Troca em até 30 dias\nFrete grátis acima de R$ 199\nParcelamento em até 10x\nMarcas nacionais e importadas',url:'',delay:0},
+    {id:'ls7',type:'price',x:60,y:880,content:'A partir de R$ 79,90\nFrete grátis nesta semana\n👟 Ver catálogo →',url:'https://wa.me/5511999999999',delay:0}
+  ],edges:[{id:'els1',from:'ls1',to:'ls2'},{id:'els2',from:'ls2',to:'ls3'},{id:'els3',from:'ls3',to:'ls4'},{id:'els4',from:'ls4',to:'ls5'},{id:'els5',from:'ls5',to:'ls6'},{id:'els6',from:'ls6',to:'ls7'}]},
+  bancario:{name:'Produtos Bancários',channel:'wpp',botName:'Consultor Bancário',nodes:[
+    {id:'ba1',type:'message',x:60,y:60,content:'Olá! 🏦 Sou consultor financeiro e posso te ajudar com os melhores produtos bancários.',url:'',delay:2},
+    {id:'ba2',type:'choices',x:60,y:200,content:'O que você precisa?',url:'',delay:0,options:'Abrir conta\nCartão de crédito\nInvestimentos\nSeguro de vida\nConsórcio\nCrédito pessoal'},
+    {id:'ba3',type:'collect',x:60,y:360,content:'Qual é o seu nome completo?',url:'',delay:0,inputType:'name',placeholder:'Nome completo'},
+    {id:'ba4',type:'collect',x:60,y:500,content:'Qual é o seu CPF?',url:'',delay:0,inputType:'text',placeholder:'000.000.000-00'},
+    {id:'ba5',type:'whatsapp',x:60,y:640,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'ba6',type:'arguments',x:60,y:780,content:'Aprovação em até 24h\nSem taxa de abertura\nAtendimento 100% digital\nEspecialistas prontos para te atender',url:'',delay:0},
+    {id:'ba7',type:'end',x:60,y:920,content:'Consultor vai entrar em contato em breve! 🏦',url:'',delay:0}
+  ],edges:[{id:'eba1',from:'ba1',to:'ba2'},{id:'eba2',from:'ba2',to:'ba3'},{id:'eba3',from:'ba3',to:'ba4'},{id:'eba4',from:'ba4',to:'ba5'},{id:'eba5',from:'ba5',to:'ba6'},{id:'eba6',from:'ba6',to:'ba7'}]},
+  emprestimo:{name:'Loja de Empréstimos',channel:'wpp',botName:'Consultor de Crédito',nodes:[
+    {id:'em1',type:'marquee',x:60,y:60,content:'💰 CRÉDITO RÁPIDO — Aprovação em minutos!',url:'',delay:0},
+    {id:'em2',type:'message',x:60,y:180,content:'Olá! 💰 Precisa de crédito rápido? Temos as melhores taxas do mercado com aprovação imediata.',url:'',delay:2},
+    {id:'em3',type:'choices',x:60,y:320,content:'Qual é o valor que precisa?',url:'',delay:0,options:'Até R$ 1.000\nDe R$ 1.000 a R$ 5.000\nDe R$ 5.000 a R$ 20.000\nAcima de R$ 20.000'},
+    {id:'em4',type:'collect',x:60,y:460,content:'Qual é o seu nome completo?',url:'',delay:0,inputType:'name',placeholder:'Nome completo'},
+    {id:'em5',type:'collect',x:60,y:600,content:'Qual é o seu CPF?',url:'',delay:0,inputType:'text',placeholder:'000.000.000-00'},
+    {id:'em6',type:'whatsapp',x:60,y:740,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'em7',type:'loading',x:60,y:880,content:'⚡ Analisando sua proposta...',url:'',delay:0},
+    {id:'em8',type:'end',x:60,y:1020,content:'Proposta recebida! Consultor entrará em contato em até 10 minutos. 💰',url:'',delay:0}
+  ],edges:[{id:'eem1',from:'em1',to:'em2'},{id:'eem2',from:'em2',to:'em3'},{id:'eem3',from:'em3',to:'em4'},{id:'eem4',from:'em4',to:'em5'},{id:'eem5',from:'em5',to:'em6'},{id:'eem6',from:'em6',to:'em7'},{id:'eem7',from:'em7',to:'em8'}]},
+  consignado:{name:'Empréstimo Consignado',channel:'wpp',botName:'Consultor Consignado',nodes:[
+    {id:'cs1',type:'marquee',x:60,y:60,content:'💳 CONSIGNADO — Menor taxa do mercado! Desconto em folha.',url:'',delay:0},
+    {id:'cs2',type:'message',x:60,y:180,content:'Olá! 💳 Empréstimo consignado com a menor taxa do mercado. Desconto direto em folha, sem burocracia!',url:'',delay:2},
+    {id:'cs3',type:'choices',x:60,y:320,content:'Você é?',url:'',delay:0,options:'Servidor público federal\nServidor público estadual/municipal\nAposentado / Pensionista INSS\nMilitar\nEmpregado CLT'},
+    {id:'cs4',type:'collect',x:60,y:460,content:'Qual é o seu nome completo?',url:'',delay:0,inputType:'name',placeholder:'Nome completo'},
+    {id:'cs5',type:'collect',x:60,y:600,content:'Qual é o seu CPF?',url:'',delay:0,inputType:'text',placeholder:'000.000.000-00'},
+    {id:'cs6',type:'whatsapp',x:60,y:740,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'cs7',type:'arguments',x:60,y:880,content:'Taxa a partir de 1,49% ao mês\nPrazo em até 96x\nSem consulta ao SPC/Serasa\nDinheiro na conta em até 48h\nPortabilidade de outros bancos',url:'',delay:0},
+    {id:'cs8',type:'end',x:60,y:1020,content:'Proposta gerada! Consultor entrará em contato agora. 💳',url:'',delay:0}
+  ],edges:[{id:'ecs1',from:'cs1',to:'cs2'},{id:'ecs2',from:'cs2',to:'cs3'},{id:'ecs3',from:'cs3',to:'cs4'},{id:'ecs4',from:'cs4',to:'cs5'},{id:'ecs5',from:'cs5',to:'cs6'},{id:'ecs6',from:'cs6',to:'cs7'},{id:'ecs7',from:'cs7',to:'cs8'}]},
+  barbeiro:{name:'Barbearia Masculina',channel:'wpp',botName:'Barbearia',nodes:[
+    {id:'bb1',type:'message',x:60,y:60,content:'E aí, brother! 💈 Bem-vindo à barbearia! Prontos para deixar você ainda mais estiloso.',url:'',delay:2},
+    {id:'bb2',type:'choices',x:60,y:200,content:'O que vai ser hoje?',url:'',delay:0,options:'Corte de cabelo\nBarba\nCorte + Barba\nHidratação\nSobrancelha\nPacote mensal'},
+    {id:'bb3',type:'collect',x:60,y:360,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'bb4',type:'whatsapp',x:60,y:500,content:'Qual é o seu WhatsApp para confirmarmos o horário?',url:'',delay:0},
+    {id:'bb5',type:'testimonial',x:60,y:640,content:'Melhor barbearia da cidade! Saio sempre satisfeito!\nRodrigo S., cliente fiel',url:'5',delay:0},
+    {id:'bb6',type:'scarcity',x:60,y:780,content:'⏰ Horários desta semana quase esgotados!',url:'3600',delay:0},
+    {id:'bb7',type:'end',x:60,y:920,content:'Horário reservado! Te aguardamos. Vai chegar estiloso! 💈',url:'',delay:0}
+  ],edges:[{id:'ebb1',from:'bb1',to:'bb2'},{id:'ebb2',from:'bb2',to:'bb3'},{id:'ebb3',from:'bb3',to:'bb4'},{id:'ebb4',from:'bb4',to:'bb5'},{id:'ebb5',from:'bb5',to:'bb6'},{id:'ebb6',from:'bb6',to:'bb7'}]},
+  pararfumar:{name:'Parar de Fumar',channel:'wpp',botName:'Consultor de Saúde',nodes:[
+    {id:'pf1',type:'message',x:60,y:60,content:'Olá! 🚭 Tomar a decisão de parar de fumar é o maior presente que você pode dar à sua saúde. Estamos aqui para te ajudar!',url:'',delay:2},
+    {id:'pf2',type:'choices',x:60,y:200,content:'Há quanto tempo você fuma?',url:'',delay:0,options:'Menos de 5 anos\nDe 5 a 10 anos\nDe 10 a 20 anos\nMais de 20 anos'},
+    {id:'pf3',type:'choices',x:60,y:360,content:'Quantos cigarros por dia?',url:'',delay:0,options:'Menos de 10\nDe 10 a 20\nMais de 20\nVaria muito'},
+    {id:'pf4',type:'collect',x:60,y:500,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'pf5',type:'whatsapp',x:60,y:640,content:'Qual é o seu WhatsApp para enviarmos o plano personalizado?',url:'',delay:0},
+    {id:'pf6',type:'arguments',x:60,y:780,content:'Método comprovado cientificamente\nSuporte 24h durante o processo\nSem sofrimento ou abstinência intensa\nResultado em até 21 dias\nGarantia de satisfação',url:'',delay:0},
+    {id:'pf7',type:'price',x:60,y:920,content:'R$ 197,00\nDe R$ 497,00\n🚭 Quero meu plano para parar de fumar! →',url:'https://hotmart.com',delay:0}
+  ],edges:[{id:'epf1',from:'pf1',to:'pf2'},{id:'epf2',from:'pf2',to:'pf3'},{id:'epf3',from:'pf3',to:'pf4'},{id:'epf4',from:'pf4',to:'pf5'},{id:'epf5',from:'pf5',to:'pf6'},{id:'epf6',from:'pf6',to:'pf7'}]},
+  parardebeber:{name:'Parar de Beber',channel:'wpp',botName:'Consultor de Saúde',nodes:[
+    {id:'pb1',type:'message',x:60,y:60,content:'Olá. 💙 Você deu um passo enorme. Estamos aqui, sem julgamentos, para te ajudar a recuperar sua vida.',url:'',delay:2},
+    {id:'pb2',type:'choices',x:60,y:200,content:'Como você descreveria seu consumo de álcool?',url:'',delay:0,options:'Bebo nos fins de semana\nBebo quase todo dia\nBebo diariamente\nNão consigo parar sozinho(a)'},
+    {id:'pb3',type:'collect',x:60,y:360,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'pb4',type:'whatsapp',x:60,y:500,content:'Qual é o seu WhatsApp? (sigilo total garantido)',url:'',delay:0},
+    {id:'pb5',type:'arguments',x:60,y:640,content:'Tratamento 100% confidencial\nMétodo humanizado sem internação\nAcompanhamento psicológico incluso\nFamília pode participar\nResultados em 30 dias',url:'',delay:0},
+    {id:'pb6',type:'message',x:60,y:780,content:'Você não está sozinho(a). Nossa equipe já ajudou +2.000 pessoas a retomarem o controle da vida. 💙',url:'',delay:1},
+    {id:'pb7',type:'end',x:60,y:920,content:'Nossa equipe especializada entrará em contato com total discrição. 💙',url:'',delay:0}
+  ],edges:[{id:'epb1',from:'pb1',to:'pb2'},{id:'epb2',from:'pb2',to:'pb3'},{id:'epb3',from:'pb3',to:'pb4'},{id:'epb4',from:'pb4',to:'pb5'},{id:'epb5',from:'pb5',to:'pb6'},{id:'epb6',from:'pb6',to:'pb7'}]},
+  mamaeprimeira:{name:'Mamãe de Primeira Viagem',channel:'wpp',botName:'Consultora Maternal',nodes:[
+    {id:'mp1',type:'message',x:60,y:60,content:'Olá, mamãe! 🤰 Que momento incrível é esse! Estamos aqui para te acompanhar nessa jornada linda.',url:'',delay:2},
+    {id:'mp2',type:'choices',x:60,y:200,content:'Em qual fase você está?',url:'',delay:0,options:'Grávida (1º trimestre)\nGrávida (2º trimestre)\nGrávida (3º trimestre)\nBebê acabou de nascer\nBebê tem até 6 meses\nBebê tem 6 meses a 1 ano'},
+    {id:'mp3',type:'collect',x:60,y:360,content:'Qual é o seu nome, mamãe?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'mp4',type:'whatsapp',x:60,y:500,content:'Qual é o seu WhatsApp para enviarmos o guia completo?',url:'',delay:0},
+    {id:'mp5',type:'bonus',x:60,y:640,content:'Guia completo do enxoval do bebê\nCardápio para gestantes\nChecklist para a maternidade\nDicas de amamentação\nComunidade de mamães',url:'',delay:0},
+    {id:'mp6',type:'price',x:60,y:780,content:'R$ 47,00\nDe R$ 147,00\n🤰 Quero o guia completo para mamães! →',url:'https://hotmart.com',delay:0}
+  ],edges:[{id:'emp1',from:'mp1',to:'mp2'},{id:'emp2',from:'mp2',to:'mp3'},{id:'emp3',from:'mp3',to:'mp4'},{id:'emp4',from:'mp4',to:'mp5'},{id:'emp5',from:'mp5',to:'mp6'}]},
+  bebedorme:{name:'Bebê Dorme, Mamãe Descansa',channel:'wpp',botName:'Consultora de Sono',nodes:[
+    {id:'bd1',type:'message',x:60,y:60,content:'Oi, mamãe! 😴 Cansada de noites sem dormir? Você não está sozinha e existe solução!',url:'',delay:2},
+    {id:'bd2',type:'choices',x:60,y:200,content:'Qual é a idade do seu bebê?',url:'',delay:0,options:'0 a 3 meses\n3 a 6 meses\n6 meses a 1 ano\n1 a 2 anos\nMais de 2 anos'},
+    {id:'bd3',type:'choices',x:60,y:360,content:'Qual é o maior problema?',url:'',delay:0,options:'Não dorme sem mamar\nAcorda várias vezes\nSó dorme no colo\nHorário irregular\nRefluxa muito'},
+    {id:'bd4',type:'collect',x:60,y:500,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'bd5',type:'whatsapp',x:60,y:640,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'bd6',type:'testimonial',x:60,y:780,content:'Em 7 dias meu bebê dormia a noite toda! Método incrível!\nJuliana R., mãe do Pedro (8 meses)',url:'5',delay:0},
+    {id:'bd7',type:'price',x:60,y:920,content:'R$ 97,00\nDe R$ 297,00\n😴 Quero meu bebê dormindo! →',url:'https://hotmart.com',delay:0}
+  ],edges:[{id:'ebd1',from:'bd1',to:'bd2'},{id:'ebd2',from:'bd2',to:'bd3'},{id:'ebd3',from:'bd3',to:'bd4'},{id:'ebd4',from:'bd4',to:'bd5'},{id:'ebd5',from:'bd5',to:'bd6'},{id:'ebd6',from:'bd6',to:'bd7'}]},
+  otica:{name:'Ótica',channel:'wpp',botName:'Ótica',nodes:[
+    {id:'ot1',type:'message',x:60,y:60,content:'Olá! 👓 Bem-vindo(a) à nossa ótica! Óculos de qualidade com os melhores preços.',url:'',delay:2},
+    {id:'ot2',type:'choices',x:60,y:200,content:'O que você precisa?',url:'',delay:0,options:'Óculos de grau\nÓculos de sol\nLente de contato\nExame de vista gratuito\nConsertar óculos\nMontagem de lentes'},
+    {id:'ot3',type:'collect',x:60,y:360,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'ot4',type:'whatsapp',x:60,y:500,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'ot5',type:'arguments',x:60,y:640,content:'Exame de vista gratuito\nEntrega em até 7 dias\nGarantia de 1 ano\nAceita convênios\nParcelamento em até 10x',url:'',delay:0},
+    {id:'ot6',type:'scarcity',x:60,y:780,content:'Exame gratuito com horários limitados!',url:'3600',delay:0},
+    {id:'ot7',type:'end',x:60,y:920,content:'Agendamento confirmado! Nos vemos em breve. 👓',url:'',delay:0}
+  ],edges:[{id:'eot1',from:'ot1',to:'ot2'},{id:'eot2',from:'ot2',to:'ot3'},{id:'eot3',from:'ot3',to:'ot4'},{id:'eot4',from:'ot4',to:'ot5'},{id:'eot5',from:'ot5',to:'ot6'},{id:'eot6',from:'ot6',to:'ot7'}]},
+  vendedorgeral:{name:'Vendedor no Geral',channel:'wpp',botName:'Vendedor',nodes:[
+    {id:'vg1',type:'marquee',x:60,y:60,content:'🔥 OFERTA ESPECIAL — Aproveite antes que acabe!',url:'',delay:0},
+    {id:'vg2',type:'message',x:60,y:180,content:'Olá! 👋 Tenho uma oportunidade incrível para você. Pode me dar 2 minutos?',url:'',delay:2},
+    {id:'vg3',type:'choices',x:60,y:320,content:'Você tem interesse em:',url:'',delay:0,options:'Economizar dinheiro\nGanhar dinheiro\nMelhorar qualidade de vida\nSolucionar um problema\nVer o que é antes de decidir'},
+    {id:'vg4',type:'collect',x:60,y:460,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'vg5',type:'whatsapp',x:60,y:600,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'vg6',type:'arguments',x:60,y:740,content:'Produto/serviço testado e aprovado\nGarantia de satisfação\nSuporte pós-venda\nMelhor preço garantido',url:'',delay:0},
+    {id:'vg7',type:'scarcity',x:60,y:880,content:'Oferta por tempo limitado!',url:'900',delay:0},
+    {id:'vg8',type:'price',x:60,y:1020,content:'Condição especial\nSomente hoje\n🔥 Quero aproveitar agora! →',url:'https://wa.me/5511999999999',delay:0}
+  ],edges:[{id:'evg1',from:'vg1',to:'vg2'},{id:'evg2',from:'vg2',to:'vg3'},{id:'evg3',from:'vg3',to:'vg4'},{id:'evg4',from:'vg4',to:'vg5'},{id:'evg5',from:'vg5',to:'vg6'},{id:'evg6',from:'vg6',to:'vg7'},{id:'evg7',from:'vg7',to:'vg8'}]},
+  sexshop:{name:'Sex Shop',channel:'wpp',botName:'Atendente',nodes:[
+    {id:'sx1',type:'message',x:60,y:60,content:'Olá! 💜 Bem-vindo(a)! Ambiente seguro, discreto e sem julgamentos. Como posso ajudar?',url:'',delay:2},
+    {id:'sx2',type:'choices',x:60,y:200,content:'O que você procura?',url:'',delay:0,options:'Para casais\nPara ela\nPara ele\nLingeries e fantasias\nCosméticos íntimos\nErotismo e novidades'},
+    {id:'sx3',type:'collect',x:60,y:360,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'sx4',type:'whatsapp',x:60,y:500,content:'Qual é o seu WhatsApp para enviarmos o catálogo?',url:'',delay:0},
+    {id:'sx5',type:'arguments',x:60,y:640,content:'Embalagem 100% discreta\nEntrega sigilosa em todo Brasil\nPagamento seguro\nTroca sem burocracia',url:'',delay:0},
+    {id:'sx6',type:'end',x:60,y:780,content:'Atendente enviará o catálogo completo agora. 💜',url:'',delay:0}
+  ],edges:[{id:'esx1',from:'sx1',to:'sx2'},{id:'esx2',from:'sx2',to:'sx3'},{id:'esx3',from:'sx3',to:'sx4'},{id:'esx4',from:'sx4',to:'sx5'},{id:'esx5',from:'sx5',to:'sx6'}]},
+  petshop:{name:'Loja de Pet / Pet Shop',channel:'wpp',botName:'Pet Shop',nodes:[
+    {id:'pt1',type:'message',x:60,y:60,content:'Olá! 🐾 Bem-vindo(a) ao nosso pet shop! Aqui seu pet é tratado como rei.',url:'',delay:2},
+    {id:'pt2',type:'choices',x:60,y:200,content:'O que você precisa?',url:'',delay:0,options:'Banho e tosa\nRação e petiscos\nVeterinário\nAcessórios e brinquedos\nHotel para pets\nVaccinas e vermífugos'},
+    {id:'pt3',type:'choices',x:60,y:360,content:'Qual é o seu pet?',url:'',delay:0,options:'Cachorro pequeno\nCachorro médio/grande\nGato\nPássaro\nRoedor\nOutro'},
+    {id:'pt4',type:'collect',x:60,y:500,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'pt5',type:'whatsapp',x:60,y:640,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'pt6',type:'testimonial',x:60,y:780,content:'Meu dog sai sempre lindo e feliz! Melhor pet shop!\nAna Paula, tutora do Rex',url:'5',delay:0},
+    {id:'pt7',type:'end',x:60,y:920,content:'Agendamento feito! Seu pet vai adorar. 🐾',url:'',delay:0}
+  ],edges:[{id:'ept1',from:'pt1',to:'pt2'},{id:'ept2',from:'pt2',to:'pt3'},{id:'ept3',from:'pt3',to:'pt4'},{id:'ept4',from:'pt4',to:'pt5'},{id:'ept5',from:'pt5',to:'pt6'},{id:'ept6',from:'pt6',to:'pt7'}]},
+  marketingIA:{name:'Marketing com Inteligência Artificial',channel:'wpp',botName:'Especialista em IA',nodes:[
+    {id:'mi1',type:'marquee',x:60,y:60,content:'🤖 IA no Marketing — Automatize e escale seus resultados!',url:'',delay:0},
+    {id:'mi2',type:'message',x:60,y:180,content:'Olá! 🤖 A Inteligência Artificial está revolucionando o marketing. Vou te mostrar como usar IA para dobrar seus resultados!',url:'',delay:2},
+    {id:'mi3',type:'choices',x:60,y:320,content:'Qual é seu maior desafio no marketing?',url:'',delay:0,options:'Criar conteúdo\nGerar leads\nAutomatizar atendimento\nAds e tráfego pago\nE-mail marketing\nAnálise de dados'},
+    {id:'mi4',type:'collect',x:60,y:460,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'mi5',type:'collect',x:60,y:600,content:'Qual é o seu email?',url:'',delay:0,inputType:'email',placeholder:'seu@email.com'},
+    {id:'mi6',type:'arguments',x:60,y:740,content:'Economize 10h por semana com automação\nConteúdo criado em minutos\nChatbots que vendem 24h\nAnálise preditiva de campanhas\nROI 3x maior com IA',url:'',delay:0},
+    {id:'mi7',type:'price',x:60,y:880,content:'R$ 297,00\nDe R$ 697,00\n🤖 Quero dominar o Marketing com IA! →',url:'https://hotmart.com',delay:0}
+  ],edges:[{id:'emi1',from:'mi1',to:'mi2'},{id:'emi2',from:'mi2',to:'mi3'},{id:'emi3',from:'mi3',to:'mi4'},{id:'emi4',from:'mi4',to:'mi5'},{id:'emi5',from:'mi5',to:'mi6'},{id:'emi6',from:'mi6',to:'mi7'}]},
+  oratoria:{name:'Oratória — Como Falar em Público',channel:'wpp',botName:'Coach de Oratória',nodes:[
+    {id:'or1',type:'message',x:60,y:60,content:'Olá! 🎤 Imagine falar em público com confiança e prender a atenção de qualquer plateia. Isso é possível!',url:'',delay:2},
+    {id:'or2',type:'choices',x:60,y:200,content:'Qual é o seu maior desafio ao falar em público?',url:'',delay:0,options:'Nervosismo e tremor\nVoz fraca ou travada\nEsqueço o que falar\nNão sei gesticular\nFalta de confiança\nApresentações no trabalho'},
+    {id:'or3',type:'collect',x:60,y:360,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'or4',type:'whatsapp',x:60,y:500,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'or5',type:'arguments',x:60,y:640,content:'Técnicas usadas por grandes líderes\nMétodo prático em 30 dias\nExercícios diários de 15 minutos\nFeedback personalizado\nComunidade de praticantes',url:'',delay:0},
+    {id:'or6',type:'price',x:60,y:780,content:'R$ 197,00\nDe R$ 497,00\n🎤 Quero falar com confiança! →',url:'https://hotmart.com',delay:0}
+  ],edges:[{id:'eor1',from:'or1',to:'or2'},{id:'eor2',from:'or2',to:'or3'},{id:'eor3',from:'or3',to:'or4'},{id:'eor4',from:'or4',to:'or5'},{id:'eor5',from:'or5',to:'or6'}]},
+  apresentador:{name:'Apresentador de Palco',channel:'wpp',botName:'Apresentador',nodes:[
+    {id:'ap1',type:'message',x:60,y:60,content:'Olá! 🎭 Sou apresentador de eventos e estou disponível para tornar seu evento inesquecível!',url:'',delay:2},
+    {id:'ap2',type:'choices',x:60,y:200,content:'Qual é o tipo do evento?',url:'',delay:0,options:'Corporativo / Empresarial\nCasamento / Festas\nShow / Música\nFormatura\nConferência / Congresso\nFeira / Exposição'},
+    {id:'ap3',type:'question',x:60,y:360,content:'Quantas pessoas são esperadas no evento?',url:'',delay:0},
+    {id:'ap4',type:'question',x:60,y:500,content:'Qual é a data prevista do evento?',url:'',delay:0},
+    {id:'ap5',type:'collect',x:60,y:640,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'ap6',type:'whatsapp',x:60,y:780,content:'Qual é o seu WhatsApp para enviarmos o orçamento?',url:'',delay:0},
+    {id:'ap7',type:'end',x:60,y:920,content:'Proposta enviada em instantes! Será um prazer apresentar seu evento. 🎭',url:'',delay:0}
+  ],edges:[{id:'eap1',from:'ap1',to:'ap2'},{id:'eap2',from:'ap2',to:'ap3'},{id:'eap3',from:'ap3',to:'ap4'},{id:'eap4',from:'ap4',to:'ap5'},{id:'eap5',from:'ap5',to:'ap6'},{id:'eap6',from:'ap6',to:'ap7'}]},
+  motoboy:{name:'Motoboy / Entregador',channel:'wpp',botName:'Motoboy',nodes:[
+    {id:'mb1',type:'message',x:60,y:60,content:'Olá! 🏍️ Entrega rápida e segura na sua cidade! Coleta em minutos.',url:'',delay:2},
+    {id:'mb2',type:'choices',x:60,y:200,content:'Qual é o tipo de entrega?',url:'',delay:0,options:'Documento / Envelope\nPacote pequeno\nPacote grande\nAlimentação\nFarmácia / Urgente\nEntrega programada'},
+    {id:'mb3',type:'question',x:60,y:360,content:'Qual é o endereço de coleta?',url:'',delay:0},
+    {id:'mb4',type:'question',x:60,y:500,content:'Qual é o endereço de entrega?',url:'',delay:0},
+    {id:'mb5',type:'collect',x:60,y:640,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'mb6',type:'whatsapp',x:60,y:780,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'mb7',type:'loading',x:60,y:920,content:'🏍️ Calculando rota e valor...',url:'',delay:0},
+    {id:'mb8',type:'end',x:60,y:1060,content:'Motoboy a caminho em breve! Acompanhe pelo WhatsApp. 🏍️',url:'',delay:0}
+  ],edges:[{id:'emb1',from:'mb1',to:'mb2'},{id:'emb2',from:'mb2',to:'mb3'},{id:'emb3',from:'mb3',to:'mb4'},{id:'emb4',from:'mb4',to:'mb5'},{id:'emb5',from:'mb5',to:'mb6'},{id:'emb6',from:'mb6',to:'mb7'},{id:'emb7',from:'mb7',to:'mb8'}]},
+  seguros:{name:'Corretor de Seguros',channel:'wpp',botName:'Corretor de Seguros',nodes:[
+    {id:'sg1',type:'message',x:60,y:60,content:'Olá! 🛡️ Proteja o que você mais ama! Sou corretor de seguros e encontro a melhor proteção pelo menor preço.',url:'',delay:2},
+    {id:'sg2',type:'choices',x:60,y:200,content:'Qual seguro você precisa?',url:'',delay:0,options:'Seguro de carro\nSeguro de vida\nSeguro residencial\nSeguro empresarial\nSeguro viagem\nOutro'},
+    {id:'sg3',type:'collect',x:60,y:360,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'sg4',type:'whatsapp',x:60,y:500,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'sg5',type:'loading',x:60,y:640,content:'🔍 Buscando as melhores cotações para você...',url:'',delay:0},
+    {id:'sg6',type:'arguments',x:60,y:780,content:'Comparamos +20 seguradoras\nMelhor custo-benefício\nAssistência 24h incluída\nSinistro resolvido em até 24h\nParcelamento sem juros',url:'',delay:0},
+    {id:'sg7',type:'end',x:60,y:920,content:'Cotação gerada! Enviarei as opções agora. 🛡️',url:'',delay:0}
+  ],edges:[{id:'esg1',from:'sg1',to:'sg2'},{id:'esg2',from:'sg2',to:'sg3'},{id:'esg3',from:'sg3',to:'sg4'},{id:'esg4',from:'sg4',to:'sg5'},{id:'esg5',from:'sg5',to:'sg6'},{id:'esg6',from:'sg6',to:'sg7'}]},
+  planosaude:{name:'Corretor de Plano de Saúde',channel:'wpp',botName:'Corretor de Saúde',nodes:[
+    {id:'ph1',type:'marquee',x:60,y:60,content:'❤️ PLANO DE SAÚDE — Proteção para você e sua família!',url:'',delay:0},
+    {id:'ph2',type:'message',x:60,y:180,content:'Olá! ❤️ Encontro o melhor plano de saúde para o seu perfil e bolso. Sem burocracia!',url:'',delay:2},
+    {id:'ph3',type:'choices',x:60,y:320,content:'Para quem é o plano?',url:'',delay:0,options:'Só para mim\nPara mim e cônjuge\nFamília (com filhos)\nEmpresa / Funcionários'},
+    {id:'ph4',type:'choices',x:60,y:460,content:'Qual é a sua faixa de orçamento mensal?',url:'',delay:0,options:'Até R$ 200\nDe R$ 200 a R$ 400\nDe R$ 400 a R$ 800\nAcima de R$ 800'},
+    {id:'ph5',type:'collect',x:60,y:600,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'ph6',type:'whatsapp',x:60,y:740,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'ph7',type:'loading',x:60,y:880,content:'🔍 Comparando os melhores planos...',url:'',delay:0},
+    {id:'ph8',type:'end',x:60,y:1020,content:'Encontrei ótimas opções! Vou enviar as cotações agora. ❤️',url:'',delay:0}
+  ],edges:[{id:'eph1',from:'ph1',to:'ph2'},{id:'eph2',from:'ph2',to:'ph3'},{id:'eph3',from:'ph3',to:'ph4'},{id:'eph4',from:'ph4',to:'ph5'},{id:'eph5',from:'ph5',to:'ph6'},{id:'eph6',from:'ph6',to:'ph7'},{id:'eph7',from:'ph7',to:'ph8'}]},
+  adestrador:{name:'Adestrador de Cães',channel:'wpp',botName:'Adestrador',nodes:[
+    {id:'ad1',type:'message',x:60,y:60,content:'Olá! 🐕 Seu cão merece uma vida mais feliz e harmoniosa. Sou adestrador certificado!',url:'',delay:2},
+    {id:'ad2',type:'choices',x:60,y:200,content:'Qual é o problema do seu pet?',url:'',delay:0,options:'Late demais\nDestrói tudo em casa\nAgride pessoas ou outros cães\nFaz necessidades no lugar errado\nPuxa demais a guia\nAnsiosa / Com medo'},
+    {id:'ad3',type:'choices',x:60,y:360,content:'Qual é o porte do seu cão?',url:'',delay:0,options:'Pequeno (até 10kg)\nMédio (10 a 25kg)\nGrande (acima de 25kg)'},
+    {id:'ad4',type:'collect',x:60,y:500,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'ad5',type:'whatsapp',x:60,y:640,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'ad6',type:'arguments',x:60,y:780,content:'Método positivo sem punições\nResultados em até 30 dias\nAulas individuais e em grupo\nAcompanhamento pós-treinamento\nMás de 500 cães adestrados',url:'',delay:0},
+    {id:'ad7',type:'end',x:60,y:920,content:'Avaliação gratuita agendada! Seu cão vai adorar. 🐕',url:'',delay:0}
+  ],edges:[{id:'ead1',from:'ad1',to:'ad2'},{id:'ead2',from:'ad2',to:'ad3'},{id:'ead3',from:'ad3',to:'ad4'},{id:'ead4',from:'ad4',to:'ad5'},{id:'ead5',from:'ad5',to:'ad6'},{id:'ead6',from:'ad6',to:'ad7'}]},
+  contratarshow:{name:'Contratante de Shows',channel:'wpp',botName:'Produtor de Eventos',nodes:[
+    {id:'cs1',type:'message',x:60,y:60,content:'Olá! 🎵 Quer contratar um show incrível para seu evento? Trabalho com os melhores artistas!',url:'',delay:2},
+    {id:'cs2',type:'choices',x:60,y:200,content:'Qual é o tipo de evento?',url:'',delay:0,options:'Festa particular\nEvento corporativo\nFestival / Feira\nCasamento\nFormatura\nShow beneficente'},
+    {id:'cs3',type:'choices',x:60,y:360,content:'Qual estilo musical prefere?',url:'',delay:0,options:'Sertanejo\nPagode / Samba\nForró\nRock / Pop\nGospel / Religioso\nBanda cover'},
+    {id:'cs4',type:'question',x:60,y:500,content:'Qual é a data do evento?',url:'',delay:0},
+    {id:'cs5',type:'collect',x:60,y:640,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'cs6',type:'whatsapp',x:60,y:780,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'cs7',type:'end',x:60,y:920,content:'Vou verificar disponibilidade e te enviar as opções! 🎵',url:'',delay:0}
+  ],edges:[{id:'ecs1',from:'cs1',to:'cs2'},{id:'ecs2',from:'cs2',to:'cs3'},{id:'ecs3',from:'cs3',to:'cs4'},{id:'ecs4',from:'cs4',to:'cs5'},{id:'ecs5',from:'cs5',to:'cs6'},{id:'ecs6',from:'cs6',to:'cs7'}]},
+  musico:{name:'Músico — Me Contrate para Shows',channel:'wpp',botName:'Músico',nodes:[
+    {id:'mu1',type:'message',x:60,y:60,content:'Olá! 🎸 Sou músico profissional e estou disponível para fazer seu evento inesquecível!',url:'',delay:2},
+    {id:'mu2',type:'choices',x:60,y:200,content:'Qual é o tipo do seu evento?',url:'',delay:0,options:'Festa de aniversário\nCasamento\nEvento corporativo\nBar / Restaurante\nFestival\nOutro'},
+    {id:'mu3',type:'arguments',x:60,y:360,content:'Repertório de +500 músicas\nEquipamento profissional próprio\nMontagem e desmontagem inclusa\nPontualidade garantida\n+200 eventos realizados',url:'',delay:0},
+    {id:'mu4',type:'question',x:60,y:500,content:'Qual é a data e cidade do evento?',url:'',delay:0},
+    {id:'mu5',type:'collect',x:60,y:640,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'mu6',type:'whatsapp',x:60,y:780,content:'Qual é o seu WhatsApp para enviarmos o orçamento?',url:'',delay:0},
+    {id:'mu7',type:'end',x:60,y:920,content:'Orçamento enviado em instantes! Vai ser incrível! 🎸',url:'',delay:0}
+  ],edges:[{id:'emu1',from:'mu1',to:'mu2'},{id:'emu2',from:'mu2',to:'mu3'},{id:'emu3',from:'mu3',to:'mu4'},{id:'emu4',from:'mu4',to:'mu5'},{id:'emu5',from:'mu5',to:'mu6'},{id:'emu6',from:'mu6',to:'mu7'}]},
+  jogadorfutebol:{name:'Jogador de Futebol',channel:'wpp',botName:'Jogador',nodes:[
+    {id:'jf1',type:'message',x:60,y:60,content:'Olá! ⚽ Sou jogador profissional de futebol e estou disponível para sua equipe ou evento!',url:'',delay:2},
+    {id:'jf2',type:'arguments',x:60,y:200,content:'Posição: Meia / Atacante\nExperiência: 8 anos profissional\nTítulos regionais e estaduais\nDisponível para treinos e jogos\nPossuo documentação em dia',url:'',delay:0},
+    {id:'jf3',type:'choices',x:60,y:360,content:'Qual é a proposta?',url:'',delay:0,options:'Contrato fixo no clube\nJogo / Pelada especial\nEvento beneficente\nPublicidade e mídia\nOutro'},
+    {id:'jf4',type:'collect',x:60,y:500,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'jf5',type:'whatsapp',x:60,y:640,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'jf6',type:'end',x:60,y:780,content:'Proposta recebida! Vamos conversar sobre os detalhes. ⚽',url:'',delay:0}
+  ],edges:[{id:'ejf1',from:'jf1',to:'jf2'},{id:'ejf2',from:'jf2',to:'jf3'},{id:'ejf3',from:'jf3',to:'jf4'},{id:'ejf4',from:'jf4',to:'jf5'},{id:'ejf5',from:'jf5',to:'jf6'}]},
+  assessorinvest:{name:'Assessor de Investimentos',channel:'wpp',botName:'Assessor de Investimentos',nodes:[
+    {id:'ai1',type:'marquee',x:60,y:60,content:'💹 FAÇA SEU DINHEIRO TRABALHAR — Investimentos inteligentes!',url:'',delay:0},
+    {id:'ai2',type:'message',x:60,y:180,content:'Olá! 💹 Sou assessor de investimentos certificado. Vou te ajudar a construir patrimônio de forma segura e inteligente.',url:'',delay:2},
+    {id:'ai3',type:'choices',x:60,y:320,content:'Qual é o seu perfil de investidor?',url:'',delay:0,options:'Conservador (segurança acima de tudo)\nModerado (equilíbrio risco/retorno)\nArrojado (aceito mais risco para ganhar mais)\nNão sei ainda'},
+    {id:'ai4',type:'choices',x:60,y:460,content:'Qual é o valor disponível para investir?',url:'',delay:0,options:'Até R$ 5.000\nDe R$ 5.000 a R$ 20.000\nDe R$ 20.000 a R$ 100.000\nAcima de R$ 100.000'},
+    {id:'ai5',type:'collect',x:60,y:600,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'ai6',type:'whatsapp',x:60,y:740,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'ai7',type:'arguments',x:60,y:880,content:'Consultoria gratuita e sem compromisso\nCertificado CFP e CPA-20\nCarteira diversificada personalizada\nAcompanhamento mensal\nTransparência total nas operações',url:'',delay:0},
+    {id:'ai8',type:'end',x:60,y:1020,content:'Diagnóstico financeiro gratuito agendado! 💹',url:'',delay:0}
+  ],edges:[{id:'eai1',from:'ai1',to:'ai2'},{id:'eai2',from:'ai2',to:'ai3'},{id:'eai3',from:'ai3',to:'ai4'},{id:'eai4',from:'ai4',to:'ai5'},{id:'eai5',from:'ai5',to:'ai6'},{id:'eai6',from:'ai6',to:'ai7'},{id:'eai7',from:'ai7',to:'ai8'}]},
+  instrutorvolante:{name:'Instrutor de Volante',channel:'wpp',botName:'Instrutor de Direção',nodes:[
+    {id:'iv1',type:'message',x:60,y:60,content:'Olá! 🚗 Aprenda a dirigir com segurança e confiança! Sou instrutor de direção com +15 anos de experiência.',url:'',delay:2},
+    {id:'iv2',type:'choices',x:60,y:200,content:'O que você precisa?',url:'',delay:0,options:'Aprender a dirigir do zero\nAulas de aperfeiçoamento\nDireção defensiva\nDireção em estrada\nRecuperação de CNH\nDireção para idosos'},
+    {id:'iv3',type:'collect',x:60,y:360,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'iv4',type:'whatsapp',x:60,y:500,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'iv5',type:'arguments',x:60,y:640,content:'Aulas individuais e no seu ritmo\nCarro moderno e seguro\nHorários flexíveis\nAula experimental gratuita\nAprovação garantida',url:'',delay:0},
+    {id:'iv6',type:'scarcity',x:60,y:780,content:'Vagas limitadas neste mês!',url:'1800',delay:0},
+    {id:'iv7',type:'end',x:60,y:920,content:'Aula experimental agendada! Te vejo na pista. 🚗',url:'',delay:0}
+  ],edges:[{id:'eiv1',from:'iv1',to:'iv2'},{id:'eiv2',from:'iv2',to:'iv3'},{id:'eiv3',from:'iv3',to:'iv4'},{id:'eiv4',from:'iv4',to:'iv5'},{id:'eiv5',from:'iv5',to:'iv6'},{id:'eiv6',from:'iv6',to:'iv7'}]},
+  contador:{name:'Contador / Contabilidade',channel:'wpp',botName:'Escritório Contábil',nodes:[
+    {id:'ct1',type:'message',x:60,y:60,content:'Olá! 📊 Bem-vindo(a)! Contabilidade descomplicada para sua empresa ou MEI crescer com segurança.',url:'',delay:2},
+    {id:'ct2',type:'choices',x:60,y:200,content:'Qual é o seu perfil?',url:'',delay:0,options:'MEI\nMicroempresa (ME)\nEmpresa de Pequeno Porte\nPessoa física (IR)\nSturtup / Tech\nOutro'},
+    {id:'ct3',type:'choices',x:60,y:360,content:'O que precisa?',url:'',delay:0,options:'Abrir empresa\nFechar empresa\nDeclaração de IR\nDAS / Simples Nacional\nFolha de pagamento\nBNC e planejamento tributário'},
+    {id:'ct4',type:'collect',x:60,y:500,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'ct5',type:'whatsapp',x:60,y:640,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'ct6',type:'arguments',x:60,y:780,content:'Atendimento 100% online\nDeclaração do IR em até 48h\nEconomia tributária garantida\nSem multas e pendências\nContador dedicado à sua conta',url:'',delay:0},
+    {id:'ct7',type:'end',x:60,y:920,content:'Consulta gratuita agendada! Até logo. 📊',url:'',delay:0}
+  ],edges:[{id:'ect1',from:'ct1',to:'ct2'},{id:'ect2',from:'ct2',to:'ct3'},{id:'ect3',from:'ct3',to:'ct4'},{id:'ect4',from:'ct4',to:'ct5'},{id:'ect5',from:'ct5',to:'ct6'},{id:'ect6',from:'ct6',to:'ct7'}]},
+  segurancaeventos:{name:'Segurança de Eventos',channel:'wpp',botName:'Segurança',nodes:[
+    {id:'se1',type:'message',x:60,y:60,content:'Olá! 🛡️ Seu evento merece segurança profissional. Somos especializados em segurança para eventos de todos os portes.',url:'',delay:2},
+    {id:'se2',type:'choices',x:60,y:200,content:'Qual é o tipo de evento?',url:'',delay:0,options:'Show / Festival\nFesta corporativa\nCasamento / Privado\nFestival Esportivo\nFeira / Exposição\nOutro'},
+    {id:'se3',type:'question',x:60,y:360,content:'Quantas pessoas são esperadas?',url:'',delay:0},
+    {id:'se4',type:'question',x:60,y:500,content:'Qual é a data e local do evento?',url:'',delay:0},
+    {id:'se5',type:'collect',x:60,y:640,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'se6',type:'whatsapp',x:60,y:780,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'se7',type:'arguments',x:60,y:920,content:'Equipe treinada e certificada\nUniformizados e identificados\nComunicação via rádio\nPlano de emergência incluso\nSeguro de responsabilidade civil',url:'',delay:0},
+    {id:'se8',type:'end',x:60,y:1060,content:'Orçamento a caminho! Seu evento vai estar em boas mãos. 🛡️',url:'',delay:0}
+  ],edges:[{id:'ese1',from:'se1',to:'se2'},{id:'ese2',from:'se2',to:'se3'},{id:'ese3',from:'se3',to:'se4'},{id:'ese4',from:'se4',to:'se5'},{id:'ese5',from:'se5',to:'se6'},{id:'ese6',from:'se6',to:'se7'},{id:'ese7',from:'se7',to:'se8'}]},
+  eventos:{name:'Organizador de Eventos',channel:'wpp',botName:'Organizador de Eventos',nodes:[
+    {id:'ev1',type:'marquee',x:60,y:60,content:'🎉 EVENTOS INESQUECÍVEIS — Realizamos o evento dos seus sonhos!',url:'',delay:0},
+    {id:'ev2',type:'message',x:60,y:180,content:'Olá! 🎉 Somos especializados em criar eventos memoráveis. Do planejamento à execução, cuidamos de tudo!',url:'',delay:2},
+    {id:'ev3',type:'choices',x:60,y:320,content:'Qual é o tipo de evento?',url:'',delay:0,options:'Casamento\nAniversário / Debutante\nFormatura\nEvento corporativo\nFestival\nBatizado / Chá'},
+    {id:'ev4',type:'question',x:60,y:460,content:'Qual é a data prevista e número de convidados?',url:'',delay:0},
+    {id:'ev5',type:'collect',x:60,y:600,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'ev6',type:'whatsapp',x:60,y:740,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'ev7',type:'arguments',x:60,y:880,content:'Decoração temática personalizada\nFornecedores homologados\nCardápio exclusivo\nCerimonial e coordenação\nSeguro do evento incluso',url:'',delay:0},
+    {id:'ev8',type:'end',x:60,y:1020,content:'Proposta enviada em breve! Vai ser incrível. 🎉',url:'',delay:0}
+  ],edges:[{id:'eev1',from:'ev1',to:'ev2'},{id:'eev2',from:'ev2',to:'ev3'},{id:'eev3',from:'ev3',to:'ev4'},{id:'eev4',from:'ev4',to:'ev5'},{id:'eev5',from:'ev5',to:'ev6'},{id:'eev6',from:'ev6',to:'ev7'},{id:'eev7',from:'ev7',to:'ev8'}]},
+  prestadorservicos:{name:'Prestador de Serviços',channel:'wpp',botName:'Prestador de Serviços',nodes:[
+    {id:'prest1',type:'message',x:60,y:60,content:'Olá! 🔧 Precisa de um serviço de qualidade? Estou à disposição! Trabalho sério e com garantia.',url:'',delay:2},
+    {id:'prest2',type:'choices',x:60,y:200,content:'Qual serviço você precisa?',url:'',delay:0,options:'Elétrica\nHidráulica\nPintura\nMarcenaria\nLimpeza\nOutro serviço'},
+    {id:'prest3',type:'question',x:60,y:360,content:'Descreva brevemente o que precisa ser feito:',url:'',delay:0},
+    {id:'prest4',type:'collect',x:60,y:500,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'prest5',type:'whatsapp',x:60,y:640,content:'Qual é o seu WhatsApp para enviarmos o orçamento?',url:'',delay:0},
+    {id:'prest6',type:'arguments',x:60,y:780,content:'Orçamento gratuito em até 2h\nServiço com garantia\nMateriais de qualidade\nPontualidade garantida\nPagamento após aprovação',url:'',delay:0},
+    {id:'prest7',type:'end',x:60,y:920,content:'Orçamento a caminho! Em breve entramos em contato. 🔧',url:'',delay:0}
+  ],edges:[{id:'eprest1',from:'prest1',to:'prest2'},{id:'eprest2',from:'prest2',to:'prest3'},{id:'eprest3',from:'prest3',to:'prest4'},{id:'eprest4',from:'prest4',to:'prest5'},{id:'eprest5',from:'prest5',to:'prest6'},{id:'eprest6',from:'prest6',to:'prest7'}]},
+  mecanico:{name:'Mecânico / Oficina',channel:'wpp',botName:'Oficina',nodes:[
+    {id:'mec1',type:'message',x:60,y:60,content:'Olá! 🔩 Bem-vindo(a) à nossa oficina! Cuidamos do seu carro como se fosse nosso.',url:'',delay:2},
+    {id:'mec2',type:'choices',x:60,y:200,content:'O que seu carro precisa?',url:'',delay:0,options:'Revisão geral\nFreios\nSuspensão\nMotor / Câmbio\nAr condicionado\nElétrica\nPneus e alinhamento'},
+    {id:'mec3',type:'question',x:60,y:360,content:'Qual é o modelo e ano do seu veículo?',url:'',delay:0},
+    {id:'mec4',type:'collect',x:60,y:500,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'mec5',type:'whatsapp',x:60,y:640,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'mec6',type:'arguments',x:60,y:780,content:'Orçamento gratuito\nPeças originais e garantidas\nMão de obra especializada\nCarro reserva disponível\nGarantia de 90 dias no serviço',url:'',delay:0},
+    {id:'mec7',type:'end',x:60,y:920,content:'Agendamento feito! Te esperamos na oficina. 🔩',url:'',delay:0}
+  ],edges:[{id:'emec1',from:'mec1',to:'mec2'},{id:'emec2',from:'mec2',to:'mec3'},{id:'emec3',from:'mec3',to:'mec4'},{id:'emec4',from:'mec4',to:'mec5'},{id:'emec5',from:'mec5',to:'mec6'},{id:'emec6',from:'mec6',to:'mec7'}]},
+  funileiro:{name:'Funileiro / Martelinho de Ouro',channel:'wpp',botName:'Funilaria',nodes:[
+    {id:'fn1',type:'message',x:60,y:60,content:'Olá! 🚗 Seu carro bateu ou amassou? Devolvemos como novo com o menor preço garantido!',url:'',delay:2},
+    {id:'fn2',type:'choices',x:60,y:200,content:'Qual é o problema?',url:'',delay:0,options:'Amassado (martelinho de ouro)\nArranhado / Riscado\nFarol ou lanterna quebrado\nParachoque\nPorta ou capô\nPintura completa'},
+    {id:'fn3',type:'message',x:60,y:360,content:'Mande uma foto do dano pelo WhatsApp que já enviamos o orçamento! 📸',url:'',delay:1},
+    {id:'fn4',type:'collect',x:60,y:500,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'fn5',type:'whatsapp',x:60,y:640,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'fn6',type:'arguments',x:60,y:780,content:'Orçamento em até 30 minutos\nBuscamos e devolvemos o carro\nTrabalho com seguro\nGarantia de 1 ano na pintura\nPagamento facilitado',url:'',delay:0},
+    {id:'fn7',type:'end',x:60,y:920,content:'Peça a foto e orçamento já! Atendemos em instantes. 🚗',url:'',delay:0}
+  ],edges:[{id:'efn1',from:'fn1',to:'fn2'},{id:'efn2',from:'fn2',to:'fn3'},{id:'efn3',from:'fn3',to:'fn4'},{id:'efn4',from:'fn4',to:'fn5'},{id:'efn5',from:'fn5',to:'fn6'},{id:'efn6',from:'fn6',to:'fn7'}]}
 };
 function loadTemplate(key){
   const tmpl=TEMPLATES[key];if(!tmpl)return;
@@ -3206,13 +3799,36 @@ async function openShare(){
   let shortOk=false;
 
   // Tentar salvar no Supabase via sbSaveFlow (usa SB_TOKEN do usuário logado)
-  if(CU&&SB_TOKEN){
+  if(CU){
     try{
+      // Tentar salvar - funciona se logado com conta real
+      // Para conta demo usa anon key (pode falhar se RLS não permitir)
       await sbSaveFlow(fCache);
       shortOk=true;
       console.log('[Mandrake] ✅ Link curto gerado:',link);
     }catch(e){
-      console.warn('[Mandrake] Supabase falhou, usando link longo:',e);
+      console.warn('[Mandrake] sbSaveFlow falhou:',e.message||e);
+      // Tentar via sbReq direto como fallback
+      try{
+        const wh2=(function(){try{return fCache.webhook||localStorage.getItem('mdk_webhook')||'';}catch(e2){return '';}}());
+        const body2={
+          id:curFId,user_id:CU.id,name:fCache.name||'Fluxo',
+          channel:fCache.channel||'wpp',status:'published',description:fCache.desc||'',
+          nodes_json:JSON.stringify(fCache.nodes||[]),edges_json:JSON.stringify(fCache.edges||[]),
+          updated_at:new Date().toISOString(),
+          bot_name:fCache.botName||'Atendente',bot_avatar:fCache.botAvatar||'',
+          bg_color:fCache.bgColor||'',webhook:wh2
+        };
+        const r2=await sbReq('/rest/v1/mandrake_flows',{method:'POST',
+          headers:{'Prefer':'resolution=merge-duplicates,return=minimal'},
+          body:JSON.stringify(body2)});
+        if(r2.ok||r2.status===201||r2.status===200||r2.status===204){
+          shortOk=true;
+          console.log('[Mandrake] ✅ Link curto via sbReq');
+        }else{
+          console.warn('[Mandrake] sbReq status:',r2.status,r2.data);
+        }
+      }catch(e3){console.warn('[Mandrake] sbReq também falhou:',e3);}
     }
   }
 
