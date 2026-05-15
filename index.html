@@ -1307,6 +1307,12 @@ insert into storage.buckets (id, name, public)
         <p style="font-size:11px;color:var(--muted)">Problema + foto + captura.</p>
         <div style="margin-top:6px;font-size:10px;color:var(--grn)">7 nós</div>
       </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('freeflow2')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">🚗⚡</div>
+        <h3 style="font-size:13px">Tag Free Flow — Otimizado</h3>
+        <p style="font-size:11px;color:var(--muted)">Estrutura 8 passos: atenção→dor→qualif→prova→captura→urgência→oferta→conversão.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">12 nós</div>
+      </div>
     </div>
   </div>
 </div>
@@ -2776,7 +2782,28 @@ const TEMPLATES={
     {id:'fn5',type:'whatsapp',x:60,y:640,content:'Qual é o seu WhatsApp?',url:'',delay:0},
     {id:'fn6',type:'arguments',x:60,y:780,content:'Orçamento em até 30 minutos\nBuscamos e devolvemos o carro\nTrabalho com seguro\nGarantia de 1 ano na pintura\nPagamento facilitado',url:'',delay:0},
     {id:'fn7',type:'end',x:60,y:920,content:'Peça a foto e orçamento já! Atendemos em instantes. 🚗',url:'',delay:0}
-  ],edges:[{id:'efn1',from:'fn1',to:'fn2'},{id:'efn2',from:'fn2',to:'fn3'},{id:'efn3',from:'fn3',to:'fn4'},{id:'efn4',from:'fn4',to:'fn5'},{id:'efn5',from:'fn5',to:'fn6'},{id:'efn6',from:'fn6',to:'fn7'}]}
+  ],edges:[{id:'efn1',from:'fn1',to:'fn2'},{id:'efn2',from:'fn2',to:'fn3'},{id:'efn3',from:'fn3',to:'fn4'},{id:'efn4',from:'fn4',to:'fn5'},{id:'efn5',from:'fn5',to:'fn6'},{id:'efn6',from:'fn6',to:'fn7'}]},
+  freeflow2:{name:'Tag Free Flow — Estrutura Otimizada',channel:'wpp',botName:'Consultor de Trânsito',nodes:[
+    {id:'ff2_1',type:'marquee',x:60,y:60,content:'🚗 MOTORISTA! Você corre risco de multa no pedágio free flow?',url:'',delay:0},
+    {id:'ff2_2',type:'message',x:60,y:180,content:'O governo suspendeu 3,4 MILHÕES de multas — mas o prazo para regularizar termina em novembro. Você está protegido?',url:'',delay:2},
+    {id:'ff2_3',type:'choices',x:60,y:320,content:'Você passou por algum pedágio sem cancela nos últimos 12 meses?',url:'',delay:0,options:'Sim, passo com frequência\nSim, passei algumas vezes\nNão tenho certeza\nNão, evito esses pedágios'},
+    {id:'ff2_4',type:'choices',x:60,y:460,content:'Você já tem a tag Sem Parar instalada?',url:'',delay:0,options:'Não tenho tag nenhuma\nTenho mas está inativa\nTenho e funciona'},
+    {id:'ff2_5',type:'testimonial',x:60,y:600,content:'Instalei a tag e nunca mais me preocupei com multa de pedágio! Economizo tempo e dinheiro!\nCarlos M., motorista há 12 anos',url:'5',delay:0},
+    {id:'ff2_6',type:'collect',x:60,y:740,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'ff2_7',type:'collect',x:60,y:880,content:'Qual é o seu email?',url:'',delay:0,inputType:'email',placeholder:'seu@email.com'},
+    {id:'ff2_8',type:'whatsapp',x:60,y:1020,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'ff2_9',type:'scarcity',x:60,y:1160,content:'⚠️ Prazo do governo para regularizar termina em:',url:'172800',delay:0},
+    {id:'ff2_10',type:'price',x:60,y:1300,content:'Ative sua tag agora\nR$ 0,00 na ativação\n🏷️ Ativar minha tag Sem Parar →',url:'https://www.semparar.com.br',delay:0},
+    {id:'ff2_11',type:'confetti',x:60,y:1440,content:'🎉 Parabéns! Você nunca mais vai se preocupar com multa de pedágio!',url:'',delay:0},
+    {id:'ff2_12',type:'end',x:60,y:1580,content:'✅ Guia completo enviado no seu WhatsApp! Acesse o link acima para ativar sua tag.',url:'',delay:0}
+  ],edges:[
+    {id:'eff2_1',from:'ff2_1',to:'ff2_2'},{id:'eff2_2',from:'ff2_2',to:'ff2_3'},
+    {id:'eff2_3',from:'ff2_3',to:'ff2_4'},{id:'eff2_4',from:'ff2_4',to:'ff2_5'},
+    {id:'eff2_5',from:'ff2_5',to:'ff2_6'},{id:'eff2_6',from:'ff2_6',to:'ff2_7'},
+    {id:'eff2_7',from:'ff2_7',to:'ff2_8'},{id:'eff2_8',from:'ff2_8',to:'ff2_9'},
+    {id:'eff2_9',from:'ff2_9',to:'ff2_10'},{id:'eff2_10',from:'ff2_10',to:'ff2_11'},
+    {id:'eff2_11',from:'ff2_11',to:'ff2_12'}
+  ]}
 };
 function loadTemplate(key){
   const tmpl=TEMPLATES[key];if(!tmpl)return;
