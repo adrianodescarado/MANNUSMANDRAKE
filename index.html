@@ -3822,26 +3822,53 @@ async function openShare(){
   const flowBase=location.origin+'/flow.html';
   try{localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(fCache));}catch{}
 
-  // Gerar link com fdata (funciona SEMPRE, sem depender do Supabase)
-  let link=flowBase+'?flow='+curFId; // fallback mínimo
-  try{
-    const encoded=encodeFlow(fCache);
-    if(encoded){
-      link=flowBase+'?fdata='+encodeURIComponent(encoded);
-    }
-  }catch(e){console.warn('encodeFlow failed:',e);}
+  let link=flowBase+'?id='+curFId;
+  let shortOk=false;
 
-  // Também salvar no Supabase em background (para link curto futuro)
   if(CU){
-    sbSaveFlow(fCache).catch(e=>console.warn('[Mandrake] bg save:',e));
+    try{
+      await sbSaveFlow(fCache);
+      shortOk=true;
+    }catch(e){
+      console.warn('[Mandrake] sbSaveFlow falhou:',e.message||e);
+      try{
+        const wh2=(function(){try{return fCache.webhook||localStorage.getItem('mdk_webhook')||'';}catch(e2){return '';}}());
+        const body2={
+          id:curFId,user_id:CU.id,name:fCache.name||'Fluxo',
+          channel:fCache.channel||'wpp',status:'published',description:fCache.desc||'',
+          nodes_json:JSON.stringify(fCache.nodes||[]),edges_json:JSON.stringify(fCache.edges||[]),
+          updated_at:new Date().toISOString(),
+          bot_name:fCache.botName||'Atendente',bot_avatar:fCache.botAvatar||'',
+          bg_color:fCache.bgColor||'',webhook:wh2
+        };
+        const r2=await sbReq('/rest/v1/mandrake_flows',{method:'POST',
+          headers:{'Prefer':'resolution=merge-duplicates,return=minimal'},
+          body:JSON.stringify(body2)});
+        if(r2.ok||r2.status===201||r2.status===200||r2.status===204){
+          shortOk=true;
+        }
+      }catch(e3){console.warn('[Mandrake] sbReq também falhou:',e3);}
+    }
+  }
+
+  if(!shortOk){
+    try{
+      const encoded=encodeFlow(fCache);
+      if(encoded)link=flowBase+'?fdata='+encodeURIComponent(encoded);
+    }catch(e){console.warn('encodeFlow failed:',e);}
   }
 
   document.getElementById('share-link').textContent=link;
 
   const hint=document.getElementById('share-link-hint');
   if(hint){
-    hint.innerHTML='✅ Link pronto para compartilhar!';
-    hint.style.color='var(--grn)';
+    if(shortOk){
+      hint.innerHTML='✅ <b>Link curto!</b> Funciona no bit.ly e qualquer encurtador.';
+      hint.style.color='var(--grn)';
+    } else {
+      hint.innerHTML='⚠️ <b>Faça login</b> para gerar link curto. Este link é longo.';
+      hint.style.color='#f39c12';
+    }
   }
 
   const cv=document.getElementById('qr-canvas');
