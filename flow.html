@@ -838,28 +838,54 @@ window.addEventListener('load',function(){
         document.getElementById('loading-screen').style.display='none';
         startFlow(fc);
       } else {
-        // Fallback: localStorage cache
+        // Fallback 1: sessionStorage
         try{
-          var cached=localStorage.getItem('mdk_pub_'+flowId);
+          var sc=sessionStorage.getItem('mdk_flow_'+flowId)||sessionStorage.getItem('mdk_pub_'+flowId);
+          if(sc){var fsc=JSON.parse(sc);if(fsc&&fsc.nodes&&fsc.nodes.length>0){document.getElementById('loading-screen').style.display='none';startFlow(fsc);return;}}
+        }catch(e){}
+        // Fallback 2: localStorage
+        try{
+          var cached=localStorage.getItem('mdk_pub_'+flowId)||localStorage.getItem('mdk_'+flowId);
           if(cached){
             var fc2=JSON.parse(cached);
-            if(fc2&&fc2.nodes){
+            if(fc2&&fc2.nodes&&fc2.nodes.length>0){
               document.getElementById('loading-screen').style.display='none';
               startFlow(fc2);return;
             }
+            // cached may be array of flows
+            if(Array.isArray(fc2)){
+              var found=fc2.find(function(x){return x&&x.id===flowId;});
+              if(found&&found.nodes){document.getElementById('loading-screen').style.display='none';startFlow(found);return;}
+            }
           }
-        }catch(e){}
-        document.getElementById('loading-screen').innerHTML='<div style="text-align:center;padding:60px;color:#999;font-size:14px">Fluxo não encontrado ou foi removido.</div>';
+        }catch(e2){}
+        // Fallback 3: search all localStorage keys
+        try{
+          for(var ki=0;ki<localStorage.length;ki++){
+            var kk=localStorage.key(ki);
+            if(kk&&kk.startsWith('mdk_')){
+              var vv=localStorage.getItem(kk);
+              if(vv){try{var pp=JSON.parse(vv);if(Array.isArray(pp)){var ff=pp.find(function(x){return x&&x.id===flowId;});if(ff&&ff.nodes){document.getElementById('loading-screen').style.display='none';startFlow(ff);return;}}}catch(e3){}}
+            }
+          }
+        }catch(e4){}
+        document.getElementById('loading-screen').innerHTML='<div style="text-align:center;padding:60px 20px;color:#999;font-size:14px"><div style="font-size:40px;margin-bottom:12px">🔍</div><b style="color:#fff">Fluxo não encontrado</b><br><br>Peça ao criador para gerar um novo link de compartilhamento.</div>';
       }
     })
     .catch(function(err){
       console.warn('[Mandrake] Erro Supabase:',err);
-      // Fallback: localStorage
+      // Fallback localStorage + sessionStorage
       try{
-        var cached=localStorage.getItem('mdk_pub_'+flowId);
-        if(cached){var fc3=JSON.parse(cached);if(fc3&&fc3.nodes){document.getElementById('loading-screen').style.display='none';startFlow(fc3);return;}}
-      }catch(e2){}
-      document.getElementById('loading-screen').innerHTML='<div style="text-align:center;padding:60px;color:#999;font-size:14px">Erro ao carregar. Verifique sua conexão.</div>';
+        var sc2=sessionStorage.getItem('mdk_flow_'+flowId)||sessionStorage.getItem('mdk_pub_'+flowId);
+        if(sc2){var fsc2=JSON.parse(sc2);if(fsc2&&fsc2.nodes&&fsc2.nodes.length>0){document.getElementById('loading-screen').style.display='none';startFlow(fsc2);return;}}
+        var cached2=localStorage.getItem('mdk_pub_'+flowId);
+        if(cached2){var fc3=JSON.parse(cached2);if(fc3&&fc3.nodes&&fc3.nodes.length>0){document.getElementById('loading-screen').style.display='none';startFlow(fc3);return;}}
+        for(var ki2=0;ki2<localStorage.length;ki2++){
+          var kk2=localStorage.key(ki2);
+          if(kk2&&kk2.startsWith('mdk_')){try{var pp2=JSON.parse(localStorage.getItem(kk2));if(Array.isArray(pp2)){var ff2=pp2.find(function(x){return x&&x.id===flowId;});if(ff2&&ff2.nodes){document.getElementById('loading-screen').style.display='none';startFlow(ff2);return;}}}catch(e5){}}
+        }
+      }catch(e6){}
+      document.getElementById('loading-screen').innerHTML='<div style="text-align:center;padding:60px 20px;color:#999;font-size:14px"><div style="font-size:40px;margin-bottom:12px">📶</div><b style="color:#fff">Sem conexão</b><br><br>Verifique sua internet e tente novamente.</div>';
     });
   } else {
     window.location.href=location.origin+'/';
