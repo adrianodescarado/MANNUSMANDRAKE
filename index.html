@@ -1313,6 +1313,12 @@ insert into storage.buckets (id, name, public)
         <p style="font-size:11px;color:var(--muted)">Estrutura 8 passos: atenção→dor→qualif→prova→captura→urgência→oferta→conversão.</p>
         <div style="margin-top:6px;font-size:10px;color:var(--grn)">12 nós</div>
       </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('multasfreeflow')" data-cat="nicho">
+        <div style="font-size:26px;margin-bottom:6px">🚨</div>
+        <h3 style="font-size:13px">Multas Free Flow — Híbrido</h3>
+        <p style="font-size:11px;color:var(--muted)">Alerta + cartilha + diagnóstico + urgência + venda.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">16 nós</div>
+      </div>
     </div>
   </div>
 </div>
@@ -2803,6 +2809,33 @@ const TEMPLATES={
     {id:'eff2_7',from:'ff2_7',to:'ff2_8'},{id:'eff2_8',from:'ff2_8',to:'ff2_9'},
     {id:'eff2_9',from:'ff2_9',to:'ff2_10'},{id:'eff2_10',from:'ff2_10',to:'ff2_11'},
     {id:'eff2_11',from:'ff2_11',to:'ff2_12'}
+  ]},
+  multasfreeflow:{name:'Multas Free Flow — Fluxo Híbrido',channel:'wpp',botName:'Consultor de Trânsito',nodes:[
+    {id:'mff1',type:'marquee',x:60,y:60,content:'🚨 ALERTA FREE FLOW — O governo suspendeu 3,4 MILHÕES de multas... Prazo termina em NOVEMBRO ⚠️',url:'',delay:0},
+    {id:'mff2',type:'message',x:60,y:180,content:'🚗 Teste rápido (30 segundos):\n👉 Você pode estar em risco sem saber.\n\nQuer verificar agora?',url:'',delay:2},
+    {id:'mff3',type:'choices',x:60,y:340,content:'Fazer o teste agora?',url:'',delay:0,options:'🔍 Fazer teste\n❓ O que é isso'},
+    {id:'mff4',type:'message',x:60,y:500,content:'📘 GUIA RÁPIDO\n\nO Free Flow é o pedágio sem cancela. Você passa direto… mas precisa pagar depois.\n\n👉 Quem esquece, recebe multa automática 💸',url:'',delay:2},
+    {id:'mff5',type:'choices',x:60,y:660,content:'Você costuma pagar depois que passa?',url:'',delay:0,options:'✅ Sim\n🤔 Às vezes esqueço\n❌ Nem sabia'},
+    {id:'mff6',type:'message',x:60,y:820,content:'📊 Resultado: Você está em RISCO de multa ⚠️\n\n👉 Porque o sistema registra automaticamente cada passagem.\n\nE se não pagar: 💸 multa + pontos na CNH',url:'',delay:2},
+    {id:'mff7',type:'message',x:60,y:980,content:'🚨 Mesmo com a suspensão das multas… O sistema continua registrando tudo.\n\n⏳ Se não regularizar até NOVEMBRO:\n👉 as multas podem chegar acumuladas\n\n📊 Milhões de motoristas já estão nessa situação.',url:'',delay:2},
+    {id:'mff8',type:'message',x:60,y:1140,content:'💡 O erro mais comum:\n"Acho que depois eu pago…"\n\n👉 Mas na prática, as pessoas esquecem — e é aí que começam as multas.',url:'',delay:1},
+    {id:'mff9',type:'arguments',x:60,y:1300,content:'✔ A forma mais segura de evitar isso: Usar uma TAG automática\nPassa direto sem preocupação\nCobra automático no cartão\nEvita multa garantido\nZero preocupação com Free Flow',url:'',delay:0},
+    {id:'mff10',type:'message',x:60,y:1460,content:'💰 Sobre o custo:\nHoje existem planos acessíveis — alguns até sem mensalidade\n\n👉 E uma única multa já custa mais que meses usando TAG',url:'',delay:1},
+    {id:'mff11',type:'choices',x:60,y:1620,content:'📌 Milhares de motoristas já usam TAG pra evitar problemas com Free Flow\n👉 Inclusive quem pega estrada de vez em quando\n\nQuer uma opção confiável pra já se proteger?',url:'',delay:0,options:'✅ Quero ver\n🤔 Ainda tenho dúvida'},
+    {id:'mff12',type:'collect',x:60,y:1780,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'mff13',type:'whatsapp',x:60,y:1920,content:'Qual é o seu WhatsApp para enviarmos o guia completo?',url:'',delay:0},
+    {id:'mff14',type:'price',x:60,y:2060,content:'🚗 Recomendação: A tag da Sem Parar é uma das mais usadas no Brasil\n✔ Funciona no Free Flow ✔ Estacionamentos ✔ Drive-thru ✔ Sem filas\nR$ 0,00 na ativação\n🔘 QUERO MINHA TAG →',url:'https://www.semparar.com.br',delay:0},
+    {id:'mff15',type:'scarcity',x:60,y:2220,content:'⏳ Só lembrando: O prazo vai até NOVEMBRO\n👉 Depois disso, as multas podem voltar normalmente\nE muita gente só percebe quando já acumulou várias.',url:'1800',delay:0},
+    {id:'mff16',type:'end',x:60,y:2380,content:'✅ Pronto! Guia enviado no seu WhatsApp. Ative sua tag e fique protegido! 🚗',url:'',delay:0}
+  ],edges:[
+    {id:'emff1',from:'mff1',to:'mff2'},{id:'emff2',from:'mff2',to:'mff3'},
+    {id:'emff3',from:'mff3',to:'mff4'},{id:'emff4',from:'mff4',to:'mff5'},
+    {id:'emff5',from:'mff5',to:'mff6'},{id:'emff6',from:'mff6',to:'mff7'},
+    {id:'emff7',from:'mff7',to:'mff8'},{id:'emff8',from:'mff8',to:'mff9'},
+    {id:'emff9',from:'mff9',to:'mff10'},{id:'emff10',from:'mff10',to:'mff11'},
+    {id:'emff11',from:'mff11',to:'mff12'},{id:'emff12',from:'mff12',to:'mff13'},
+    {id:'emff13',from:'mff13',to:'mff14'},{id:'emff14',from:'mff14',to:'mff15'},
+    {id:'emff15',from:'mff15',to:'mff16'}
   ]}
 };
 function loadTemplate(key){
