@@ -752,6 +752,48 @@ insert into storage.buckets (id, name, public)
           <div class="pf" id="p-collect-ph-f" style="display:none"><label class="pl">Placeholder</label><input class="pi" id="p-collect-ph" placeholder="Ex: Digite seu email..."></div>
           <div class="pf" id="p-webhook-f" style="display:none"><label class="pl">Webhook (URL)</label><input class="pi" id="p-webhook" placeholder="https://..."></div>
         </div>
+        <div class="psec" id="p-style-sec">
+          <div class="pstitle">🎨 Estilo Visual</div>
+          <div class="pf">
+            <label class="pl">Cor de fundo</label>
+            <div style="display:flex;gap:6px;align-items:center">
+              <input type="color" id="p-bg-color" value="#ffffff" style="width:36px;height:30px;border:none;cursor:pointer;border-radius:4px;padding:0;background:none">
+              <input type="text" class="pi" id="p-bg-color-text" placeholder="#ffffff ou nome" style="flex:1">
+              <button type="button" class="btn btn-ghost btn-sm" id="p-bg-reset" title="Restaurar padrão" style="padding:4px 8px;font-size:11px">↺</button>
+            </div>
+          </div>
+          <div class="pf">
+            <label class="pl">Cor do texto</label>
+            <div style="display:flex;gap:6px;align-items:center">
+              <input type="color" id="p-txt-color" value="#333333" style="width:36px;height:30px;border:none;cursor:pointer;border-radius:4px;padding:0;background:none">
+              <input type="text" class="pi" id="p-txt-color-text" placeholder="#333333 ou nome" style="flex:1">
+            </div>
+          </div>
+          <div class="pf">
+            <label class="pl">Tamanho do texto</label>
+            <select class="pi" id="p-font-size">
+              <option value="">Padrão</option>
+              <option value="12px">Pequeno (12px)</option>
+              <option value="14px">Normal (14px)</option>
+              <option value="16px">Médio (16px)</option>
+              <option value="18px">Grande (18px)</option>
+              <option value="22px">Muito grande (22px)</option>
+              <option value="28px">Enorme (28px)</option>
+            </select>
+          </div>
+          <div class="pf">
+            <label class="pl">Borda arredondada</label>
+            <select class="pi" id="p-border-radius">
+              <option value="">Padrão</option>
+              <option value="0px">Sem arredondamento</option>
+              <option value="4px">Leve (4px)</option>
+              <option value="8px">Médio (8px)</option>
+              <option value="16px">Grande (16px)</option>
+              <option value="24px">Muito grande (24px)</option>
+              <option value="50px">Pill / Cápsula</option>
+            </select>
+          </div>
+        </div>
         <div class="psec">
           <div class="pstitle">Conexões</div>
           <div id="p-conns" style="font-size:12px;color:var(--dim)">Sem conexões</div>
@@ -1465,8 +1507,11 @@ function encodeFlow(f){
         if(iu==='__img__'+n.id+'_iu')try{localStorage.setItem('mdk_img_'+f.id+'_'+n.id+'_iu',imgUrl);}catch(e){}
         // Only include non-empty/non-default fields to minimize URL size
         const obj={i:n.id,t:n.type};
-        // x,y only needed in editor, skip for smaller URLs
         if(n.content)obj.c=n.content;
+        if(n.nodeBg)obj.nb=n.nodeBg;
+        if(n.nodeTxt)obj.nt=n.nodeTxt;
+        if(n.nodeFontSize)obj.nf=n.nodeFontSize;
+        if(n.nodeBorderRadius)obj.nr=n.nodeBorderRadius;
         const url=n.url&&!n.url.startsWith('data:')?n.url:'';
         if(url)obj.u=url;
         if(n.delay&&n.delay!==3)obj.d=n.delay;
@@ -1546,7 +1591,8 @@ function decodeFlow(s){
         id:n.i,type:n.t,x:n.x||0,y:n.y||0,
         content:n.c||'',url:n.u||'',delay:n.d||0,
         options:n.o||'',inputType:n.it||'',placeholder:n.ph||'',
-        webhook:n.wk||'',data:n.da||'',link:n.lk||'',imgUrl:n.iu||''
+        webhook:n.wk||'',data:n.da||'',link:n.lk||'',imgUrl:n.iu||'',
+        nodeBg:n.nb||'',nodeTxt:n.nt||'',nodeFontSize:n.nf||'',nodeBorderRadius:n.nr||''
       })),
       edges:(d.ed||[]).map(e=>({id:e.i,from:e.f,to:e.t}))
     };
@@ -3040,6 +3086,15 @@ function showProps(n){
     hintEl.textContent=hint;
     hintEl.style.display=hint?'block':'none';
   }
+  // Load style values
+  try{
+    document.getElementById('p-bg-color').value=n.nodeBg||'#ffffff';
+    document.getElementById('p-bg-color-text').value=n.nodeBg||'';
+    document.getElementById('p-txt-color').value=n.nodeTxt||'#333333';
+    document.getElementById('p-txt-color-text').value=n.nodeTxt||'';
+    document.getElementById('p-font-size').value=n.nodeFontSize||'';
+    document.getElementById('p-border-radius').value=n.nodeBorderRadius||'';
+  }catch(e){}
 
   const out=edges.filter(e=>e.from===n.id);
   const inp=edges.filter(e=>e.to===n.id);
@@ -3097,6 +3152,31 @@ document.addEventListener('input',ev=>{
   if(ev.target.id==='p-collect-ph')n.placeholder=ev.target.value;
   if(ev.target.id==='p-webhook')n.webhook=ev.target.value;
   if(ev.target.id==='p-link-dest')n.link=ev.target.value;
+  // Style fields
+  if(ev.target.id==='p-bg-color'){n.nodeBg=ev.target.value;document.getElementById('p-bg-color-text').value=ev.target.value;}
+  if(ev.target.id==='p-bg-color-text'){n.nodeBg=ev.target.value;try{document.getElementById('p-bg-color').value=ev.target.value;}catch(e){}}
+  if(ev.target.id==='p-txt-color'){n.nodeTxt=ev.target.value;document.getElementById('p-txt-color-text').value=ev.target.value;}
+  if(ev.target.id==='p-txt-color-text'){n.nodeTxt=ev.target.value;try{document.getElementById('p-txt-color').value=ev.target.value;}catch(e){}}
+  if(ev.target.id==='p-font-size')n.nodeFontSize=ev.target.value;
+  if(ev.target.id==='p-border-radius')n.nodeBorderRadius=ev.target.value;
+});
+document.addEventListener('change',ev=>{
+  if(!selId)return;
+  const n=nodes.find(x=>x.id===selId);if(!n)return;
+  if(ev.target.id==='p-font-size')n.nodeFontSize=ev.target.value;
+  if(ev.target.id==='p-border-radius')n.nodeBorderRadius=ev.target.value;
+});
+// Reset style button
+document.getElementById('p-bg-reset')?.addEventListener('click',()=>{
+  const n=nodes.find(x=>x.id===selId);if(!n)return;
+  delete n.nodeBg;delete n.nodeTxt;delete n.nodeFontSize;delete n.nodeBorderRadius;
+  document.getElementById('p-bg-color').value='#ffffff';
+  document.getElementById('p-bg-color-text').value='';
+  document.getElementById('p-txt-color').value='#333333';
+  document.getElementById('p-txt-color-text').value='';
+  document.getElementById('p-font-size').value='';
+  document.getElementById('p-border-radius').value='';
+  toast('Estilo restaurado ao padrão','ℹ');
 });
 
 // ═══════════════════════════════════════════════
@@ -3547,6 +3627,14 @@ function fireConfetti(){
     setTimeout(()=>p.remove(),3500);
   }
 }
+function applyNodeStylePreview(el,n){
+  if(!n||(!n.nodeBg&&!n.nodeTxt&&!n.nodeFontSize&&!n.nodeBorderRadius))return;
+  if(n.nodeBg)el.style.background=n.nodeBg;
+  if(n.nodeTxt)el.style.color=n.nodeTxt;
+  if(n.nodeFontSize)el.style.fontSize=n.nodeFontSize;
+  if(n.nodeBorderRadius)el.style.borderRadius=n.nodeBorderRadius;
+}
+
 function renderMarkdownPreview(txt){
   if(!txt)return '';
   var s=txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
