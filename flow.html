@@ -427,6 +427,27 @@ function makeImgElement(url,styles,onErrMsg){
   return wrap;
 }
 
+function renderMarkdown(txt){
+  if(!txt)return '';
+  // Escape HTML first
+  var s=txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // ### Título grande
+  s=s.replace(/^### (.+)$/gm,'<div style="font-size:18px;font-weight:800;line-height:1.3;margin:2px 0">$1</div>');
+  // ## Título médio
+  s=s.replace(/^## (.+)$/gm,'<div style="font-size:15px;font-weight:700;line-height:1.3;margin:2px 0">$1</div>');
+  // **negrito**
+  s=s.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+  // _itálico_
+  s=s.replace(/\_(.+?)\_/g,'<i>$1</i>');
+  // ~~tachado~~
+  s=s.replace(/~~(.+?)~~/g,'<s>$1</s>');
+  // Links
+  s=s.replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;word-break:break-all">$1</a>');
+  // Quebras de linha
+  s=s.replace(/\n/g,'<br>');
+  return s;
+}
+
 function addBubble(n,who){
   var c=document.getElementById('pub-msgs');if(!c)return;
   if(who==='usr'){
