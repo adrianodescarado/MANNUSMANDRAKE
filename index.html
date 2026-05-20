@@ -717,7 +717,20 @@ insert into storage.buckets (id, name, public)
         </div>
         <div class="psec">
           <div class="pstitle">Conteúdo</div>
-          <div class="pf"><label class="pl" id="p-clbl">Mensagem</label><textarea class="pta" id="p-cont" placeholder="Digite o conteúdo..."></textarea></div>
+          <div class="pf">
+            <label class="pl" id="p-clbl">Mensagem</label>
+            <div style="display:flex;gap:4px;margin-bottom:4px;flex-wrap:wrap">
+              <button type="button" class="btn btn-ghost" style="padding:3px 7px;font-size:12px;font-weight:700" onclick="fmtText('**','**')" title="Negrito"><b>B</b></button>
+              <button type="button" class="btn btn-ghost" style="padding:3px 7px;font-size:12px;font-style:italic" onclick="fmtText('_','_')" title="Itálico"><i>I</i></button>
+              <button type="button" class="btn btn-ghost" style="padding:3px 7px;font-size:12px;text-decoration:line-through" onclick="fmtText('~~','~~')" title="Tachado">S</button>
+              <button type="button" class="btn btn-ghost" style="padding:3px 7px;font-size:11px" onclick="fmtText('','','\n')" title="Nova linha">↵</button>
+              <button type="button" class="btn btn-ghost" style="padding:3px 7px;font-size:11px;font-weight:700" onclick="fmtText('### ','')" title="Título grande">T↑</button>
+              <button type="button" class="btn btn-ghost" style="padding:3px 7px;font-size:11px" onclick="fmtText('## ','')" title="Título médio">T</button>
+              <button type="button" class="btn btn-ghost" style="padding:3px 7px;font-size:11px" onclick="fmtText('• ','')" title="Lista">• </button>
+            </div>
+            <textarea class="pta" id="p-cont" placeholder="Digite o conteúdo..."></textarea>
+            <div id="p-cont-hint" style="font-size:10px;color:var(--dim);margin-top:3px;line-height:1.5"></div>
+          </div>
           <div class="pf" id="p-url-f" style="display:none">
             <label class="pl" id="p-url-lbl">URL</label>
             <input type="text" class="pi" id="p-url" placeholder="https://...">
@@ -3020,6 +3033,14 @@ function showProps(n){
   const pldv=document.getElementById('p-link-dest');if(pldv)pldv.value=n.link||'';
   const plif=document.getElementById('p-link-img-f');if(plif)plif.style.display=n.type==='linkimg'?'flex':'none';
   const pliv=document.getElementById('p-link-img');if(pliv)pliv.value=n.imgUrl||'';
+  // Show format hint
+  const hintEl=document.getElementById('p-cont-hint');
+  if(hintEl){
+    const hint=NODE_HINTS[n.type]||'';
+    hintEl.textContent=hint;
+    hintEl.style.display=hint?'block':'none';
+  }
+
   const out=edges.filter(e=>e.from===n.id);
   const inp=edges.filter(e=>e.to===n.id);
   const connEl=document.getElementById('p-conns');
@@ -3029,6 +3050,41 @@ function showProps(n){
     ...out.map(e=>{const t=nodes.find(x=>x.id===e.to);return'<div style="font-size:11px;color:var(--muted);padding:4px 8px;background:rgba(0,0,0,.2);border-radius:5px;margin-bottom:4px;display:flex;align-items:center;gap:5px"><span style="color:var(--grn)">→</span>'+(t?NC[t.type]?.lbl+' #'+t.id.slice(-5):'?')+'</div>';})
   ].join('');
 }
+// Format text helper
+function fmtText(before,after,insert){
+  const ta=document.getElementById('p-cont');
+  if(!ta)return;
+  const start=ta.selectionStart,end=ta.selectionEnd;
+  const sel=ta.value.substring(start,end);
+  if(insert){
+    ta.value=ta.value.substring(0,start)+insert+ta.value.substring(end);
+    ta.selectionStart=ta.selectionEnd=start+insert.length;
+  } else {
+    const replacement=before+sel+after;
+    ta.value=ta.value.substring(0,start)+replacement+ta.value.substring(end);
+    ta.selectionStart=start+before.length;
+    ta.selectionEnd=start+before.length+sel.length;
+  }
+  ta.focus();
+  ta.dispatchEvent(new Event('input'));
+}
+
+// Node hints for content format
+const NODE_HINTS={
+  price:'Linha 1: Preço principal (ex: R$ 97,00)\nLinha 2: Preço original riscado (ex: De R$ 297,00)\nLinha 3: Texto do botão CTA',
+  testimonial:'Linha 1: Texto do depoimento\nLinha 2: Nome do autor',
+  compare:'Linha 1: Título coluna ruim\nLinha 2: Título coluna boa\nLinhas seguintes: item ruim|item bom',
+  level:'Formato: Texto;Porcentagem (ex: Aprovação;85)',
+  faq:'Pares pergunta/resposta, um por linha:\nPergunta?\nResposta aqui.',
+  choices:'Uma opção por linha',
+  arguments:'Um argumento por linha',
+  bonus:'Um bônus por linha',
+  carousel:'Uma linha por slide: URL_img|Texto',
+  chart:'Uma linha por barra: Label;Porcentagem (ex: Vendas;80)',
+  list:'Um item por linha',
+  discount:'Linha 1: Texto da promoção\nLinha 2: Código do cupom (opcional)',
+};
+
 // Props live update
 document.addEventListener('input',ev=>{
   if(!selId)return;
@@ -3491,6 +3547,19 @@ function fireConfetti(){
     setTimeout(()=>p.remove(),3500);
   }
 }
+function renderMarkdownPreview(txt){
+  if(!txt)return '';
+  var s=txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  s=s.replace(/^### (.+)$/gm,'<div style="font-size:18px;font-weight:800;line-height:1.3;margin:2px 0">$1</div>');
+  s=s.replace(/^## (.+)$/gm,'<div style="font-size:15px;font-weight:700;line-height:1.3;margin:2px 0">$1</div>');
+  s=s.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+  s=s.replace(/\_(.+?)\_/g,'<i>$1</i>');
+  s=s.replace(/~~(.+?)~~/g,'<s>$1</s>');
+  s=s.replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;word-break:break-all">$1</a>');
+  s=s.replace(/\n/g,'<br>');
+  return s;
+}
+
 function addBubble(containerId,n,who){
   const c=document.getElementById(containerId);if(!c)return;
   // Handle choices node separately (outside bubble)
