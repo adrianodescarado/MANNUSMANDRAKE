@@ -2960,18 +2960,52 @@ function showProps(n){
   const hasContent=n.type!=='delay';
   const pcsec=document.getElementById('pcsec');if(pcsec)pcsec.style.display=hasContent?'flex':'none';
   document.getElementById('p-cont').value=n.content||'';
-  document.getElementById('p-url-f').style.display=['image','video','audio','link','pdf','product','scarcity','discount'].includes(n.type)?'flex':'none';
+  // Mostrar campo URL para todos os tipos que têm URL/link
+  const noUrlTypes=['message','question','choices','collect','whatsapp','confetti','delay','condition','invisible','_meta','visitors'];
+  document.getElementById('p-url-f').style.display=noUrlTypes.includes(n.type)?'none':'flex';
   const upBtn=document.getElementById('btn-upload-img');
-  if(upBtn)upBtn.style.display=n.type==='image'?'block':'none';
+  if(upBtn)upBtn.style.display=['image','linkimg','product'].includes(n.type)?'block':'none';
   const upPdf=document.getElementById('btn-upload-pdf');
   if(upPdf)upPdf.style.display=n.type==='pdf'?'block':'none';
   const urlLbl=document.getElementById('p-url-lbl');
-  if(urlLbl){const lblMap={image:'URL da imagem',video:'URL do vídeo (YouTube)',audio:'URL do áudio (mp3)',link:'URL do link',pdf:'URL do PDF',linkimg:'URL do Link (destino)',product:'URL da imagem do produto',scarcity:'⏱ Duração em segundos (ex: 600 = 10min)',discount:'Código do cupom'};urlLbl.textContent=lblMap[n.type]||'URL';}
+  if(urlLbl){
+    const lblMap={
+      image:'URL da imagem',
+      video:'URL do vídeo (YouTube)',
+      audio:'URL do áudio (mp3)',
+      link:'URL de destino',
+      pdf:'URL do PDF',
+      linkimg:'URL de destino do link',
+      product:'URL da imagem do produto',
+      scarcity:'⏱ Duração em segundos (ex: 600 = 10min)',
+      discount:'Código do cupom',
+      price:'🔗 URL do botão (link de compra)',
+      testimonial:'⭐ Número de estrelas (1-5)',
+      bonus:'URL (opcional)',
+      arguments:'URL (opcional)',
+      marquee:'URL (opcional)',
+      level:'URL (opcional)',
+      compare:'URL (opcional)',
+      chart:'URL (opcional)',
+      faq:'URL (opcional)',
+      carousel:'URL (opcional)',
+      list:'URL (opcional)',
+      title:'URL (opcional)',
+      text:'URL (opcional)',
+      loading:'URL (opcional)',
+      continueBtn:'URL (opcional)',
+      confetti:'URL (opcional)',
+      end:'URL (opcional)',
+      pix:'URL (opcional)',
+      options:'URL (opcional)'
+    };
+    urlLbl.textContent=lblMap[n.type]||'🔗 URL / Link';
+  }
   // For link+image: show upload button
   const upImgBtn=document.getElementById('btn-upload-img');
   if(upImgBtn)upImgBtn.style.display=(n.type==='image'||n.type==='linkimg'||n.type==='product')?'block':'none';
   document.getElementById('p-url').value=n.url||'';
-  document.getElementById('p-delay-f').style.display=n.type==='delay'?'flex':'none';
+  document.getElementById('p-delay-f').style.display=['message','marquee','image','video','audio','testimonial','bonus','arguments','loading','confetti','end'].includes(n.type)?'flex':'none';
   document.getElementById('p-delay').value=n.delay||3;
   // New fields
   const pcf=document.getElementById('p-choices-f');if(pcf)pcf.style.display=n.type==='choices'?'flex':'none';
