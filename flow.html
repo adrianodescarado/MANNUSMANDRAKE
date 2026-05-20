@@ -588,7 +588,8 @@ function addBubble(n,who){
     b.appendChild(liWrap);
   }else if(n.type==='scarcity'){
     var secs=(parseInt(n.url)>0?parseInt(n.url):0)||(parseInt(n.content)>0?parseInt(n.content):0)||300;
-    b.style.cssText='background:linear-gradient(135deg,#ff4444,#cc0000);color:white;border-radius:12px;padding:14px 18px;text-align:center;max-width:88%;align-self:flex-start;border:none';
+    var _sBg=n.nodeBg||'linear-gradient(135deg,#ff4444,#cc0000)';var _sTxt=n.nodeTxt||'white';
+    b.style.cssText='background:'+_sBg+';color:'+_sTxt+';border-radius:12px;padding:14px 18px;text-align:center;max-width:88%;align-self:flex-start;border:none';
     var tid='tmr-'+n.id;
     var scarTitle=isNaN(parseInt(n.content))&&n.content?n.content:'Oferta por tempo limitado!';
 b.innerHTML='<div style="font-weight:700;font-size:14px;margin-bottom:6px">🔥 '+scarTitle+'</div><div id="'+tid+'" style="font-size:28px;font-weight:800;font-family:monospace;letter-spacing:2px">'+fmtTime(secs)+'</div><div style="font-size:11px;opacity:.85;margin-top:4px">⚡ Não perca esta oportunidade</div>';
@@ -625,8 +626,10 @@ b.innerHTML='<div style="font-weight:700;font-size:14px;margin-bottom:6px">🔥 
   }else if(n.type==='price'){
     var prlines=splitLines(n.content||'R$ 97,00\nDe R$ 197,00\nComprar agora');
     b.style.cssText='background:white;border-radius:16px;padding:20px;text-align:center;max-width:88%;align-self:flex-start;box-shadow:0 4px 20px rgba(0,0,0,.08);border:none';
-    b.innerHTML=(prlines[1]?'<div style="font-size:14px;color:#999;text-decoration:line-through;margin-bottom:4px">'+prlines[1]+'</div>':'')+'<div style="font-size:32px;font-weight:900;color:#e53935;line-height:1">'+(prlines[0]||'')+'</div><a href="'+(n.url||'#')+'" target="_blank" style="display:block;background:#25d366;color:white;text-align:center;padding:12px 20px;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;margin-top:14px">'+(prlines[2]||'Comprar')+' →</a>';
-  }else if(n.type==='arguments'){
+    var _pBg=n.nodeBg||'#25d366';
+    var _pTxt=n.nodeTxt||'white';
+    b.innerHTML=(prlines[1]&&prlines[1].trim()?'<div style="font-size:14px;color:#999;text-decoration:line-through;margin-bottom:4px">'+renderMarkdown(prlines[1])+'</div>':'')+'<div style="font-size:32px;font-weight:900;color:#e53935;line-height:1">'+(prlines[0]||'')+'</div><a href="'+(n.url||'#')+'" target="_blank" style="display:block;background:'+_pBg+';color:'+_pTxt+';text-align:center;padding:12px 20px;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;margin-top:14px">'+(prlines[2]||'Comprar')+' →</a>';
+    }else if(n.type==='arguments'){
     var aargs=splitLines(n.content||'');
     var _aBg=n.nodeBg||'white',_aTxt=n.nodeTxt||'#333';
     b.style.cssText='background:'+_aBg+';color:'+_aTxt+';border-radius:12px;padding:14px 16px;max-width:90%;align-self:flex-start;border:none';
