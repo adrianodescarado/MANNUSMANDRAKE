@@ -737,7 +737,7 @@ insert into storage.buckets (id, name, public)
             <button class="btn btn-ghost btn-sm" id="btn-upload-img" style="margin-top:4px;display:none">📁 Subir imagem do PC</button>
             <button class="btn btn-ghost btn-sm" id="btn-upload-pdf" style="margin-top:4px;display:none">📄 Subir PDF do PC</button>
           </div>
-          <div class="pf" id="p-delay-f" style="display:none"><label class="pl">Tempo (segundos)</label><input type="number" class="pi" id="p-delay" min="1" max="300" value="3"></div>
+          <div class="pf" id="p-delay-f" style="display:none"><label class="pl">⏱ Delay (segundos) — ex: 2, 5, 15</label><input type="number" class="pi" id="p-delay" min="0" placeholder="ex: 10" style="width:100%"></div>
           <div class="pf" id="p-choices-f" style="display:none"><label class="pl">Opções (uma por linha)</label><textarea class="pta" id="p-choices" placeholder="Opção 1&#10;Opção 2&#10;Opção 3" style="min-height:80px"></textarea></div>
           <div class="pf" id="p-link-dest-f" style="display:none">
             <label class="pl">🔗 URL do destino (link)</label>
@@ -3064,7 +3064,7 @@ function showProps(n){
   const upImgBtn=document.getElementById('btn-upload-img');
   if(upImgBtn)upImgBtn.style.display=(n.type==='image'||n.type==='linkimg'||n.type==='product')?'block':'none';
   document.getElementById('p-url').value=n.url||'';
-  document.getElementById('p-delay-f').style.display=['message','marquee','image','video','audio','testimonial','bonus','arguments','loading','confetti','end'].includes(n.type)?'flex':'none';
+  document.getElementById('p-delay-f').style.display='flex';
   document.getElementById('p-delay').value=n.delay||3;
   // New fields
   const pcf=document.getElementById('p-choices-f');if(pcf)pcf.style.display=n.type==='choices'?'flex':'none';
