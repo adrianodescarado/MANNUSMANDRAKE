@@ -239,6 +239,7 @@ function buildOrder(nodes,edges){
 function startFlow(flow){
   curFId=flow.id||'pub';
   pubWebhook=flow.webhook||'';
+  pubWppAtendente=(flow.wppAtendente||'').replace(/[^0-9]/g,'');
   captureProfile={flowId:curFId,ts:new Date().toISOString()};
   try{sessionStorage.setItem('mdk_wh',pubWebhook);}catch(e){}
   var nameEl=document.getElementById('pub-name');
@@ -888,7 +889,7 @@ window.addEventListener('load',function(){
           botName:row.bot_name||'Atendente',
           botAvatar:row.bot_avatar||'',
           bgColor:row.bg_color||'',
-          webhook:row.webhook||'',
+          webhook:row.webhook,wppAtendente:row.wpp_atendente||''||'',
           nodes:JSON.parse(row.nodes_json||'[]'),
           edges:JSON.parse(row.edges_json||'[]')
         };
