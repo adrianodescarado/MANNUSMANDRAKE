@@ -1374,6 +1374,12 @@ insert into storage.buckets (id, name, public)
         <p style="font-size:11px;color:var(--muted)">Alerta + cartilha + diagnóstico + urgência + venda.</p>
         <div style="margin-top:6px;font-size:10px;color:var(--grn)">16 nós</div>
       </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('grupoelite')" data-cat="vendas">
+        <div style="font-size:26px;margin-bottom:6px">⚙️</div>
+        <h3 style="font-size:13px">Catálogo Grupo Elite</h3>
+        <p style="font-size:11px;color:var(--muted)">Apresentação B2B de catálogo — abrasivos, diamantados, ferramentas e fixadores.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">19 nós</div>
+      </div>
     </div>
   </div>
 </div>
@@ -1417,6 +1423,7 @@ insert into storage.buckets (id, name, public)
       <p style="font-size:11px;color:var(--dim);margin-top:4px;line-height:1.5">Cole a URL direta da imagem. Funciona em qualquer dispositivo ao compartilhar.</p>
     </div>
     <div class="fg"><label class="fl">Nome do Atendente</label><input type="text" class="fi" id="bot-name-input" placeholder="Ex: Ana, Suporte, Vendas..."></div>
+    <div class="fg"><label class="fl">📱 WhatsApp do Atendente (com DDI)</label><input type="text" class="fi" id="bot-wpp-input" placeholder="5511999999999" maxlength="20"><small style="color:var(--dim);font-size:11px">Para redirecionar mensagens fora do fluxo</small></div>
     <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:4px" id="btn-save-bot">Salvar</button>
   </div>
 </div>
@@ -1495,6 +1502,7 @@ function encodeFlow(f){
       bn:f.botName||'Atendente',
       ba:ba,
       wh:wh,
+      wa:f.wppAtendente||'',
       px:px,
       gt:gtag,
       bg:f.bgColor||'',
@@ -3138,6 +3146,37 @@ const NODE_HINTS={
   chart:'Uma linha por barra: Label;Porcentagem (ex: Vendas;80)',
   list:'Um item por linha',
   discount:'Linha 1: Texto da promoção\nLinha 2: Código do cupom (opcional)',
+  grupoelite:{name:'Catálogo Grupo Elite',channel:'wpp',botName:'Grupo Elite',nodes:[
+    {id:'ge1',type:'marquee',x:60,y:60,content:'⚡ GRUPO ELITE — Abrasivos • Diamantados • Ferramentas • Fixadores • Soldagem',url:'https://www.gelite.com.br',delay:0},
+    {id:'ge2',type:'message',x:60,y:180,content:'Olá! 👷 Bem-vindo ao **Grupo Elite**!\n\nSomos especialistas em ferramentas e materiais para construção há **16 anos** no mercado.\n\nMarcas: Elite Superflex • Líder • Samurai • Anfix',url:'',delay:2},
+    {id:'ge3',type:'choices',x:60,y:360,content:'O que você procura hoje?',url:'',delay:0,options:'🔴 Abrasivos (discos de corte e flap)\n💎 Diamantados (serras e discos)\n🔧 Ferramentas (serras, alicates, brocas)\n🔩 Parafusos e Fixadores\n⚡ Soldagem (eletrodos e acessórios)\n📋 Ver catálogo completo'},
+    {id:'ge4',type:'message',x:60,y:540,content:'🔴 **ABRASIVOS — Linha Elite Superflex**\n\n✔ Discos de Corte Inox e Ferro\n✔ Discos Flap (Zirconado, Dual-Grind, Esponja)\n✔ Lixas para diversas superfícies\n✔ Linha Samurai e Líder\n\nIdeal para esmerilhadeiras angulares. Alta durabilidade e performance.',url:'',delay:2},
+    {id:'ge5',type:'arguments',x:60,y:720,content:'Discos certificados ABNT NBR 15230\nMaior rendimento — menos troca de disco\nLinha completa do 4.1/2\" ao 14\"\nDisponível em todo o Brasil\nFoco no segmento B2B',url:'',delay:0},
+    {id:'ge6',type:'message',x:60,y:880,content:'💎 **DIAMANTADOS — Corte de Alta Precisão**\n\n✔ Linha Silver, Blue, Gold e Samurai\n✔ Serras Widea para MDF/MDP\n✔ Discos para pisos, granito, tijolo e alvenaria\n✔ Turbo, Segmentado e Contínuo Liso',url:'',delay:2},
+    {id:'ge7',type:'message',x:60,y:1060,content:'🔧 **FERRAMENTAS — Para Todo Tipo de Obra**\n\n✔ Serras copo bimetal\n✔ Alicates e conjuntos de chaves\n✔ Brocas Aço Rápido, Titânio e Widea\n✔ Multímetro, Martelo, Ponteiros SDS\n✔ Correntes, Níveis, Escovas de aço',url:'',delay:2},
+    {id:'ge8',type:'message',x:60,y:1240,content:'🔩 **PARAFUSOS E FIXADORES — Linha Completa**\n\n✔ Parafusos Drywall, Chipboard, Steelfix\n✔ Auto brocantes Zincados\n✔ Costura Sewfast e Fibrofix\n✔ Chumbadores, Buchas Anfix\n✔ Fitas teladas e isolantes',url:'',delay:2},
+    {id:'ge9',type:'message',x:60,y:1420,content:'⚡ **SOLDAGEM — Qualidade Profissional**\n\n✔ Eletrodo E6013 e E7018\n✔ Arame MIG\n✔ Porta eletrodo\n✔ Martelo picador de solda',url:'',delay:2},
+    {id:'ge10',type:'testimonial',x:60,y:1600,content:'Trabalhamos com o Grupo Elite há 8 anos. Qualidade constante e entrega no prazo sempre!\nDistribuidora Construmax, São Paulo',url:'5',delay:0},
+    {id:'ge11',type:'arguments',x:60,y:1760,content:'16 anos de mercado e tradição\nMarcas Elite • Líder • Samurai • Anfix\nFoco B2B — atendimento especializado\nSede SP + filiais PR e MG\nEntrega em todo o Brasil',url:'',delay:0},
+    {id:'ge12',type:'collect',x:60,y:1940,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'ge13',type:'collect',x:60,y:2080,content:'Qual é o seu email?',url:'',delay:0,inputType:'email',placeholder:'seu@email.com'},
+    {id:'ge14',type:'whatsapp',x:60,y:2220,content:'Qual é o seu WhatsApp para nosso consultor entrar em contato?',url:'',delay:0},
+    {id:'ge15',type:'choices',x:60,y:2380,content:'Qual é o seu perfil de compra?',url:'',delay:0,options:'Revendedor / Distribuidor\nConstrutora / Empreiteira\nSerralheria / Metalúrgica\nLoja de materiais de construção\nProfissional autônomo'},
+    {id:'ge16',type:'scarcity',x:60,y:2540,content:'⏳ Tabela de preços especial para novos parceiros — válida por tempo limitado!',url:'3600',delay:0},
+    {id:'ge17',type:'price',x:60,y:2700,content:'Condições especiais B2B\nMelhores preços do mercado\n📋 Solicitar tabela de preços →',url:'https://www.gelite.com.br',delay:0},
+    {id:'ge18',type:'confetti',x:60,y:2860,content:'🎉 Obrigado! Bem-vindo à família Grupo Elite!',url:'',delay:0},
+    {id:'ge19',type:'end',x:60,y:3000,content:'✅ Nosso consultor entrará em contato em breve com a tabela de preços exclusiva. Acesse: www.gelite.com.br',url:'',delay:0}
+  ],edges:[
+    {id:'ege1',from:'ge1',to:'ge2'},{id:'ege2',from:'ge2',to:'ge3'},
+    {id:'ege3',from:'ge3',to:'ge4'},{id:'ege4',from:'ge4',to:'ge5'},
+    {id:'ege5',from:'ge5',to:'ge6'},{id:'ege6',from:'ge6',to:'ge7'},
+    {id:'ege7',from:'ge7',to:'ge8'},{id:'ege8',from:'ge8',to:'ge9'},
+    {id:'ege9',from:'ge9',to:'ge10'},{id:'ege10',from:'ge10',to:'ge11'},
+    {id:'ege11',from:'ge11',to:'ge12'},{id:'ege12',from:'ge12',to:'ge13'},
+    {id:'ege13',from:'ge13',to:'ge14'},{id:'ege14',from:'ge14',to:'ge15'},
+    {id:'ege15',from:'ge15',to:'ge16'},{id:'ege16',from:'ge16',to:'ge17'},
+    {id:'ege17',from:'ge17',to:'ge18'},{id:'ege18',from:'ge18',to:'ge19'}
+  ]}
 };
 
 // Props live update
@@ -4475,6 +4514,8 @@ document.addEventListener('DOMContentLoaded',async()=>{
   document.getElementById('btn-bot-remove')?.addEventListener('click',()=>{botAvatar='';const av=document.getElementById('bot-av-preview');av.style.backgroundImage='';av.textContent='🤖';toast('Foto removida','ℹ');});
   document.getElementById('btn-save-bot')?.addEventListener('click',()=>{
   botName=document.getElementById('bot-name-input').value.trim()||'Atendente';
+  const wppAEl=document.getElementById('bot-wpp-input');
+  if(wppAEl){const f2=flows.find(x=>x.id===curFId);if(f2)f2.wppAtendente=(wppAEl.value||'').replace(/[^0-9]/g,'');}
   // URL takes priority over upload (works cross-browser in shared links)
   const urlVal=(document.getElementById('bot-avatar-url')?.value||'').trim();
   if(urlVal){
@@ -4490,6 +4531,8 @@ document.addEventListener('DOMContentLoaded',async()=>{
   document.getElementById('btn-back-dash')?.addEventListener('click', backToDash);
   document.getElementById('btn-bot-config')?.addEventListener('click', ()=>{
     document.getElementById('bot-name-input').value = botName||'Atendente';
+    const wppAEl2=document.getElementById('bot-wpp-input');
+    if(wppAEl2){const f3=flows.find(x=>x.id===curFId);if(f3)wppAEl2.value=f3.wppAtendente||'';}
     const av = document.getElementById('bot-av-preview');
     if(botAvatar){ av.style.backgroundImage='url('+botAvatar+')'; av.style.backgroundSize='cover'; av.textContent=''; }
     else { av.style.backgroundImage=''; av.textContent='🤖'; }

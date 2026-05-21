@@ -190,7 +190,7 @@ function mapFlow(d){
   return{
     id:d.id,name:d.n||'Fluxo',channel:d.ch||'wpp',
     botName:d.bn||'Atendente',botAvatar:d.ba||'',
-    webhook:d.wh||'',pixel:d.px||'',gtag:d.gt||'',bgColor:d.bg||'',
+    webhook:d.wh||'',wppAtendente:d.wa||'',pixel:d.px||'',gtag:d.gt||'',bgColor:d.bg||'',
     nodes:(d.nd||[]).map(function(n){
       var da=n.da||'';
       var iu=n.iu||'';
@@ -811,7 +811,22 @@ function getRawParam(name){
 document.getElementById('pub-send').addEventListener('click',function(){
   var inp=document.getElementById('pub-input');
   var val=(inp&&inp.value||'').trim();
-  if(val){inp.value='';sendUserMsg(val);}
+  if(val){
+    inp.value='';
+    sendUserMsg(val);
+    // If there's a WhatsApp number configured, show redirect option after delay
+    if(pubWppAtendente){
+      setTimeout(function(){
+        var c=document.getElementById('pub-msgs');
+        var b=document.createElement('div');
+        b.className='pbub bot';
+        b.style.cssText='background:#fff;border-radius:12px;padding:14px 16px;max-width:88%;align-self:flex-start;box-shadow:0 2px 8px rgba(0,0,0,.08);border:none';
+        b.innerHTML='<div style="font-size:13px;color:#333;margin-bottom:10px">💬 Quer falar diretamente com um atendente?</div><a href="https://wa.me/'+pubWppAtendente+'?text='+encodeURIComponent(val)+'" target="_blank" style="display:block;background:#25d366;color:white;text-align:center;padding:10px 16px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;">💬 Falar com Atendente no WhatsApp</a>';
+        c.appendChild(b);
+        c.scrollTop=c.scrollHeight;
+      },1000);
+    }
+  }
 });
 document.getElementById('pub-input').addEventListener('keydown',function(e){
   if(e.key==='Enter'){
