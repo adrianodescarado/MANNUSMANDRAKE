@@ -2140,7 +2140,7 @@ async function saveFlow(){
   const name=document.getElementById('flow-title').value.trim()||'Sem título';
   const ex=(flows||[]).findIndex(f=>f.id===curFId);
   const f={
-    id:curFId,name,channel:curChannel,botName,botAvatar,
+    id:curFId,name,channel:curChannel,botName,botAvatar,wppAtendente:(flows.find(x=>x.id===curFId)||{}).wppAtendente||'',
 
     desc:[...new Set(nodes.map(n=>NC[n.type]?.lbl))].filter(Boolean).slice(0,3).join(', ')||'Fluxo conversacional',
     status:ex>=0?flows[ex].status:'draft',
@@ -2913,6 +2913,10 @@ function loadTemplate(key){
   curChannel=tmpl.channel||'wpp';
   botName=tmpl.botName||'Atendente';
   botAvatar='';
+  // Initialize flow stub so wppAtendente saves correctly
+  if(!flows.find(x=>x.id===curFId)){
+    flows.push({id:curFId,name:tmpl.name,channel:curChannel,botName,botAvatar,wppAtendente:'',nodes:[],edges:[],createdAt:new Date().toISOString()});
+  }
   nodes=JSON.parse(JSON.stringify(tmpl.nodes));
   edges=JSON.parse(JSON.stringify(tmpl.edges));
   document.getElementById('flow-title').value=tmpl.name;
