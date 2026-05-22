@@ -717,27 +717,14 @@ insert into storage.buckets (id, name, public)
         </div>
         <div class="psec">
           <div class="pstitle">Conteúdo</div>
-          <div class="pf">
-            <label class="pl" id="p-clbl">Mensagem</label>
-            <div style="display:flex;gap:4px;margin-bottom:4px;flex-wrap:wrap">
-              <button type="button" class="btn btn-ghost" style="padding:3px 7px;font-size:12px;font-weight:700" onclick="fmtText('**','**')" title="Negrito"><b>B</b></button>
-              <button type="button" class="btn btn-ghost" style="padding:3px 7px;font-size:12px;font-style:italic" onclick="fmtText('_','_')" title="Itálico"><i>I</i></button>
-              <button type="button" class="btn btn-ghost" style="padding:3px 7px;font-size:12px;text-decoration:line-through" onclick="fmtText('~~','~~')" title="Tachado">S</button>
-              <button type="button" class="btn btn-ghost" style="padding:3px 7px;font-size:11px" onclick="fmtText('','','\n')" title="Nova linha">↵</button>
-              <button type="button" class="btn btn-ghost" style="padding:3px 7px;font-size:11px;font-weight:700" onclick="fmtText('### ','')" title="Título grande">T↑</button>
-              <button type="button" class="btn btn-ghost" style="padding:3px 7px;font-size:11px" onclick="fmtText('## ','')" title="Título médio">T</button>
-              <button type="button" class="btn btn-ghost" style="padding:3px 7px;font-size:11px" onclick="fmtText('• ','')" title="Lista">• </button>
-            </div>
-            <textarea class="pta" id="p-cont" placeholder="Digite o conteúdo..."></textarea>
-            <div id="p-cont-hint" style="font-size:10px;color:var(--dim);margin-top:3px;line-height:1.5"></div>
-          </div>
+          <div class="pf"><label class="pl" id="p-clbl">Mensagem</label><textarea class="pta" id="p-cont" placeholder="Digite o conteúdo..."></textarea></div>
           <div class="pf" id="p-url-f" style="display:none">
             <label class="pl" id="p-url-lbl">URL</label>
             <input type="text" class="pi" id="p-url" placeholder="https://...">
             <button class="btn btn-ghost btn-sm" id="btn-upload-img" style="margin-top:4px;display:none">📁 Subir imagem do PC</button>
             <button class="btn btn-ghost btn-sm" id="btn-upload-pdf" style="margin-top:4px;display:none">📄 Subir PDF do PC</button>
           </div>
-          <div class="pf" id="p-delay-f" style="display:none"><label class="pl">⏱ Delay (segundos) — ex: 2, 5, 15</label><input type="number" class="pi" id="p-delay" min="0" placeholder="ex: 10" style="width:100%"></div>
+          <div class="pf" id="p-delay-f" style="display:none"><label class="pl">Tempo (segundos)</label><input type="number" class="pi" id="p-delay" min="1" max="300" value="3"></div>
           <div class="pf" id="p-choices-f" style="display:none"><label class="pl">Opções (uma por linha)</label><textarea class="pta" id="p-choices" placeholder="Opção 1&#10;Opção 2&#10;Opção 3" style="min-height:80px"></textarea></div>
           <div class="pf" id="p-link-dest-f" style="display:none">
             <label class="pl">🔗 URL do destino (link)</label>
@@ -751,48 +738,6 @@ insert into storage.buckets (id, name, public)
           <div class="pf" id="p-collect-f" style="display:none"><label class="pl">Tipo de Dado</label><select class="pi" id="p-collect-type"><option value="name">Nome</option><option value="text">Texto</option><option value="email">Email</option><option value="tel">Telefone</option><option value="number">Número</option></select></div>
           <div class="pf" id="p-collect-ph-f" style="display:none"><label class="pl">Placeholder</label><input class="pi" id="p-collect-ph" placeholder="Ex: Digite seu email..."></div>
           <div class="pf" id="p-webhook-f" style="display:none"><label class="pl">Webhook (URL)</label><input class="pi" id="p-webhook" placeholder="https://..."></div>
-        </div>
-        <div class="psec" id="p-style-sec">
-          <div class="pstitle">🎨 Estilo Visual</div>
-          <div class="pf">
-            <label class="pl">Cor de fundo</label>
-            <div style="display:flex;gap:6px;align-items:center">
-              <input type="color" id="p-bg-color" value="#ffffff" style="width:36px;height:30px;border:none;cursor:pointer;border-radius:4px;padding:0;background:none">
-              <input type="text" class="pi" id="p-bg-color-text" placeholder="#ffffff ou nome" style="flex:1">
-              <button type="button" class="btn btn-ghost btn-sm" id="p-bg-reset" title="Restaurar padrão" style="padding:4px 8px;font-size:11px">↺</button>
-            </div>
-          </div>
-          <div class="pf">
-            <label class="pl">Cor do texto</label>
-            <div style="display:flex;gap:6px;align-items:center">
-              <input type="color" id="p-txt-color" value="#333333" style="width:36px;height:30px;border:none;cursor:pointer;border-radius:4px;padding:0;background:none">
-              <input type="text" class="pi" id="p-txt-color-text" placeholder="#333333 ou nome" style="flex:1">
-            </div>
-          </div>
-          <div class="pf">
-            <label class="pl">Tamanho do texto</label>
-            <select class="pi" id="p-font-size">
-              <option value="">Padrão</option>
-              <option value="12px">Pequeno (12px)</option>
-              <option value="14px">Normal (14px)</option>
-              <option value="16px">Médio (16px)</option>
-              <option value="18px">Grande (18px)</option>
-              <option value="22px">Muito grande (22px)</option>
-              <option value="28px">Enorme (28px)</option>
-            </select>
-          </div>
-          <div class="pf">
-            <label class="pl">Borda arredondada</label>
-            <select class="pi" id="p-border-radius">
-              <option value="">Padrão</option>
-              <option value="0px">Sem arredondamento</option>
-              <option value="4px">Leve (4px)</option>
-              <option value="8px">Médio (8px)</option>
-              <option value="16px">Grande (16px)</option>
-              <option value="24px">Muito grande (24px)</option>
-              <option value="50px">Pill / Cápsula</option>
-            </select>
-          </div>
         </div>
         <div class="psec">
           <div class="pstitle">Conexões</div>
@@ -1368,18 +1313,6 @@ insert into storage.buckets (id, name, public)
         <p style="font-size:11px;color:var(--muted)">Estrutura 8 passos: atenção→dor→qualif→prova→captura→urgência→oferta→conversão.</p>
         <div style="margin-top:6px;font-size:10px;color:var(--grn)">12 nós</div>
       </div>
-      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('multasfreeflow')" data-cat="nicho">
-        <div style="font-size:26px;margin-bottom:6px">🚨</div>
-        <h3 style="font-size:13px">Multas Free Flow — Híbrido</h3>
-        <p style="font-size:11px;color:var(--muted)">Alerta + cartilha + diagnóstico + urgência + venda.</p>
-        <div style="margin-top:6px;font-size:10px;color:var(--grn)">16 nós</div>
-      </div>
-      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('grupoelite')" data-cat="vendas">
-        <div style="font-size:26px;margin-bottom:6px">⚙️</div>
-        <h3 style="font-size:13px">Catálogo Grupo Elite</h3>
-        <p style="font-size:11px;color:var(--muted)">Apresentação B2B de catálogo — abrasivos, diamantados, ferramentas e fixadores.</p>
-        <div style="margin-top:6px;font-size:10px;color:var(--grn)">19 nós</div>
-      </div>
     </div>
   </div>
 </div>
@@ -1423,7 +1356,6 @@ insert into storage.buckets (id, name, public)
       <p style="font-size:11px;color:var(--dim);margin-top:4px;line-height:1.5">Cole a URL direta da imagem. Funciona em qualquer dispositivo ao compartilhar.</p>
     </div>
     <div class="fg"><label class="fl">Nome do Atendente</label><input type="text" class="fi" id="bot-name-input" placeholder="Ex: Ana, Suporte, Vendas..."></div>
-    <div class="fg"><label class="fl">📱 WhatsApp do Atendente (com DDI)</label><input type="text" class="fi" id="bot-wpp-input" placeholder="5511999999999" maxlength="20"><small style="color:var(--dim);font-size:11px">Para redirecionar mensagens fora do fluxo</small></div>
     <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:4px" id="btn-save-bot">Salvar</button>
   </div>
 </div>
@@ -1471,7 +1403,6 @@ async function sbSaveFlow(flow){
     edges_json:JSON.stringify(flow.edges||[]),
     updated_at:new Date().toISOString(),
     bot_name:flow.botName||'Atendente',
-    wpp_atendente:flow.wppAtendente||'',
     bot_avatar:flow.botAvatar||'',
     bg_color:flow.bgColor||'',
     webhook:wh
@@ -1503,7 +1434,6 @@ function encodeFlow(f){
       bn:f.botName||'Atendente',
       ba:ba,
       wh:wh,
-      wa:f.wppAtendente||'',
       px:px,
       gt:gtag,
       bg:f.bgColor||'',
@@ -1516,11 +1446,8 @@ function encodeFlow(f){
         if(iu==='__img__'+n.id+'_iu')try{localStorage.setItem('mdk_img_'+f.id+'_'+n.id+'_iu',imgUrl);}catch(e){}
         // Only include non-empty/non-default fields to minimize URL size
         const obj={i:n.id,t:n.type};
+        // x,y only needed in editor, skip for smaller URLs
         if(n.content)obj.c=n.content;
-        if(n.nodeBg)obj.nb=n.nodeBg;
-        if(n.nodeTxt)obj.nt=n.nodeTxt;
-        if(n.nodeFontSize)obj.nf=n.nodeFontSize;
-        if(n.nodeBorderRadius)obj.nr=n.nodeBorderRadius;
         const url=n.url&&!n.url.startsWith('data:')?n.url:'';
         if(url)obj.u=url;
         if(n.delay&&n.delay!==3)obj.d=n.delay;
@@ -1600,8 +1527,7 @@ function decodeFlow(s){
         id:n.i,type:n.t,x:n.x||0,y:n.y||0,
         content:n.c||'',url:n.u||'',delay:n.d||0,
         options:n.o||'',inputType:n.it||'',placeholder:n.ph||'',
-        webhook:n.wk||'',data:n.da||'',link:n.lk||'',imgUrl:n.iu||'',
-        nodeBg:n.nb||'',nodeTxt:n.nt||'',nodeFontSize:n.nf||'',nodeBorderRadius:n.nr||''
+        webhook:n.wk||'',data:n.da||'',link:n.lk||'',imgUrl:n.iu||''
       })),
       edges:(d.ed||[]).map(e=>({id:e.i,from:e.f,to:e.t}))
     };
@@ -1886,12 +1812,7 @@ async function loadFlows(){
 }
 function saveLocal(){
   if(!CU)return;
-  try{localStorage.setItem('mdk_'+CU.id,JSON.stringify(flows));
-  // Also cache each flow individually for public access
-  try{
-    const cf=flows.find(function(x){return x&&x.id===curFId;});
-    if(cf)localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(cf));
-  }catch(e){}}catch{}
+  try{localStorage.setItem('mdk_'+CU.id,JSON.stringify(flows));}catch{}
 }
 async function persistFlow(flow){
   saveLocal();
@@ -2146,7 +2067,7 @@ async function saveFlow(){
   const name=document.getElementById('flow-title').value.trim()||'Sem título';
   const ex=(flows||[]).findIndex(f=>f.id===curFId);
   const f={
-    id:curFId,name,channel:curChannel,botName,botAvatar,wppAtendente:(flows.find(x=>x.id===curFId)||{}).wppAtendente||'',
+    id:curFId,name,channel:curChannel,botName,botAvatar,
 
     desc:[...new Set(nodes.map(n=>NC[n.type]?.lbl))].filter(Boolean).slice(0,3).join(', ')||'Fluxo conversacional',
     status:ex>=0?flows[ex].status:'draft',
@@ -2882,61 +2803,6 @@ const TEMPLATES={
     {id:'eff2_7',from:'ff2_7',to:'ff2_8'},{id:'eff2_8',from:'ff2_8',to:'ff2_9'},
     {id:'eff2_9',from:'ff2_9',to:'ff2_10'},{id:'eff2_10',from:'ff2_10',to:'ff2_11'},
     {id:'eff2_11',from:'ff2_11',to:'ff2_12'}
-  ]},
-  multasfreeflow:{name:'Multas Free Flow — Fluxo Híbrido',channel:'wpp',botName:'Consultor de Trânsito',nodes:[
-    {id:'mff1',type:'marquee',x:60,y:60,content:'🚨 ALERTA FREE FLOW — O governo suspendeu 3,4 MILHÕES de multas... Prazo termina em NOVEMBRO ⚠️',url:'',delay:0},
-    {id:'mff2',type:'message',x:60,y:180,content:'🚗 Teste rápido (30 segundos):\n👉 Você pode estar em risco sem saber.\n\nQuer verificar agora?',url:'',delay:2},
-    {id:'mff3',type:'choices',x:60,y:340,content:'Fazer o teste agora?',url:'',delay:0,options:'🔍 Fazer teste\n❓ O que é isso'},
-    {id:'mff4',type:'message',x:60,y:500,content:'📘 GUIA RÁPIDO\n\nO Free Flow é o pedágio sem cancela. Você passa direto… mas precisa pagar depois.\n\n👉 Quem esquece, recebe multa automática 💸',url:'',delay:2},
-    {id:'mff5',type:'choices',x:60,y:660,content:'Você costuma pagar depois que passa?',url:'',delay:0,options:'✅ Sim\n🤔 Às vezes esqueço\n❌ Nem sabia'},
-    {id:'mff6',type:'message',x:60,y:820,content:'📊 Resultado: Você está em RISCO de multa ⚠️\n\n👉 Porque o sistema registra automaticamente cada passagem.\n\nE se não pagar: 💸 multa + pontos na CNH',url:'',delay:2},
-    {id:'mff7',type:'message',x:60,y:980,content:'🚨 Mesmo com a suspensão das multas… O sistema continua registrando tudo.\n\n⏳ Se não regularizar até NOVEMBRO:\n👉 as multas podem chegar acumuladas\n\n📊 Milhões de motoristas já estão nessa situação.',url:'',delay:2},
-    {id:'mff8',type:'message',x:60,y:1140,content:'💡 O erro mais comum:\n"Acho que depois eu pago…"\n\n👉 Mas na prática, as pessoas esquecem — e é aí que começam as multas.',url:'',delay:1},
-    {id:'mff9',type:'arguments',x:60,y:1300,content:'✔ A forma mais segura de evitar isso: Usar uma TAG automática\nPassa direto sem preocupação\nCobra automático no cartão\nEvita multa garantido\nZero preocupação com Free Flow',url:'',delay:0},
-    {id:'mff10',type:'message',x:60,y:1460,content:'💰 Sobre o custo:\nHoje existem planos acessíveis — alguns até sem mensalidade\n\n👉 E uma única multa já custa mais que meses usando TAG',url:'',delay:1},
-    {id:'mff11',type:'choices',x:60,y:1620,content:'📌 Milhares de motoristas já usam TAG pra evitar problemas com Free Flow\n👉 Inclusive quem pega estrada de vez em quando\n\nQuer uma opção confiável pra já se proteger?',url:'',delay:0,options:'✅ Quero ver\n🤔 Ainda tenho dúvida'},
-    {id:'mff12',type:'collect',x:60,y:1780,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
-    {id:'mff13',type:'whatsapp',x:60,y:1920,content:'Qual é o seu WhatsApp para enviarmos o guia completo?',url:'',delay:0},
-    {id:'mff14',type:'price',x:60,y:2060,content:'A tag da Sem Parar\nR$ 0,00 na ativação\n🔘 QUERO MINHA TAG →',url:'https://www.semparar.com.br',delay:0},
-    {id:'mff15',type:'scarcity',x:60,y:2220,content:'⏳ Só lembrando: O prazo vai até NOVEMBRO\n👉 Depois disso, as multas podem voltar normalmente\nE muita gente só percebe quando já acumulou várias.',url:'1800',delay:0},
-    {id:'mff16',type:'end',x:60,y:2380,content:'✅ Pronto! Guia enviado no seu WhatsApp. Ative sua tag e fique protegido! 🚗',url:'',delay:0}
-  ],edges:[
-    {id:'emff1',from:'mff1',to:'mff2'},{id:'emff2',from:'mff2',to:'mff3'},
-    {id:'emff3',from:'mff3',to:'mff4'},{id:'emff4',from:'mff4',to:'mff5'},
-    {id:'emff5',from:'mff5',to:'mff6'},{id:'emff6',from:'mff6',to:'mff7'},
-    {id:'emff7',from:'mff7',to:'mff8'},{id:'emff8',from:'mff8',to:'mff9'},
-    {id:'emff9',from:'mff9',to:'mff10'},{id:'emff10',from:'mff10',to:'mff11'},
-    {id:'emff11',from:'mff11',to:'mff12'},{id:'emff12',from:'mff12',to:'mff13'},
-    {id:'emff13',from:'mff13',to:'mff14'},{id:'emff14',from:'mff14',to:'mff15'},
-    {id:'emff15',from:'mff15',to:'mff16'}
-  ]},
-  grupoelite:{name:'Catálogo Grupo Elite',channel:'wpp',botName:'Grupo Elite',nodes:[
-    {id:'ge1',type:'marquee',x:60,y:60,content:'⚡ GRUPO ELITE — Abrasivos • Diamantados • Ferramentas • Fixadores • Soldagem',url:'https://www.gelite.com.br',delay:0},
-    {id:'ge2',type:'message',x:60,y:180,content:'Olá! 👷 Bem-vindo ao **Grupo Elite**!\nSomos especialistas em ferramentas para construção há 16 anos.\nMarcas: Elite Superflex • Líder • Samurai • Anfix',url:'',delay:2},
-    {id:'ge3',type:'choices',x:60,y:340,content:'O que você procura hoje?',url:'',delay:0,options:'🔴 Abrasivos (discos de corte e flap)\n💎 Diamantados (serras e discos)\n🔧 Ferramentas (serras, alicates, brocas)\n🔩 Parafusos e Fixadores\n⚡ Soldagem\n📋 Ver catálogo completo'},
-    {id:'ge4',type:'message',x:60,y:500,content:'🔴 **ABRASIVOS — Linha Elite Superflex**\n✔ Discos de Corte Inox e Ferro\n✔ Discos Flap (Zirconado, Dual-Grind, Esponja)\n✔ Lixas para diversas superfícies\n✔ Linha Samurai e Líder',url:'',delay:2},
-    {id:'ge5',type:'arguments',x:60,y:680,content:'Discos certificados ABNT NBR 15230\nMaior rendimento — menos troca de disco\nLinha do 4.1/2" ao 14"\nEntrega em todo o Brasil\nFoco no segmento B2B',url:'',delay:0},
-    {id:'ge6',type:'message',x:60,y:840,content:'💎 **DIAMANTADOS — Corte de Alta Precisão**\n✔ Linhas Silver, Blue, Gold e Samurai\n✔ Serras Widea para MDF/MDP\n✔ Para pisos, granito, tijolo e alvenaria',url:'',delay:2},
-    {id:'ge7',type:'message',x:60,y:1000,content:'🔧 **FERRAMENTAS — Para Todo Tipo de Obra**\n✔ Serras copo bimetal\n✔ Alicates e conjuntos de chaves\n✔ Brocas Aço Rápido, Titânio e Widea\n✔ Multímetro, Martelo, Ponteiros SDS',url:'',delay:2},
-    {id:'ge8',type:'message',x:60,y:1160,content:'🔩 **PARAFUSOS E FIXADORES — Linha Completa**\n✔ Parafusos Drywall, Chipboard, Steelfix\n✔ Auto brocantes Zincados e Costura Sewfast\n✔ Chumbadores e Buchas Anfix',url:'',delay:2},
-    {id:'ge9',type:'message',x:60,y:1320,content:'⚡ **SOLDAGEM — Qualidade Profissional**\n✔ Eletrodo E6013 e E7018\n✔ Arame MIG\n✔ Porta eletrodo e Martelo picador',url:'',delay:2},
-    {id:'ge10',type:'testimonial',x:60,y:1480,content:'Trabalhamos com o Grupo Elite há 8 anos. Qualidade constante e entrega sempre no prazo!\nDistribuidora Construmax, São Paulo',url:'5',delay:0},
-    {id:'ge11',type:'arguments',x:60,y:1640,content:'16 anos de mercado e tradição\nMarcas Elite • Líder • Samurai • Anfix\nAtendimento B2B especializado\nSede SP + filiais PR e MG\nEntrega em todo o Brasil',url:'',delay:0},
-    {id:'ge12',type:'collect',x:60,y:1800,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
-    {id:'ge13',type:'collect',x:60,y:1940,content:'Qual é o seu email?',url:'',delay:0,inputType:'email',placeholder:'seu@email.com'},
-    {id:'ge14',type:'whatsapp',x:60,y:2080,content:'Qual é o seu WhatsApp para nosso consultor entrar em contato?',url:'',delay:0},
-    {id:'ge15',type:'choices',x:60,y:2240,content:'Qual é o seu perfil de compra?',url:'',delay:0,options:'Revendedor / Distribuidor\nConstrutora / Empreiteira\nSerralheria / Metalúrgica\nLoja de materiais de construção\nProfissional autônomo'},
-    {id:'ge16',type:'scarcity',x:60,y:2400,content:'⏳ Tabela especial para novos parceiros — por tempo limitado!',url:'3600',delay:0},
-    {id:'ge17',type:'price',x:60,y:2560,content:'Condições especiais B2B\nMelhores preços do mercado\n📋 Solicitar tabela de preços →',url:'https://www.gelite.com.br',delay:0},
-    {id:'ge18',type:'confetti',x:60,y:2720,content:'🎉 Bem-vindo à família Grupo Elite!',url:'',delay:0},
-    {id:'ge19',type:'end',x:60,y:2860,content:'✅ Nosso consultor entrará em contato em breve. Acesse: www.gelite.com.br',url:'',delay:0}
-  ],edges:[
-    {id:'ege1',from:'ge1',to:'ge2'},{id:'ege2',from:'ge2',to:'ge3'},{id:'ege3',from:'ge3',to:'ge4'},
-    {id:'ege4',from:'ge4',to:'ge5'},{id:'ege5',from:'ge5',to:'ge6'},{id:'ege6',from:'ge6',to:'ge7'},
-    {id:'ege7',from:'ge7',to:'ge8'},{id:'ege8',from:'ge8',to:'ge9'},{id:'ege9',from:'ge9',to:'ge10'},
-    {id:'ege10',from:'ge10',to:'ge11'},{id:'ege11',from:'ge11',to:'ge12'},{id:'ege12',from:'ge12',to:'ge13'},
-    {id:'ege13',from:'ge13',to:'ge14'},{id:'ege14',from:'ge14',to:'ge15'},{id:'ege15',from:'ge15',to:'ge16'},
-    {id:'ege16',from:'ge16',to:'ge17'},{id:'ege17',from:'ge17',to:'ge18'},{id:'ege18',from:'ge18',to:'ge19'}
   ]}
 };
 function loadTemplate(key){
@@ -2947,10 +2813,6 @@ function loadTemplate(key){
   curChannel=tmpl.channel||'wpp';
   botName=tmpl.botName||'Atendente';
   botAvatar='';
-  // Initialize flow stub so wppAtendente saves correctly
-  if(!flows.find(x=>x.id===curFId)){
-    flows.push({id:curFId,name:tmpl.name,channel:curChannel,botName,botAvatar,wppAtendente:'',nodes:[],edges:[],createdAt:new Date().toISOString()});
-  }
   nodes=JSON.parse(JSON.stringify(tmpl.nodes));
   edges=JSON.parse(JSON.stringify(tmpl.edges));
   document.getElementById('flow-title').value=tmpl.name;
@@ -3065,52 +2927,18 @@ function showProps(n){
   const hasContent=n.type!=='delay';
   const pcsec=document.getElementById('pcsec');if(pcsec)pcsec.style.display=hasContent?'flex':'none';
   document.getElementById('p-cont').value=n.content||'';
-  // Mostrar campo URL para todos os tipos que têm URL/link
-  const noUrlTypes=['message','question','choices','collect','whatsapp','confetti','delay','condition','invisible','_meta','visitors'];
-  document.getElementById('p-url-f').style.display=noUrlTypes.includes(n.type)?'none':'flex';
+  document.getElementById('p-url-f').style.display=['image','video','audio','link','pdf','product','scarcity','discount'].includes(n.type)?'flex':'none';
   const upBtn=document.getElementById('btn-upload-img');
-  if(upBtn)upBtn.style.display=['image','linkimg','product'].includes(n.type)?'block':'none';
+  if(upBtn)upBtn.style.display=n.type==='image'?'block':'none';
   const upPdf=document.getElementById('btn-upload-pdf');
   if(upPdf)upPdf.style.display=n.type==='pdf'?'block':'none';
   const urlLbl=document.getElementById('p-url-lbl');
-  if(urlLbl){
-    const lblMap={
-      image:'URL da imagem',
-      video:'URL do vídeo (YouTube)',
-      audio:'URL do áudio (mp3)',
-      link:'URL de destino',
-      pdf:'URL do PDF',
-      linkimg:'URL de destino do link',
-      product:'URL da imagem do produto',
-      scarcity:'⏱ Duração em segundos (ex: 600 = 10min)',
-      discount:'Código do cupom',
-      price:'🔗 URL do botão (link de compra)',
-      testimonial:'⭐ Número de estrelas (1-5)',
-      bonus:'URL (opcional)',
-      arguments:'URL (opcional)',
-      marquee:'URL (opcional)',
-      level:'URL (opcional)',
-      compare:'URL (opcional)',
-      chart:'URL (opcional)',
-      faq:'URL (opcional)',
-      carousel:'URL (opcional)',
-      list:'URL (opcional)',
-      title:'URL (opcional)',
-      text:'URL (opcional)',
-      loading:'URL (opcional)',
-      continueBtn:'URL (opcional)',
-      confetti:'URL (opcional)',
-      end:'URL (opcional)',
-      pix:'URL (opcional)',
-      options:'URL (opcional)'
-    };
-    urlLbl.textContent=lblMap[n.type]||'🔗 URL / Link';
-  }
+  if(urlLbl){const lblMap={image:'URL da imagem',video:'URL do vídeo (YouTube)',audio:'URL do áudio (mp3)',link:'URL do link',pdf:'URL do PDF',linkimg:'URL do Link (destino)',product:'URL da imagem do produto',scarcity:'⏱ Duração em segundos (ex: 600 = 10min)',discount:'Código do cupom'};urlLbl.textContent=lblMap[n.type]||'URL';}
   // For link+image: show upload button
   const upImgBtn=document.getElementById('btn-upload-img');
   if(upImgBtn)upImgBtn.style.display=(n.type==='image'||n.type==='linkimg'||n.type==='product')?'block':'none';
   document.getElementById('p-url').value=n.url||'';
-  document.getElementById('p-delay-f').style.display='flex';
+  document.getElementById('p-delay-f').style.display=n.type==='delay'?'flex':'none';
   document.getElementById('p-delay').value=n.delay||3;
   // New fields
   const pcf=document.getElementById('p-choices-f');if(pcf)pcf.style.display=n.type==='choices'?'flex':'none';
@@ -3125,23 +2953,6 @@ function showProps(n){
   const pldv=document.getElementById('p-link-dest');if(pldv)pldv.value=n.link||'';
   const plif=document.getElementById('p-link-img-f');if(plif)plif.style.display=n.type==='linkimg'?'flex':'none';
   const pliv=document.getElementById('p-link-img');if(pliv)pliv.value=n.imgUrl||'';
-  // Show format hint
-  const hintEl=document.getElementById('p-cont-hint');
-  if(hintEl){
-    const hint=NODE_HINTS[n.type]||'';
-    hintEl.textContent=hint;
-    hintEl.style.display=hint?'block':'none';
-  }
-  // Load style values
-  try{
-    document.getElementById('p-bg-color').value=n.nodeBg||'#ffffff';
-    document.getElementById('p-bg-color-text').value=n.nodeBg||'';
-    document.getElementById('p-txt-color').value=n.nodeTxt||'#333333';
-    document.getElementById('p-txt-color-text').value=n.nodeTxt||'';
-    document.getElementById('p-font-size').value=n.nodeFontSize||'';
-    document.getElementById('p-border-radius').value=n.nodeBorderRadius||'';
-  }catch(e){}
-
   const out=edges.filter(e=>e.from===n.id);
   const inp=edges.filter(e=>e.to===n.id);
   const connEl=document.getElementById('p-conns');
@@ -3151,41 +2962,6 @@ function showProps(n){
     ...out.map(e=>{const t=nodes.find(x=>x.id===e.to);return'<div style="font-size:11px;color:var(--muted);padding:4px 8px;background:rgba(0,0,0,.2);border-radius:5px;margin-bottom:4px;display:flex;align-items:center;gap:5px"><span style="color:var(--grn)">→</span>'+(t?NC[t.type]?.lbl+' #'+t.id.slice(-5):'?')+'</div>';})
   ].join('');
 }
-// Format text helper
-function fmtText(before,after,insert){
-  const ta=document.getElementById('p-cont');
-  if(!ta)return;
-  const start=ta.selectionStart,end=ta.selectionEnd;
-  const sel=ta.value.substring(start,end);
-  if(insert){
-    ta.value=ta.value.substring(0,start)+insert+ta.value.substring(end);
-    ta.selectionStart=ta.selectionEnd=start+insert.length;
-  } else {
-    const replacement=before+sel+after;
-    ta.value=ta.value.substring(0,start)+replacement+ta.value.substring(end);
-    ta.selectionStart=start+before.length;
-    ta.selectionEnd=start+before.length+sel.length;
-  }
-  ta.focus();
-  ta.dispatchEvent(new Event('input'));
-}
-
-// Node hints for content format
-const NODE_HINTS={
-  price:'Linha 1: Preço principal (ex: R$ 97,00)\nLinha 2: Preço original riscado (ex: De R$ 297,00)\nLinha 3: Texto do botão CTA',
-  testimonial:'Linha 1: Texto do depoimento\nLinha 2: Nome do autor',
-  compare:'Linha 1: Título coluna ruim\nLinha 2: Título coluna boa\nLinhas seguintes: item ruim|item bom',
-  level:'Formato: Texto;Porcentagem (ex: Aprovação;85)',
-  faq:'Pares pergunta/resposta, um por linha:\nPergunta?\nResposta aqui.',
-  choices:'Uma opção por linha',
-  arguments:'Um argumento por linha',
-  bonus:'Um bônus por linha',
-  carousel:'Uma linha por slide: URL_img|Texto',
-  chart:'Uma linha por barra: Label;Porcentagem (ex: Vendas;80)',
-  list:'Um item por linha',
-  discount:'Linha 1: Texto da promoção\nLinha 2: Código do cupom (opcional)'
-};
-
 // Props live update
 document.addEventListener('input',ev=>{
   if(!selId)return;
@@ -3198,31 +2974,6 @@ document.addEventListener('input',ev=>{
   if(ev.target.id==='p-collect-ph')n.placeholder=ev.target.value;
   if(ev.target.id==='p-webhook')n.webhook=ev.target.value;
   if(ev.target.id==='p-link-dest')n.link=ev.target.value;
-  // Style fields
-  if(ev.target.id==='p-bg-color'){n.nodeBg=ev.target.value;document.getElementById('p-bg-color-text').value=ev.target.value;}
-  if(ev.target.id==='p-bg-color-text'){n.nodeBg=ev.target.value;try{document.getElementById('p-bg-color').value=ev.target.value;}catch(e){}}
-  if(ev.target.id==='p-txt-color'){n.nodeTxt=ev.target.value;document.getElementById('p-txt-color-text').value=ev.target.value;}
-  if(ev.target.id==='p-txt-color-text'){n.nodeTxt=ev.target.value;try{document.getElementById('p-txt-color').value=ev.target.value;}catch(e){}}
-  if(ev.target.id==='p-font-size')n.nodeFontSize=ev.target.value;
-  if(ev.target.id==='p-border-radius')n.nodeBorderRadius=ev.target.value;
-});
-document.addEventListener('change',ev=>{
-  if(!selId)return;
-  const n=nodes.find(x=>x.id===selId);if(!n)return;
-  if(ev.target.id==='p-font-size')n.nodeFontSize=ev.target.value;
-  if(ev.target.id==='p-border-radius')n.nodeBorderRadius=ev.target.value;
-});
-// Reset style button
-document.getElementById('p-bg-reset')?.addEventListener('click',()=>{
-  const n=nodes.find(x=>x.id===selId);if(!n)return;
-  delete n.nodeBg;delete n.nodeTxt;delete n.nodeFontSize;delete n.nodeBorderRadius;
-  document.getElementById('p-bg-color').value='#ffffff';
-  document.getElementById('p-bg-color-text').value='';
-  document.getElementById('p-txt-color').value='#333333';
-  document.getElementById('p-txt-color-text').value='';
-  document.getElementById('p-font-size').value='';
-  document.getElementById('p-border-radius').value='';
-  toast('Estilo restaurado ao padrão','ℹ');
 });
 
 // ═══════════════════════════════════════════════
@@ -3673,27 +3424,6 @@ function fireConfetti(){
     setTimeout(()=>p.remove(),3500);
   }
 }
-function applyNodeStylePreview(el,n){
-  if(!n||(!n.nodeBg&&!n.nodeTxt&&!n.nodeFontSize&&!n.nodeBorderRadius))return;
-  if(n.nodeBg)el.style.background=n.nodeBg;
-  if(n.nodeTxt)el.style.color=n.nodeTxt;
-  if(n.nodeFontSize)el.style.fontSize=n.nodeFontSize;
-  if(n.nodeBorderRadius)el.style.borderRadius=n.nodeBorderRadius;
-}
-
-function renderMarkdownPreview(txt){
-  if(!txt)return '';
-  var s=txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  s=s.replace(/^### (.+)$/gm,'<div style="font-size:18px;font-weight:800;line-height:1.3;margin:2px 0">$1</div>');
-  s=s.replace(/^## (.+)$/gm,'<div style="font-size:15px;font-weight:700;line-height:1.3;margin:2px 0">$1</div>');
-  s=s.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
-  s=s.replace(/\_(.+?)\_/g,'<i>$1</i>');
-  s=s.replace(/~~(.+?)~~/g,'<s>$1</s>');
-  s=s.replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;word-break:break-all">$1</a>');
-  s=s.replace(/\n/g,'<br>');
-  return s;
-}
-
 function addBubble(containerId,n,who){
   const c=document.getElementById(containerId);if(!c)return;
   // Handle choices node separately (outside bubble)
@@ -4090,16 +3820,7 @@ async function openShare(){
   const fCache=(flows||[]).find(x=>x.id===curFId);
   if(!fCache){toast('Salve o fluxo primeiro','❌');return;}
   const flowBase=location.origin+'/flow.html';
-  try{
-    var cacheData=JSON.stringify(fCache);
-    localStorage.setItem('mdk_pub_'+curFId,cacheData);
-    sessionStorage.setItem('mdk_pub_'+curFId,cacheData);
-    // Also save in the main flows cache
-    var allFlows=JSON.parse(localStorage.getItem('mdk_flows_cache')||'[]');
-    var fi=allFlows.findIndex(function(x){return x&&x.id===curFId;});
-    if(fi>=0)allFlows[fi]=fCache;else allFlows.push(fCache);
-    localStorage.setItem('mdk_flows_cache',JSON.stringify(allFlows));
-  }catch(e){}
+  try{localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(fCache));}catch{}
 
   let link=flowBase+'?id='+curFId;
   let shortOk=false;
@@ -4530,8 +4251,6 @@ document.addEventListener('DOMContentLoaded',async()=>{
   document.getElementById('btn-bot-remove')?.addEventListener('click',()=>{botAvatar='';const av=document.getElementById('bot-av-preview');av.style.backgroundImage='';av.textContent='🤖';toast('Foto removida','ℹ');});
   document.getElementById('btn-save-bot')?.addEventListener('click',()=>{
   botName=document.getElementById('bot-name-input').value.trim()||'Atendente';
-  const wppAEl=document.getElementById('bot-wpp-input');
-  if(wppAEl){const f2=flows.find(x=>x.id===curFId);if(f2)f2.wppAtendente=(wppAEl.value||'').replace(/[^0-9]/g,'');}
   // URL takes priority over upload (works cross-browser in shared links)
   const urlVal=(document.getElementById('bot-avatar-url')?.value||'').trim();
   if(urlVal){
@@ -4547,8 +4266,6 @@ document.addEventListener('DOMContentLoaded',async()=>{
   document.getElementById('btn-back-dash')?.addEventListener('click', backToDash);
   document.getElementById('btn-bot-config')?.addEventListener('click', ()=>{
     document.getElementById('bot-name-input').value = botName||'Atendente';
-    const wppAEl2=document.getElementById('bot-wpp-input');
-    if(wppAEl2){const f3=flows.find(x=>x.id===curFId);if(f3)wppAEl2.value=f3.wppAtendente||'';}
     const av = document.getElementById('bot-av-preview');
     if(botAvatar){ av.style.backgroundImage='url('+botAvatar+')'; av.style.backgroundSize='cover'; av.textContent=''; }
     else { av.style.backgroundImage=''; av.textContent='🤖'; }
