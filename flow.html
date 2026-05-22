@@ -889,10 +889,18 @@ window.addEventListener('load',function(){
           botName:row.bot_name||'Atendente',
           botAvatar:row.bot_avatar||'',
           bgColor:row.bg_color||'',
-          webhook:row.webhook,wppAtendente:row.wpp_atendente||''||'',
-          nodes:JSON.parse(row.nodes_json||'[]'),
-          edges:JSON.parse(row.edges_json||'[]')
+          webhook:row.webhook||'',
+          wppAtendente:row.wpp_atendente||'',
+          nodes:(function(){try{var n=JSON.parse(row.nodes_json||'[]');return Array.isArray(n)?n:[];}catch(e){return[];}}()),
+          edges:(function(){try{var e=JSON.parse(row.edges_json||'[]');return Array.isArray(e)?e:[];}catch(e){return[];}}())
         };
+        if(fc.nodes.length===0){
+          // nodes_json empty - try localStorage
+          try{
+            var lc=localStorage.getItem('mdk_pub_'+flowId);
+            if(lc){var lfc=JSON.parse(lc);if(lfc&&lfc.nodes&&lfc.nodes.length>0){fc.nodes=lfc.nodes;fc.edges=lfc.edges||[];}}
+          }catch(e2){}
+        }
         document.getElementById('loading-screen').style.display='none';
         startFlow(fc);
       } else {
@@ -932,6 +940,18 @@ window.addEventListener('load',function(){
     })
     .catch(function(err){
       console.warn('[Mandrake] Erro Supabase:',err);
+      // Try without authorization header (some Supabase configs)
+      if(err&&err.message&&err.message.includes('403')){
+        fetch(SUPA_URL+'/rest/v1/mandrake_flows?id=eq.'+encodeURIComponent(flowId)+'&select=*',{
+          headers:{'apikey':SUPA_KEY}
+        }).then(function(r2){return r2.json();}).then(function(rows2){
+          if(rows2&&rows2.length>0){
+            var row=rows2[0];
+            var fc2={id:row.id,name:row.name||'Fluxo',channel:row.channel||'wpp',botName:row.bot_name||'Atendente',botAvatar:row.bot_avatar||'',bgColor:row.bg_color||'',webhook:row.webhook||'',wppAtendente:row.wpp_atendente||'',nodes:(function(){try{return JSON.parse(row.nodes_json||'[]');}catch(e){return[];}}()),edges:(function(){try{return JSON.parse(row.edges_json||'[]');}catch(e){return[];}}())};
+            document.getElementById('loading-screen').style.display='none';startFlow(fc2);return;
+          }
+        }).catch(function(){});
+      }
       // Fallback localStorage + sessionStorage
       try{
         var sc2=sessionStorage.getItem('mdk_flow_'+flowId)||sessionStorage.getItem('mdk_pub_'+flowId);
