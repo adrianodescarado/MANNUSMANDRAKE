@@ -895,11 +895,60 @@ window.addEventListener('load',function(){
           edges:(function(){try{var e=JSON.parse(row.edges_json||'[]');return Array.isArray(e)?e:[];}catch(e){return[];}}())
         };
         if(fc.nodes.length===0){
-          // nodes_json empty - try localStorage
-          try{
-            var lc=localStorage.getItem('mdk_pub_'+flowId);
-            if(lc){var lfc=JSON.parse(lc);if(lfc&&lfc.nodes&&lfc.nodes.length>0){fc.nodes=lfc.nodes;fc.edges=lfc.edges||[];}}
-          }catch(e2){}
+          // nodes_json empty - try all local caches
+          var gotLocal=false;
+          var cacheKeys=['mdk_pub_'+flowId,'mdk_flow_'+flowId,'mdk_'+flowId];
+          for(var ki=0;ki<cacheKeys.length;ki++){
+            try{
+              var lc=localStorage.getItem(cacheKeys[ki])||sessionStorage.getItem(cacheKeys[ki]);
+              if(lc){
+                var lfc=JSON.parse(lc);
+                if(lfc&&lfc.nodes&&lfc.nodes.length>0){
+                  fc.nodes=lfc.nodes;fc.edges=lfc.edges||[];
+                  fc.botName=fc.botName||lfc.botName;
+                  fc.bgColor=fc.bgColor||lfc.bgColor;
+                  gotLocal=true;break;
+                }
+                // lfc might be array of flows
+                if(Array.isArray(lfc)){
+                  var found=lfc.find(function(x){return x&&x.id===flowId;});
+                  if(found&&found.nodes&&found.nodes.length>0){
+                    fc.nodes=found.nodes;fc.edges=found.edges||[];
+                    fc.botName=fc.botName||found.botName;
+                    gotLocal=true;break;
+                  }
+                }
+              }
+            }catch(e2){}
+          }
+          // Check mdk_flows_cache first
+          if(!gotLocal){
+            try{
+              var fc2=localStorage.getItem('mdk_flows_cache');
+              if(fc2){
+                var fca=JSON.parse(fc2);
+                var fnd=fca.find(function(x){return x&&x.id===flowId;});
+                if(fnd&&fnd.nodes&&fnd.nodes.length>0){fc.nodes=fnd.nodes;fc.edges=fnd.edges||[];gotLocal=true;}
+              }
+            }catch(e5){}
+          }
+          // Also search ALL localStorage keys
+          if(!gotLocal){
+            try{
+              for(var ki2=0;ki2<localStorage.length;ki2++){
+                var kk=localStorage.key(ki2);
+                if(kk&&kk.startsWith('mdk_')){
+                  try{
+                    var vv=JSON.parse(localStorage.getItem(kk));
+                    if(Array.isArray(vv)){
+                      var ff=vv.find(function(x){return x&&x.id===flowId;});
+                      if(ff&&ff.nodes&&ff.nodes.length>0){fc.nodes=ff.nodes;fc.edges=ff.edges||[];gotLocal=true;break;}
+                    }
+                  }catch(e3){}
+                }
+              }
+            }catch(e4){}
+          }
         }
         document.getElementById('loading-screen').style.display='none';
         startFlow(fc);

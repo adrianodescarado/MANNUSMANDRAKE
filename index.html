@@ -1886,7 +1886,12 @@ async function loadFlows(){
 }
 function saveLocal(){
   if(!CU)return;
-  try{localStorage.setItem('mdk_'+CU.id,JSON.stringify(flows));}catch{}
+  try{localStorage.setItem('mdk_'+CU.id,JSON.stringify(flows));
+  // Also cache each flow individually for public access
+  try{
+    const cf=flows.find(function(x){return x&&x.id===curFId;});
+    if(cf)localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(cf));
+  }catch(e){}}catch{}
 }
 async function persistFlow(flow){
   saveLocal();
@@ -4085,7 +4090,16 @@ async function openShare(){
   const fCache=(flows||[]).find(x=>x.id===curFId);
   if(!fCache){toast('Salve o fluxo primeiro','❌');return;}
   const flowBase=location.origin+'/flow.html';
-  try{localStorage.setItem('mdk_pub_'+curFId,JSON.stringify(fCache));}catch{}
+  try{
+    var cacheData=JSON.stringify(fCache);
+    localStorage.setItem('mdk_pub_'+curFId,cacheData);
+    sessionStorage.setItem('mdk_pub_'+curFId,cacheData);
+    // Also save in the main flows cache
+    var allFlows=JSON.parse(localStorage.getItem('mdk_flows_cache')||'[]');
+    var fi=allFlows.findIndex(function(x){return x&&x.id===curFId;});
+    if(fi>=0)allFlows[fi]=fCache;else allFlows.push(fCache);
+    localStorage.setItem('mdk_flows_cache',JSON.stringify(allFlows));
+  }catch(e){}
 
   let link=flowBase+'?id='+curFId;
   let shortOk=false;
