@@ -1380,6 +1380,12 @@ insert into storage.buckets (id, name, public)
         <p style="font-size:11px;color:var(--muted)">Apresentação B2B de catálogo — abrasivos, diamantados, ferramentas e fixadores.</p>
         <div style="margin-top:6px;font-size:10px;color:var(--grn)">19 nós</div>
       </div>
+      <div class="fcard" style="cursor:pointer" onclick="loadTemplate('bolos365')" data-cat="vendas">
+        <div style="font-size:26px;margin-bottom:6px">🎂</div>
+        <h3 style="font-size:13px">365 Bolos — Funil WhatsApp</h3>
+        <p style="font-size:11px;color:var(--muted)">FAQ + depoimentos + urgência + venda. Ideal para botão WhatsApp do site.</p>
+        <div style="margin-top:6px;font-size:10px;color:var(--grn)">18 nós</div>
+      </div>
     </div>
   </div>
 </div>
@@ -2937,6 +2943,36 @@ const TEMPLATES={
     {id:'ege10',from:'ge10',to:'ge11'},{id:'ege11',from:'ge11',to:'ge12'},{id:'ege12',from:'ge12',to:'ge13'},
     {id:'ege13',from:'ge13',to:'ge14'},{id:'ege14',from:'ge14',to:'ge15'},{id:'ege15',from:'ge15',to:'ge16'},
     {id:'ege16',from:'ge16',to:'ge17'},{id:'ege17',from:'ge17',to:'ge18'},{id:'ege18',from:'ge18',to:'ge19'}
+  ]},
+  bolos365:{name:'365 Bolos — Funil WhatsApp',channel:'wpp',botName:'365 Bolos 🎂',nodes:[
+    {id:'b1',type:'marquee',x:60,y:60,content:'🎂 365 BOLOS — Deliciosos, Saudáveis e Sem Culpa! Sem glúten • Sem açúcar • Sem leite',url:'https://365bolos.base44.app',delay:0},
+    {id:'b2',type:'message',x:60,y:180,content:'Olá! 🎂 Que bom que você veio!\n\nAqui você vai descobrir como comer **bolo todo dia** sem engordar, sem glúten, sem açúcar e sem leite.\n\nPosso te ajudar? 😊',url:'',delay:2},
+    {id:'b3',type:'choices',x:60,y:360,content:'O que você quer saber?',url:'',delay:0,options:'🎂 O que é o 365 Bolos?\n❓ Como funciona?\n🌾 É realmente sem glúten e sem açúcar?\n📱 Como acesso depois de comprar?\n💰 Qual o preço?\n✅ Quero comprar agora!'},
+    {id:'b4',type:'message',x:60,y:540,content:'🎂 **O que é o 365 Bolos?**\n\nÉ um app com **365 receitas de bolos saudáveis** — uma pra cada dia do ano!\n\nTodas as receitas são:\n✅ Sem glúten\n✅ Sem açúcar refinado\n✅ Sem leite\n✅ Fáceis de fazer\n✅ Deliciosas e aprovadas!',url:'',delay:2},
+    {id:'b5',type:'message',x:60,y:720,content:'📱 **Como funciona?**\n\nÉ um app completo no seu celular:\n\n🔸 Você acessa pelo link após a compra\n🔸 Escolhe a receita do dia\n🔸 Segue o passo a passo simples\n🔸 Em 30 minutos tem bolo fresquinho!\n\nSem necessidade de instalar nada. Funciona em qualquer celular. 📲',url:'',delay:2},
+    {id:'b6',type:'message',x:60,y:900,content:'🌾 **Sim! 100% sem glúten e sem açúcar!**\n\nUsamos substitutos naturais:\n🍯 Adoçantes naturais (eritritol, estévia)\n🌽 Farinhas alternativas (amêndoa, coco, aveia)\n🥛 Leites vegetais (amêndoa, coco, aveia)\n\nPerfeito para:\n✅ Diabéticos\n✅ Celíacos\n✅ Quem quer emagrecer\n✅ Dieta low carb e fitness',url:'',delay:2},
+    {id:'b7',type:'message',x:60,y:1080,content:'📲 **Acesso imediato após a compra!**\n\nAssim que você finalizar:\n1️⃣ Recebe o link de acesso no email\n2️⃣ Salva no celular como atalho\n3️⃣ Acessa quando quiser, para sempre\n\n🔒 Acesso **vitalício** — paga uma vez, usa para sempre!',url:'',delay:2},
+    {id:'b8',type:'faq',x:60,y:1260,content:'Precisa de forno especial?\nNão! Qualquer forno doméstico funciona. Algumas receitas até no micro-ondas!\nAs receitas são difíceis?\nNão! São super simples, com ingredientes fáceis de encontrar em qualquer mercado.\nPosso fazer para vender?\nSim! Muitas clientes usam as receitas para montar negócio próprio de doces saudáveis.\nFunciona no iPhone e Android?\nSim! Funciona em qualquer celular ou computador, sem instalar nada.',url:'',delay:0},
+    {id:'b9',type:'testimonial',x:60,y:1440,content:'Emagreci 8kg comendo bolo todo dia! As receitas são incríveis e super fáceis!\nAna Paula, São Paulo — cliente há 6 meses',url:'5',delay:0},
+    {id:'b10',type:'testimonial',x:60,y:1600,content:'Sou celíaca e finalmente posso comer bolo de verdade! Recomendo demais!\nJuliana M., Belo Horizonte',url:'5',delay:0},
+    {id:'b11',type:'arguments',x:60,y:1760,content:'365 receitas — uma por dia do ano\nSem glúten, sem açúcar, sem leite\nAcesso vitalício — paga uma vez\nFunciona em qualquer celular\nReceitas testadas e aprovadas\nPerfeito para diabéticos e celíacos',url:'',delay:0},
+    {id:'b12',type:'scarcity',x:60,y:1920,content:'🔥 Oferta especial por tempo limitado!',url:'1800',delay:0},
+    {id:'b13',type:'price',x:60,y:2080,content:'R$ 27,00\nDe R$ 97,00\n🎂 QUERO MEU ACESSO AGORA! →',url:'https://365bolos.base44.app',delay:0},
+    {id:'b14',type:'collect',x:60,y:2260,content:'Qual é o seu nome?',url:'',delay:0,inputType:'name',placeholder:'Seu nome'},
+    {id:'b15',type:'collect',x:60,y:2400,content:'Qual é o seu email para enviarmos o acesso?',url:'',delay:0,inputType:'email',placeholder:'seu@email.com'},
+    {id:'b16',type:'whatsapp',x:60,y:2540,content:'Qual é o seu WhatsApp?',url:'',delay:0},
+    {id:'b17',type:'confetti',x:60,y:2680,content:'🎉 Parabéns! Você tomou a melhor decisão!',url:'',delay:0},
+    {id:'b18',type:'end',x:60,y:2820,content:'✅ Clique no botão acima para garantir seu acesso! Qualquer dúvida é só falar aqui. 🎂',url:'',delay:0}
+  ],edges:[
+    {id:'eb1',from:'b1',to:'b2'},{id:'eb2',from:'b2',to:'b3'},
+    {id:'eb3',from:'b3',to:'b4'},{id:'eb4',from:'b4',to:'b5'},
+    {id:'eb5',from:'b5',to:'b6'},{id:'eb6',from:'b6',to:'b7'},
+    {id:'eb7',from:'b7',to:'b8'},{id:'eb8',from:'b8',to:'b9'},
+    {id:'eb9',from:'b9',to:'b10'},{id:'eb10',from:'b10',to:'b11'},
+    {id:'eb11',from:'b11',to:'b12'},{id:'eb12',from:'b12',to:'b13'},
+    {id:'eb13',from:'b13',to:'b14'},{id:'eb14',from:'b14',to:'b15'},
+    {id:'eb15',from:'b15',to:'b16'},{id:'eb16',from:'b16',to:'b17'},
+    {id:'eb17',from:'b17',to:'b18'}
   ]}
 };
 function loadTemplate(key){
