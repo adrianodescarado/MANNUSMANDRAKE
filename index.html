@@ -1503,7 +1503,10 @@ async function sbSaveFlow(flow){
   let r=await sbReq('/rest/v1/mandrake_flows?id=eq.'+flow.id,{method:'PATCH',body:JSON.stringify(body)});
   if(r.ok&&r.data&&r.data.length)return;
   body.id=flow.id;body.created_at=flow.createdAt||new Date().toISOString();
-  await sbReq('/rest/v1/mandrake_flows',{method:'POST',body:JSON.stringify(body)});
+  const r2=await sbReq('/rest/v1/mandrake_flows',{method:'POST',body:JSON.stringify(body)});
+  if(!r2.ok&&r2.status!==201&&r2.status!==200&&r2.status!==204){
+    throw new Error('Supabase save failed: '+(r2.status)+' '+(r2.error||JSON.stringify(r2.data)));
+  }
 }
 async function sbLoadFlows(){
   const r=await sbReq('/rest/v1/mandrake_flows?user_id=eq.'+CU.id+'&order=created_at.desc');
