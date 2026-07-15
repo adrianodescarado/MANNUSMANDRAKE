@@ -1340,45 +1340,6 @@ document.getElementById('pub-input').addEventListener('input',function(){
     else{cam.style.width='30px';cam.style.padding='2px';cam.style.overflow='';cam.style.opacity='1';}
   }
 });
-window.addEventListener('load',function(){
-  var SUPA_URL='https://mkpjgywvjxexlubthezj.supabase.co';
-  var SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rcGpneXd2anhleGx1YnRoZXpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMzQ1NzcsImV4cCI6MjA5MjkxMDU3N30.2GVZ2EiJXRheMk51_b2GCccA9BCoh7FVHm1K8xJcOb4';
-  var fdata=getRawParam('fdata');
-  var flowId=getRawParam('id')||getRawParam('flow');
-  if(fdata){
-    var fc=decodeFlow(fdata);
-    if(fc&&fc.nodes&&fc.nodes.length>0){document.getElementById('loading-screen').style.display='none';startFlow(fc);}
-    else{document.getElementById('loading-screen').innerHTML='<div style="text-align:center;padding:60px;color:#999">Erro ao carregar fluxo.</div>';}
-  }else if(flowId){
-    document.getElementById('loading-screen').innerHTML='<div style="text-align:center;padding:60px 20px"><div style="font-size:40px;margin-bottom:12px">⏳</div><div style="color:#999;font-size:14px">Carregando fluxo...</div></div>';
-    fetch(SUPA_URL+'/rest/v1/mandrake_flows?id=eq.'+encodeURIComponent(flowId)+'&select=*',{headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}})
-    .then(function(r){return r.json();})
-    .then(function(rows){
-      if(rows&&rows.length>0){
-        var row=rows[0];
-        var nodes2,edges2;
-        try{nodes2=JSON.parse(row.nodes_json||'[]');if(!Array.isArray(nodes2))nodes2=[];}catch(e){nodes2=[];}
-        try{edges2=JSON.parse(row.edges_json||'[]');if(!Array.isArray(edges2))edges2=[];}catch(e){edges2=[];}
-        var fc2={id:row.id,name:row.name||'Fluxo',channel:row.channel||'wpp',botName:row.bot_name||'Atendente',botAvatar:row.bot_avatar||'',bgColor:row.bg_color||'',webhook:row.webhook||'',wppAtendente:row.wpp_atendente||'',nodes:nodes2,edges:edges2};
-        if(fc2.nodes.length===0){
-          try{var lc=localStorage.getItem('mdk_pub_'+flowId);if(lc){var lf=JSON.parse(lc);if(lf&&lf.nodes&&lf.nodes.length>0){fc2.nodes=lf.nodes;fc2.edges=lf.edges||[];}}}catch(e2){}
-          try{var ac=localStorage.getItem('mdk_flows_cache');if(ac){var af=JSON.parse(ac).find(function(x){return x&&x.id===flowId;});if(af&&af.nodes){fc2.nodes=af.nodes;fc2.edges=af.edges||[];}}}catch(e3){}
-        }
-        document.getElementById('loading-screen').style.display='none';
-        startFlow(fc2);
-      }else{
-        try{var c=localStorage.getItem('mdk_pub_'+flowId);if(c){var f2=JSON.parse(c);if(f2&&f2.nodes&&f2.nodes.length>0){document.getElementById('loading-screen').style.display='none';startFlow(f2);return;}}}catch(e){}
-        document.getElementById('loading-screen').innerHTML='<div style="text-align:center;padding:60px 20px;color:#999;font-size:14px"><b style="color:#fff">Fluxo não encontrado</b><br><br>Peça ao criador um novo link.</div>';
-      }
-    })
-    .catch(function(err){
-      try{var c=localStorage.getItem('mdk_pub_'+flowId);if(c){var f3=JSON.parse(c);if(f3&&f3.nodes&&f3.nodes.length>0){document.getElementById('loading-screen').style.display='none';startFlow(f3);return;}}}catch(e2){}
-      document.getElementById('loading-screen').innerHTML='<div style="text-align:center;padding:60px;color:#999">Sem conexão. Tente novamente.</div>';
-    });
-  }else{
-    document.getElementById('loading-screen').innerHTML='<div style="text-align:center;padding:60px;color:#999">Nenhum fluxo especificado.</div>';
-  }
-});
 </script>
 </body>
 </html>
