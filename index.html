@@ -4187,7 +4187,14 @@ async function openShare(){
   if(CU){
     try{
       await sbSaveFlow(fCache);
-      shortOk=true;
+      // Verify data actually saved by reading it back
+      const vr=await sbReq('/rest/v1/mandrake_flows?id=eq.'+curFId+'&select=id,nodes_json');
+      const vdata=vr.data;
+      if(vdata&&vdata.length>0&&vdata[0].nodes_json&&vdata[0].nodes_json!=='[]'){
+        shortOk=true;
+      } else {
+        console.warn('[Mandrake] Save verificado mas nodes_json vazio - usando fdata');
+      }
     }catch(e){
       console.warn('[Mandrake] sbSaveFlow falhou:',e.message||e);
       try{
