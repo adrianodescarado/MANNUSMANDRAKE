@@ -838,6 +838,7 @@ insert into storage.buckets (id, name, public)
         <div onclick="setWppBg('#f3e5f5')" style="height:22px;border-radius:4px;background:#f3e5f5;cursor:pointer;border:2px solid rgba(0,0,0,.1)" title="Roxo"></div>
         <div onclick="setWppBg('#fff9c4')" style="height:22px;border-radius:4px;background:#fff9c4;cursor:pointer;border:2px solid rgba(0,0,0,.1)" title="Amarelo"></div>
         <div onclick="setWppBg('#e8f5e9')" style="height:22px;border-radius:4px;background:#e8f5e9;cursor:pointer;border:2px solid rgba(0,0,0,.1)" title="Verde"></div>
+        <div onclick="setWppBgImage(FUNDO_COSMETICOS)" style="height:22px;border-radius:4px;background:linear-gradient(135deg,#fce4ec,#f8bbd0);cursor:pointer;border:2px solid rgba(255,100,100,.3)" title="💄 Cosméticos"></div>
       </div>
       <div style="display:flex;align-items:center;gap:6px;margin-top:8px">
         <label style="font-size:11px;color:var(--dim)">Personalizado:</label>
@@ -3729,6 +3730,7 @@ function setWppPatternBg(){
   if(msgs){msgs.style.background=style;msgs.style.backgroundImage=pattern;msgs.style.backgroundSize='22px 22px';}
   if(pubMsgs){pubMsgs.style.background=style;pubMsgs.style.backgroundImage=pattern;pubMsgs.style.backgroundSize='22px 22px';}
   try{localStorage.setItem('mdk_wpp_bg','__pattern_dark');localStorage.setItem('mdk_wpp_pattern',pattern);}catch{}
+  const f2=flows&&flows.find(x=>x.id===curFId);if(f2){f2.bgColor='__pattern_dark';}
   const saveBtn=document.getElementById('btn-save-bg');
   if(saveBtn){saveBtn.style.background='var(--grn)';saveBtn.style.color='#000';saveBtn.textContent='💾 Salvar Fundo ←';}
 }
@@ -3737,6 +3739,25 @@ function getWppPattern(color){
   var pc=isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.05)';
   return 'radial-gradient('+pc+' 1.5px,transparent 1.5px)';
 }
+function setWppBgImage(dataUrl){
+  const msgs=document.getElementById('prev-msgs');
+  const pubMsgs=document.getElementById('pub-msgs');
+  const applyImg=function(el){
+    if(!el)return;
+    el.style.background='';
+    el.style.backgroundImage='url('+dataUrl+')';
+    el.style.backgroundSize='cover';
+    el.style.backgroundPosition='center';
+    el.style.backgroundRepeat='repeat';
+  };
+  applyImg(msgs);applyImg(pubMsgs);
+  try{localStorage.setItem('mdk_wpp_bg',dataUrl);}catch{}
+  const f=flows&&flows.find(x=>x.id===curFId);
+  if(f){f.bgColor=dataUrl;}
+  const saveBtn=document.getElementById('btn-save-bg');
+  if(saveBtn){saveBtn.style.background='var(--grn)';saveBtn.style.color='#000';saveBtn.textContent='💾 Salvar Fundo ←';}
+}
+
 function setWppBg(color){
   const msgs=document.getElementById('prev-msgs');
   const pubMsgs=document.getElementById('pub-msgs');
@@ -3744,6 +3765,9 @@ function setWppBg(color){
   if(msgs){msgs.style.background=color;msgs.style.backgroundImage=pattern;msgs.style.backgroundSize='22px 22px';}
   if(pubMsgs){pubMsgs.style.background=color;pubMsgs.style.backgroundImage=pattern;pubMsgs.style.backgroundSize='22px 22px';}
   try{localStorage.setItem('mdk_wpp_bg',color);localStorage.setItem('mdk_wpp_pattern',pattern);}catch{}
+  // Save to current flow object so it goes in the shared link
+  const f=flows&&flows.find(x=>x.id===curFId);
+  if(f){f.bgColor=color;}
   const saveBtn=document.getElementById('btn-save-bg');
   if(saveBtn){saveBtn.style.background='var(--grn)';saveBtn.style.color='#000';saveBtn.textContent='💾 Salvar Fundo ←';}
 }
