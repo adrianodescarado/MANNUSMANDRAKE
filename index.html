@@ -4182,22 +4182,32 @@ async function openShare(){
     localStorage.setItem('mdk_flows_cache',JSON.stringify(af));
   }catch(e){}
 
-  // Save to Supabase in background (for analytics/backup)
-  if(CU){sbSaveFlow(fCache).catch(function(e){console.warn('sbSaveFlow:',e);});}
+  let link=flowBase+'?fdata='+encodeURIComponent(encodeFlow(fCache)||'');
+  let shortOk=false;
 
-  // SEMPRE gerar link com fdata - funciona em qualquer dispositivo
-  let link=flowBase+'?flow='+curFId; // fallback mínimo
-  try{
-    const encoded=encodeFlow(fCache);
-    if(encoded) link=flowBase+'?fdata='+encodeURIComponent(encoded);
-  }catch(e){console.warn('encodeFlow:',e);}
+  if(CU){
+    try{
+      await sbSaveFlow(fCache);
+      // Verify data actually saved
+      const vr=await sbReq('/rest/v1/mandrake_flows?id=eq.'+curFId+'&select=id,nodes_json');
+      if(vr.data&&vr.data.length>0&&vr.data[0].nodes_json&&vr.data[0].nodes_json!=='[]'){
+        link=flowBase+'?id='+curFId;
+        shortOk=true;
+      }
+    }catch(e){console.warn('[Mandrake] save failed:',e);}
+  }
 
   document.getElementById('share-link').textContent=link;
 
   const hint=document.getElementById('share-link-hint');
   if(hint){
-    hint.innerHTML='✅ Link pronto! Copie e compartilhe.';
-    hint.style.color='var(--grn)';
+    if(shortOk){
+      hint.innerHTML='✅ <b>Link curto!</b> Funciona em qualquer encurtador.';
+      hint.style.color='var(--grn)';
+    } else {
+      hint.innerHTML='⚠️ Link longo (Supabase indisponível).';
+      hint.style.color='#f39c12';
+    }
   }
 
   const cv=document.getElementById('qr-canvas');
