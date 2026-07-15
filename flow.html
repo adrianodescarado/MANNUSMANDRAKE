@@ -261,10 +261,20 @@ function startFlow(flow){
   if(msgs){
     msgs.innerHTML='';
     if(flow.bgColor&&flow.bgColor!=='__pattern_dark'){
-      msgs.style.background=flow.bgColor;
-      // Apply WhatsApp-style pattern overlay
-      msgs.style.backgroundImage=generatePattern(flow.bgColor);
-      msgs.style.backgroundSize='22px 22px';
+      var _bgVal=flow.bgColor;
+      if(_bgVal.startsWith('http')||_bgVal.startsWith('data:')){
+        // Image background
+        msgs.style.background='';
+        msgs.style.backgroundImage='url('+_bgVal+')';
+        msgs.style.backgroundSize='cover';
+        msgs.style.backgroundPosition='center';
+        msgs.style.backgroundRepeat='repeat';
+        msgs.style.backgroundAttachment='local';
+      } else {
+        msgs.style.background=_bgVal;
+        msgs.style.backgroundImage=generatePattern(_bgVal);
+        msgs.style.backgroundSize='22px 22px';
+      }
     }else if(flow.bgColor==='__pattern_dark'){
       msgs.style.background='#0d1117';
       msgs.style.backgroundImage=generatePattern('#0d1117');
