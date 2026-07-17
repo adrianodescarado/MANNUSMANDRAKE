@@ -148,7 +148,7 @@ footer{border-top:1px solid var(--bdr);padding:40px;position:relative;z-index:1;
 .chint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0;text-align:center;color:var(--dim);font-size:13px}
 .ezoom{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;background:var(--deep);border:1px solid var(--bdr);border-radius:8px;padding:5px;z-index:10}
 .ezoom button{background:none;border:none;color:var(--muted);cursor:pointer;padding:4px 8px;border-radius:4px;font-size:13px;transition:all .2s}.ezoom button:hover{background:rgba(255,255,255,.07);color:var(--txt)}
-.fnode{position:absolute;background:var(--deep);border:1px solid var(--bdr);border-radius:12px;padding:12px 14px;min-width:180px;cursor:default;user-select:none;transition:all .15s;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.fnode{position:absolute;background:var(--deep);border:1px solid var(--bdr);border-radius:12px;padding:12px 14px;min-width:180px;cursor:grab;user-select:none;box-shadow:0 2px 8px rgba(0,0,0,.3)}
 .fnode:hover{border-color:var(--bdr2);box-shadow:0 4px 16px rgba(0,0,0,.4);transform:translateY(-1px)}.fnode.sel{border-color:var(--acc);box-shadow:0 0 0 3px var(--accg),0 4px 20px rgba(92,111,255,.2)}
 .fnh{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
 .fntype{font-size:9px;letter-spacing:1.2px;text-transform:uppercase;font-weight:600;display:flex;align-items:center;gap:5px}
@@ -3019,22 +3019,51 @@ const TEMPLATES={
     {id:'b48',type:'confetti',x:60,y:0,content:'🎉 Decisão tomada! Seja bem-vinda à família 365 Bolos!',url:'',delay:0},
     {id:'b49',type:'end',x:60,y:0,content:'✅ Clique no botão acima para garantir seu acesso!\n\nQualquer dúvida é só falar aqui. Estamos sempre aqui para te ajudar! 🎂',url:'',delay:0}
   ],edges:[
-    {id:'eb01',from:'b01',to:'b02'},{id:'eb02',from:'b02',to:'b03'},{id:'eb03',from:'b03',to:'b04'},
-    {id:'eb04',from:'b04',to:'b05'},{id:'eb05',from:'b05',to:'b06'},{id:'eb06',from:'b06',to:'b07'},
-    {id:'eb07',from:'b07',to:'b08'},{id:'eb08',from:'b08',to:'b09'},{id:'eb09',from:'b09',to:'b10'},
-    {id:'eb10',from:'b10',to:'b11'},{id:'eb11',from:'b11',to:'b12'},{id:'eb12',from:'b12',to:'b13'},
-    {id:'eb13',from:'b13',to:'b14'},{id:'eb14',from:'b14',to:'b15'},{id:'eb15',from:'b15',to:'b16'},
-    {id:'eb16',from:'b16',to:'b17'},{id:'eb17',from:'b17',to:'b18'},{id:'eb18',from:'b18',to:'b19'},
-    {id:'eb19',from:'b19',to:'b20'},{id:'eb20',from:'b20',to:'b21'},{id:'eb21',from:'b21',to:'b22'},
-    {id:'eb22',from:'b22',to:'b23'},{id:'eb23',from:'b23',to:'b24'},{id:'eb24',from:'b24',to:'b25'},
-    {id:'eb25',from:'b25',to:'b26'},{id:'eb26',from:'b26',to:'b27'},{id:'eb27',from:'b27',to:'b28'},
+    {id:'eb01',from:'b01',to:'b02'},
+    {id:'eb02',from:'b02',to:'b03'},
+    {id:'eb03',from:'b03',to:'b04'},
+    {id:'eb04',from:'b04',to:'b05'},
+    {id:'eb05',from:'b05',to:'b06'},
+    {id:'eb06',from:'b06',to:'b07'},
+    {id:'eb07',from:'b07',to:'b08'},
+    {id:'eb08',from:'b08',to:'b09'},
+    {id:'eb09',from:'b09',to:'b10'},
+    {id:'eb10',from:'b10',to:'b11'},
+    {id:'eb11',from:'b11',to:'b12'},
+    {id:'eb12',from:'b12',to:'b13'},
+    {id:'eb13',from:'b13',to:'b14'},
+    {id:'eb14',from:'b14',to:'b15'},
+    {id:'eb15',from:'b15',to:'b16'},
+    {id:'eb16',from:'b16',to:'b17'},
+    {id:'eb17',from:'b17',to:'b18'},
+    {id:'eb18',from:'b18',to:'b19'},
+    {id:'eb19',from:'b19',to:'b20'},
+    {id:'eb20',from:'b20',to:'b21'},
+    {id:'eb21',from:'b21',to:'b22'},
+    {id:'eb22',from:'b22',to:'b23'},
+    {id:'eb23',from:'b23',to:'b24'},
+    {id:'eb24',from:'b24',to:'b25'},
+    {id:'eb25',from:'b25',to:'b26'},
+    {id:'eb26',from:'b26',to:'b27'},
+    {id:'eb27',from:'b27',to:'b28'},
     {id:'eb28',from:'b28',to:'b29'},
-    {id:'eb29',from:'b29',to:'b33'},{id:'eb33',from:'b33',to:'b34'},
-    {id:'eb34',from:'b34',to:'b35'},{id:'eb35',from:'b35',to:'b36'},{id:'eb36',from:'b36',to:'b37'},
-    {id:'eb37',from:'b37',to:'b38'},{id:'eb38',from:'b38',to:'b40'},,
-    {id:'eb40',from:'b40',to:'b41'},{id:'eb41',from:'b41',to:'b42'},{id:'eb42',from:'b42',to:'b43'},
-    {id:'eb43',from:'b43',to:'b39'},{id:'eb39',from:'b39',to:'b44'},{id:'eb44',from:'b44',to:'b45'},{id:'eb45',from:'b45',to:'b46'},
-    {id:'eb46',from:'b46',to:'b47'},{id:'eb47',from:'b47',to:'b48'},{id:'eb48',from:'b48',to:'b49'}
+    {id:'eb29',from:'b29',to:'b33'},
+    {id:'eb33',from:'b33',to:'b34'},
+    {id:'eb34',from:'b34',to:'b35'},
+    {id:'eb35',from:'b35',to:'b36'},
+    {id:'eb36',from:'b36',to:'b37'},
+    {id:'eb37',from:'b37',to:'b38'},
+    {id:'eb38',from:'b38',to:'b40'},
+    {id:'eb40',from:'b40',to:'b41'},
+    {id:'eb41',from:'b41',to:'b42'},
+    {id:'eb42',from:'b42',to:'b43'},
+    {id:'eb43',from:'b43',to:'b39'},
+    {id:'eb39',from:'b39',to:'b44'},
+    {id:'eb44',from:'b44',to:'b45'},
+    {id:'eb45',from:'b45',to:'b46'},
+    {id:'eb46',from:'b46',to:'b47'},
+    {id:'eb47',from:'b47',to:'b48'},
+    {id:'eb48',from:'b48',to:'b49'}
   ]}
 };
 function loadTemplate(key){
@@ -3388,6 +3417,7 @@ function startPalDrag(ev,type){
 function startDragNode(ev,id){
   const n=nodes.find(x=>x.id===id);if(!n)return;
   ev.preventDefault();ev.stopPropagation();
+  const el0=document.getElementById('fn-'+id);if(el0)el0.style.cursor='grabbing';
   const sx=ev.clientX,sy=ev.clientY,nx0=n.x,ny0=n.y;
   const mm=e=>{
     e.preventDefault();
@@ -3400,6 +3430,7 @@ function startDragNode(ev,id){
   const mu=()=>{
     document.removeEventListener('mousemove',mm);
     document.removeEventListener('mouseup',mu);
+    const el0b=document.getElementById('fn-'+id);if(el0b)el0b.style.cursor='grab';
     saveFlow();
   };
   document.addEventListener('mousemove',mm);
