@@ -298,16 +298,27 @@ function nextNode(){
 function sendUserMsg(text){
   if(!text.trim())return;
   addBubble({type:'_user',content:text},'usr');
-  if(pubWppAtendente){
+  // Only show WhatsApp redirect if flow already finished (no more nodes)
+  var flowDone=pubIdx>=pubOrdered.length;
+  if(flowDone&&pubWppAtendente){
     setTimeout(function(){
       var c2=document.getElementById('pub-msgs');
       var b2=document.createElement('div');
       b2.className='pbub bot';
-      b2.innerHTML='Recebi sua mensagem! 😊<br>Para continuar a conversa:<br><br><a href="https://wa.me/'+pubWppAtendente+'?text='+encodeURIComponent(text)+'" target="_blank" style="display:inline-block;background:#25d366;color:white;padding:10px 18px;border-radius:8px;font-weight:700;text-decoration:none;margin-top:4px">💬 Continuar no WhatsApp</a>';
+      b2.innerHTML='Recebi sua mensagem! 😊<br><br><a href="https://wa.me/'+pubWppAtendente+'?text='+encodeURIComponent(text)+'" target="_blank" style="display:inline-block;background:#25d366;color:white;padding:10px 18px;border-radius:8px;font-weight:700;text-decoration:none;">💬 Continuar no WhatsApp</a>';
       c2.appendChild(b2);c2.scrollTop=c2.scrollHeight;
-    },800);
-  } else {
+    },600);
+  } else if(!flowDone){
     setTimeout(function(){nextNode();},600);
+  } else {
+    // Flow done, no WhatsApp configured - show polite message
+    setTimeout(function(){
+      var c3=document.getElementById('pub-msgs');
+      var b3=document.createElement('div');
+      b3.className='pbub bot';
+      b3.textContent='Obrigada pela mensagem! 😊 Para mais informações, clique no botão de compra acima.';
+      c3.appendChild(b3);c3.scrollTop=c3.scrollHeight;
+    },600);
   }
 }
 
@@ -490,7 +501,7 @@ function addBubble(n,who){
     // Visual indicator that flow is waiting
     var waitHint=document.createElement('div');
     waitHint.style.cssText='font-size:11px;color:#999;text-align:right;margin-bottom:4px;animation:tdot 2s infinite';
-    waitHint.textContent='👆 Escolha uma opção para continuar';
+    waitHint.textContent='👇 Escolha uma opção abaixo para continuar';
     c.appendChild(waitHint);
     var wrap=document.createElement('div');wrap.className='choices-wrap';
     var opts=splitLines(n.options||'Opção 1\nOpção 2');
@@ -823,22 +834,7 @@ function getRawParam(name){
 document.getElementById('pub-send').addEventListener('click',function(){
   var inp=document.getElementById('pub-input');
   var val=(inp&&inp.value||'').trim();
-  if(val){
-    inp.value='';
-    sendUserMsg(val);
-    // If there's a WhatsApp number configured, show redirect option after delay
-    if(pubWppAtendente){
-      setTimeout(function(){
-        var c=document.getElementById('pub-msgs');
-        var b=document.createElement('div');
-        b.className='pbub bot';
-        b.style.cssText='background:#fff;border-radius:12px;padding:14px 16px;max-width:88%;align-self:flex-start;box-shadow:0 2px 8px rgba(0,0,0,.08);border:none';
-        b.innerHTML='<div style="font-size:13px;color:#333;margin-bottom:10px">💬 Quer falar diretamente com um atendente?</div><a href="https://wa.me/'+pubWppAtendente+'?text='+encodeURIComponent(val)+'" target="_blank" style="display:block;background:#25d366;color:white;text-align:center;padding:10px 16px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;">💬 Falar com Atendente no WhatsApp</a>';
-        c.appendChild(b);
-        c.scrollTop=c.scrollHeight;
-      },1000);
-    }
-  }
+  if(val){inp.value='';sendUserMsg(val);}
 });
 document.getElementById('pub-input').addEventListener('keydown',function(e){
   if(e.key==='Enter'){
@@ -984,7 +980,7 @@ function addBubble(n,who){
     // Visual indicator that flow is waiting
     var waitHint=document.createElement('div');
     waitHint.style.cssText='font-size:11px;color:#999;text-align:right;margin-bottom:4px;animation:tdot 2s infinite';
-    waitHint.textContent='👆 Escolha uma opção para continuar';
+    waitHint.textContent='👇 Escolha uma opção abaixo para continuar';
     c.appendChild(waitHint);
     var wrap=document.createElement('div');wrap.className='choices-wrap';
     var opts=splitLines(n.options||'Opção 1\nOpção 2');
@@ -1317,22 +1313,7 @@ function getRawParam(name){
 document.getElementById('pub-send').addEventListener('click',function(){
   var inp=document.getElementById('pub-input');
   var val=(inp&&inp.value||'').trim();
-  if(val){
-    inp.value='';
-    sendUserMsg(val);
-    // If there's a WhatsApp number configured, show redirect option after delay
-    if(pubWppAtendente){
-      setTimeout(function(){
-        var c=document.getElementById('pub-msgs');
-        var b=document.createElement('div');
-        b.className='pbub bot';
-        b.style.cssText='background:#fff;border-radius:12px;padding:14px 16px;max-width:88%;align-self:flex-start;box-shadow:0 2px 8px rgba(0,0,0,.08);border:none';
-        b.innerHTML='<div style="font-size:13px;color:#333;margin-bottom:10px">💬 Quer falar diretamente com um atendente?</div><a href="https://wa.me/'+pubWppAtendente+'?text='+encodeURIComponent(val)+'" target="_blank" style="display:block;background:#25d366;color:white;text-align:center;padding:10px 16px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;">💬 Falar com Atendente no WhatsApp</a>';
-        c.appendChild(b);
-        c.scrollTop=c.scrollHeight;
-      },1000);
-    }
-  }
+  if(val){inp.value='';sendUserMsg(val);}
 });
 document.getElementById('pub-input').addEventListener('keydown',function(e){
   if(e.key==='Enter'){
