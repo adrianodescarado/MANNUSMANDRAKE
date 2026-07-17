@@ -2997,10 +2997,10 @@ const TEMPLATES={
     {id:'b26',type:'message',x:60,y:0,content:'O melhor? Todas as receitas:\n\n⏱ Preparo em **até 30 minutos**\n🛒 Ingredientes **fáceis de encontrar**\n💰 Custo médio de apenas **R$ 8,00**\n👩‍🍳 Qualquer pessoa consegue fazer',url:'',delay:2},
     {id:'b27',type:'continueBtn',x:60,y:0,content:'Como funciona o acesso? 👇',url:'',delay:0},
     {id:'b28',type:'message',x:60,y:0,content:'📱 **Como funciona:**\n\n1️⃣ Você compra (leva 2 minutos)\n2️⃣ Recebe o link no email na hora\n3️⃣ Salva no celular como atalho\n4️⃣ Acessa quando quiser, **para sempre**\n\nSem app para instalar. Funciona em qualquer celular! 📲',url:'',delay:2},
-    {id:'b29',type:'message',x:60,y:0,content:'❓ **"Mas é realmente sem glúten?"**\n\nSim! 100%. Usamos:\n🌽 Farinha de arroz\n🥥 Farinha de coco\n🌰 Farinha de amêndoas\n\nNenhuma receita usa trigo. Celíacas podem consumir com segurança! ✅',url:'',delay:3},
-    {id:'b30',type:'message',x:60,y:0,content:'❓ **"Os bolos ficam gostosos sem açúcar?"**\n\nEssa é a dúvida mais comum! 😄\n\nUsamos eritritol e estévia — adoçantes naturais sem amargor.\n\nNossas clientes dizem que os bolos são **mais gostosos** que os tradicionais! 🤤',url:'',delay:3},
-    {id:'b31',type:'message',x:60,y:0,content:'❓ **"E se eu não gostar?"**\n\n🔒 **Garantia de 7 dias!**\n\nSe por qualquer motivo não ficar satisfeita, devolvemos **100% do seu dinheiro**. Sem perguntas, sem burocracia.\n\nRisco ZERO para você! ✅',url:'',delay:3},
-    {id:'b32',type:'message',x:60,y:0,content:'❓ **"Posso usar as receitas para vender?"**\n\nSim! Muitas clientes viraram empreendedoras:\n🎂 Vendem bolos no bairro\n📦 Fazem encomendas pelo WhatsApp\n🛍️ Abriram confeitarias saudáveis\n\nAlgumas **faturam R$ 3.000+/mês**! 💰',url:'',delay:3},
+    {id:'b29',type:'faq',x:60,y:0,content:'### 🌾 É realmente sem glúten?\nSim! 100% sem glúten. Usamos farinha de arroz, coco e amêndoas. Nenhuma receita usa trigo. Celíacas podem consumir com segurança! ✅\n### 😋 Os bolos ficam gostosos sem açúcar?\nSim! Usamos eritritol e estévia — adoçantes naturais sem amargor. Nossas clientes dizem que são **mais gostosos** que os tradicionais! 🤤\n### 🔒 E se eu não gostar?\nGarantia de 7 dias! Se não ficar satisfeita, devolvemos 100% do seu dinheiro. Sem perguntas, sem burocracia. Risco ZERO! ✅\n### 💰 Posso usar as receitas para vender?\nSim! Muitas clientes viraram empreendedoras — vendem bolos no bairro, fazem encomendas pelo WhatsApp. Algumas faturam R$ 3.000+/mês!',url:'',delay:0},
+    
+    
+    
     {id:'b33',type:'continueBtn',x:60,y:0,content:'Quero saber o preço! 👇',url:'',delay:0},
     {id:'b34',type:'message',x:60,y:0,content:'Antes de te contar o preço...\n\nVou te mostrar o valor real do que você está recebendo 👇',url:'',delay:2},
     {id:'b35',type:'arguments',x:60,y:0,content:'365 receitas exclusivas de bolos saudáveis\nCriadas por nutricionistas especializadas\nAcesso vitalício — paga uma vez, usa sempre\nFunciona em qualquer celular\nGarantia de 7 dias ou dinheiro de volta\nSuporte via WhatsApp incluso',url:'',delay:0},
@@ -3028,8 +3028,8 @@ const TEMPLATES={
     {id:'eb19',from:'b19',to:'b20'},{id:'eb20',from:'b20',to:'b21'},{id:'eb21',from:'b21',to:'b22'},
     {id:'eb22',from:'b22',to:'b23'},{id:'eb23',from:'b23',to:'b24'},{id:'eb24',from:'b24',to:'b25'},
     {id:'eb25',from:'b25',to:'b26'},{id:'eb26',from:'b26',to:'b27'},{id:'eb27',from:'b27',to:'b28'},
-    {id:'eb28',from:'b28',to:'b29'},{id:'eb29',from:'b29',to:'b30'},{id:'eb30',from:'b30',to:'b31'},
-    {id:'eb31',from:'b31',to:'b32'},{id:'eb32',from:'b32',to:'b33'},{id:'eb33',from:'b33',to:'b34'},
+    {id:'eb28',from:'b28',to:'b29'},
+    {id:'eb29',from:'b29',to:'b33'},{id:'eb33',from:'b33',to:'b34'},
     {id:'eb34',from:'b34',to:'b35'},{id:'eb35',from:'b35',to:'b36'},{id:'eb36',from:'b36',to:'b37'},
     {id:'eb37',from:'b37',to:'b38'},{id:'eb38',from:'b38',to:'b39'},{id:'eb39',from:'b39',to:'b40'},
     {id:'eb40',from:'b40',to:'b41'},{id:'eb41',from:'b41',to:'b42'},{id:'eb42',from:'b42',to:'b43'},
@@ -3063,31 +3063,42 @@ function loadTemplate(key){
 function organizeNodes(){
   if(!nodes.length){toast('Nenhum nó para organizar','ℹ');return;}
   const ordered=buildOrder(nodes,edges);
-  const COLS_MAX=4;
-  const NODE_W=220,NODE_H=120,GAP_X=80,GAP_Y=100;
-  const START_X=80,START_Y=80;
+  const NODE_W=220,NODE_H=110,GAP_Y=40;
+  const START_X=80,START_Y=60;
+  // With many nodes (>20), use single column for better readability
+  const useSingleCol=ordered.length>20;
+  const COLS_MAX=useSingleCol?1:3;
+  const GAP_X=80;
   ordered.forEach((n,i)=>{
     const col=i%COLS_MAX;
     const row=Math.floor(i/COLS_MAX);
     n.x=START_X+col*(NODE_W+GAP_X);
     n.y=START_Y+row*(NODE_H+GAP_Y);
+    const el=document.getElementById('fn-'+n.id);
+    if(el){el.style.left=n.x+'px';el.style.top=n.y+'px';}
   });
-  // Auto-zoom para caber todos os nós na tela
+  redrawEdges();
+  // Fit all nodes in view
+  setTimeout(()=>{
+    fitAllNodes();
+  },100);
+  toast('Nós organizados!','✅');
+}
+
+function fitAllNodes(){
+  if(!nodes.length)return;
   const wr=document.getElementById('ecanvas');
-  if(wr&&ordered.length){
-    const maxX=Math.max(...ordered.map(n=>n.x))+NODE_W+80;
-    const maxY=Math.max(...ordered.map(n=>n.y))+NODE_H+80;
-    const scaleX=wr.clientWidth/maxX;
-    const scaleY=wr.clientHeight/maxY;
-    const fitZoom=Math.min(scaleX,scaleY,1);
-    cZoom=Math.max(fitZoom,0.3);
-    cOff={x:20,y:20};
-  } else {
-    cOff={x:0,y:0};cZoom=1;
-  }
-  renderCanvas();applyT();
-  document.getElementById('zlbl').textContent=Math.round(cZoom*100)+'%';
-  toast('Fluxo organizado! ✨','✓');
+  if(!wr)return;
+  const ww=wr.clientWidth||800,wh=wr.clientHeight||600;
+  const xs=nodes.map(n=>n.x);const ys=nodes.map(n=>n.y);
+  const minX=Math.min(...xs),minY=Math.min(...ys);
+  const maxX=Math.max(...xs)+240,maxY=Math.max(...ys)+120;
+  const contentW=maxX-minX,contentH=maxY-minY;
+  const zoom=Math.min(0.9,(ww-80)/contentW,(wh-80)/contentH);
+  cZoom=Math.max(0.06,Math.min(1,zoom));
+  cOff={x:(ww-contentW*cZoom)/2-minX*cZoom,y:20-minY*cZoom};
+  applyT();redrawEdges();
+  try{document.getElementById('zlbl').textContent=Math.round(cZoom*100)+'%';}catch(e){}
 }
 async function backToDash(){
   if(nodes.length>0)await saveFlow();
@@ -3376,16 +3387,23 @@ function startPalDrag(ev,type){
 // ═══════════════════════════════════════════════
 function startDragNode(ev,id){
   const n=nodes.find(x=>x.id===id);if(!n)return;
+  ev.preventDefault();ev.stopPropagation();
   const sx=ev.clientX,sy=ev.clientY,nx0=n.x,ny0=n.y;
   const mm=e=>{
-    n.x=Math.round(nx0+(e.clientX-sx)/cZoom);
-    n.y=Math.round(ny0+(e.clientY-sy)/cZoom);
+    e.preventDefault();
+    n.x=Math.max(0,Math.round(nx0+(e.clientX-sx)/cZoom));
+    n.y=Math.max(0,Math.round(ny0+(e.clientY-sy)/cZoom));
     const el=document.getElementById('fn-'+id);
     if(el){el.style.left=n.x+'px';el.style.top=n.y+'px';}
     redrawEdges();
   };
-  const mu=()=>{document.removeEventListener('mousemove',mm);document.removeEventListener('mouseup',mu);};
-  document.addEventListener('mousemove',mm);document.addEventListener('mouseup',mu);
+  const mu=()=>{
+    document.removeEventListener('mousemove',mm);
+    document.removeEventListener('mouseup',mu);
+    saveFlow();
+  };
+  document.addEventListener('mousemove',mm);
+  document.addEventListener('mouseup',mu);
 }
 
 // ═══════════════════════════════════════════════
@@ -4546,7 +4564,7 @@ document.addEventListener('DOMContentLoaded',async()=>{
     const w=maxX-minX,h=maxY-minY;
     const scaleX=wr.clientWidth/w,scaleY=wr.clientHeight/h;
     const zoom=Math.min(scaleX,scaleY,1.2);
-    cZoom=Math.max(zoom,0.2);
+    cZoom=Math.max(zoom,0.06);
     cOff={x:-minX*cZoom+20,y:-minY*cZoom+20};
     applyT();redrawEdges();
     document.getElementById('zlbl').textContent=Math.round(cZoom*100)+'%';
